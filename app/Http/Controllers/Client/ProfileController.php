@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProfileController extends Controller
 {
@@ -90,5 +91,14 @@ class ProfileController extends Controller
         $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first(); 
 
         return view('client.profile.detail', compact('screening', 'riskLevel'));
+    }
+
+    public function printPdf($id)
+    {
+        $screening = \App\Models\Screening::with('details.riskFactor')->where('user_id', Auth::id())->findOrFail($id);
+        $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first(); 
+
+        $pdf = Pdf::loadView('client.profile.pdf', compact('screening', 'riskLevel'));
+        return $pdf->stream('hasil-skrining-' . $id . '.pdf');
     }
 }

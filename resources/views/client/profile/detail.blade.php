@@ -54,7 +54,7 @@
                 </div>
                 
                 <div class="mt-6">
-                    <a href="#" class="w-full inline-flex justify-center items-center px-4 py-3 bg-[#001B48] text-white font-bold rounded-xl hover:bg-blue-900 transition shadow-md">
+                    <a href="{{ route('client.pdf.print', $screening->id) }}" target="_blank" class="w-full inline-flex justify-center items-center px-4 py-3 bg-[#001B48] text-white font-bold rounded-xl hover:bg-blue-900 transition shadow-md">
                         <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Cetak Hasil PDF
                     </a>
                 </div>

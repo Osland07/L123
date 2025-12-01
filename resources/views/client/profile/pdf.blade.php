@@ -9,30 +9,16 @@
             font-family: 'Arial', sans-serif;
             color: #333;
             line-height: 1.6;
-            /* Provide a background to see the scaled page */
-            background-color: #f0f0f0; 
-            height: 100vh;
+            background-color: #fff; 
             margin: 0;
         }
         .container {
             width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            border: 1px solid #eee;
-            padding: 30px;
-            border-radius: 10px;
-            
-            /* New scaling styles */
-            background-color: #fff; /* Ensure container has a white background */
-            transform-origin: top center; /* Scale from the top and horizontally center */
+            padding: 20px;
         }
         .header {
             text-align: center;
             margin-bottom: 20px;
-        }
-        .header img {
-            max-width: 150px;
-            margin-bottom: 10px;
         }
         .header h1 {
             font-size: 24px;
@@ -43,11 +29,12 @@
             border-top: 2px solid #001B48;
             margin: 20px 0;
         }
-        .identity {
-            display: flex;
-            justify-content: space-between;
+        .identity-table {
+            width: 100%;
             margin-bottom: 20px;
-            font-size: 14px;
+        }
+        .identity-table td {
+            padding: 5px;
         }
         .section {
             margin-bottom: 25px;
@@ -76,17 +63,17 @@
             font-size: 28px;
             font-weight: bold;
         }
-        .risk-factors ul {
-            list-style: none;
-            padding: 0;
+        .risk-factors table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        .risk-factors li {
-            background: #f9f9f9;
-            border: 1px solid #eee;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 8px;
-            font-size: 14px;
+        .risk-factors th, .risk-factors td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .risk-factors th {
+            background-color: #f2f2f2;
         }
         .suggestion {
             background: #e6f7ff;
@@ -95,96 +82,67 @@
             border-radius: 5px;
             font-size: 14px;
         }
-        @media print {
-            @page {
-                size: A4;
-                margin: 10mm;
-            }
-            body { 
-                margin: 0;
-                font-size: 9pt; /* Further reduce base font size */
-                line-height: 1.4; /* Tighten line height */
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                height: 277mm;
-                overflow: hidden;
-                background-color: white;
-            }
-            .container { 
-                width: 100%;
-                border: none; 
-                box-shadow: none; 
-                margin: 0;
-                padding: 0;
-                transform: none;
-            }
-            .section {
-                page-break-inside: avoid;
-                margin-bottom: 10px; /* Further reduce space */
-            }
-            .section-title {
-                font-size: 12pt; /* Further reduce title size */
-                margin-bottom: 4px;
-            }
-            .header img {
-                max-width: 80px; /* Further reduce logo */
-            }
-            .risk-level-name {
-                font-size: 18pt; /* Further reduce risk level font size */
-            }
-            .risk-factors td, .risk-factors th {
-                padding: 4px; /* Further reduce table padding */
-            }
-            .suggestion {
-                padding: 8px;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <!-- Use absolute path for PDF -->
-            <img src="{{ public_path('logo.png') }}" alt="TensiTrack Logo" style="height: 50px;">
-            <h1>TensiTrack - Hasil Skrining</h1>
+            <h1>TensiTrack - Laporan Hasil Skrining</h1>
         </div>
 
         <div class="divider"></div>
 
-        <div class="identity">
-            <div style="float:left;"><strong>Nama:</strong> {{ $screening->client_name }}</div>
-            <div style="float:right;"><strong>Tanggal:</strong> {{ $screening->created_at->format('d F Y') }}</div>
-            <div style="clear:both;"></div>
-        </div>
+        <table class="identity-table">
+            <tr>
+                <td style="width: 15%"><strong>Nama</strong></td>
+                <td style="width: 35%">: {{ $screening->client_name }}</td>
+                <td style="width: 15%"><strong>Tanggal</strong></td>
+                <td style="width: 35%">: {{ $screening->created_at->format('d F Y') }}</td>
+            </tr>
+            <tr>
+                <td><strong>Usia</strong></td>
+                <td>: {{ $screening->snapshot_age }} Tahun</td>
+                <td><strong>Tensi</strong></td>
+                <td>: {{ $screening->snapshot_systolic }}/{{ $screening->snapshot_diastolic }} mmHg</td>
+            </tr>
+        </table>
 
         <div class="section">
             <h2 class="section-title">Hasil Analisis</h2>
-            <div class="risk-level" style="background-color: {{ $isHigh ? '#fff5f5' : ($isMed ? '#fffbeb' : '#f0fff4') }}; color: {{ $isHigh ? '#c53030' : ($isMed ? '#b7791f' : '#2f855a') }};">
+            @php
+                $isHigh = stripos($screening->result_level, 'tinggi') !== false;
+                $isMed = stripos($screening->result_level, 'sedang') !== false;
+                $bg = $isHigh ? '#fff5f5' : ($isMed ? '#fffbeb' : '#f0fff4');
+                $color = $isHigh ? '#c53030' : ($isMed ? '#b7791f' : '#2f855a');
+            @endphp
+            <div class="risk-level" style="background-color: {{ $bg }}; color: {{ $color }};">
                 <div class="risk-level-title">Tingkat Risiko Hipertensi</div>
                 <div class="risk-level-name">{{ $screening->result_level }}</div>
             </div>
         </div>
 
         <div class="section">
-            <h2 class="section-title">Keterangan</h2>
-            <p>{{ $riskLevelData ? $riskLevelData->description : 'Tidak ada keterangan.' }}</p>
+            <h2 class="section-title">Keterangan Medis</h2>
+            <p style="text-align: justify;">
+                {{ $riskLevel ? $riskLevel->description : 'Tidak ada keterangan tersedia.' }}
+            </p>
         </div>
 
-        @if (!$details->isEmpty())
+        @if(!$screening->details->isEmpty())
         <div class="section risk-factors">
-            <h2 class="section-title">Faktor Risiko yang Terdeteksi</h2>
-            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <h2 class="section-title">Faktor Risiko Terdeteksi</h2>
+            <table>
                 <thead>
-                    <tr style="background-color: #f2f2f2;">
-                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left; width: 20%;">Kode</th>
-                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Faktor Risiko</th>
+                    <tr>
+                        <th style="width: 15%">Kode</th>
+                        <th>Nama Faktor Risiko</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($details as $d)
+                    @foreach($screening->details as $detail)
                     <tr>
-                        <td style="border: 1px solid #ddd; padding: 8px;">{{ $d->code }}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px;">{{ $d->name }}</td>
+                        <td>{{ $detail->riskFactor->code }}</td>
+                        <td>{{ $detail->riskFactor->name }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -193,10 +151,14 @@
         @endif
 
         <div class="section">
-            <h2 class="section-title">Saran Penatalaksanaan</h2>
+            <h2 class="section-title">Saran & Rekomendasi</h2>
             <div class="suggestion">
-                {!! $riskLevelData ? nl2br(e($riskLevelData->suggestion)) : 'Tidak ada saran.' !!}
+                {!! $riskLevel ? nl2br(e($riskLevel->suggestion)) : 'Tidak ada saran tersedia.' !!}
             </div>
+        </div>
+        
+        <div style="margin-top: 50px; text-align: center; font-size: 12px; color: #888;">
+            <p>Dicetak secara otomatis oleh sistem TensiTrack pada {{ date('d F Y H:i') }}</p>
         </div>
     </div>
 </body>
