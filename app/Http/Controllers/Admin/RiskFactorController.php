@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\RiskFactor;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RiskFactorController extends Controller
 {
@@ -20,6 +21,13 @@ class RiskFactorController extends Controller
 
         $riskFactors = $query->paginate(10)->withQueryString();
         return view('admin.risk-factors.index', compact('riskFactors'));
+    }
+
+    public function print()
+    {
+        $riskFactors = RiskFactor::all();
+        $pdf = Pdf::loadView('admin.risk-factors.print', compact('riskFactors'));
+        return $pdf->stream('laporan-faktor-risiko.pdf');
     }
 
     public function create()

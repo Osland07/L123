@@ -7,6 +7,7 @@ use App\Models\Rule;
 use App\Models\RiskLevel;
 use App\Models\RiskFactor;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RuleController extends Controller
 {
@@ -22,6 +23,14 @@ class RuleController extends Controller
 
         $rules = $query->paginate(10)->withQueryString();
         return view('admin.rules.index', compact('rules'));
+    }
+
+    public function print()
+    {
+        $rules = Rule::with(['riskLevel', 'requiredFactor'])
+                    ->orderBy('priority', 'ASC')->get();
+        $pdf = Pdf::loadView('admin.rules.print', compact('rules'));
+        return $pdf->stream('laporan-aturan.pdf');
     }
 
     public function create()

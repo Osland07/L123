@@ -186,7 +186,7 @@
                         Hipertensi dijuluki <i>"The Silent Killer"</i> karena sering muncul tanpa gejala. Sistem pakar <b>TensiTrack</b> membantu Anda mengenali sinyal bahaya sebelum terlambat.
                     </p>
                     
-                    <a href="@auth /screening @else {{ route('login') }} @endauth" class="inline-flex items-center px-8 py-4 text-base md:text-lg font-bold text-[#001B48] bg-white rounded-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg">
+                    <a href="@auth {{ route('client.screening.index') }} @else {{ route('login') }} @endauth" class="inline-flex items-center px-8 py-4 text-base md:text-lg font-bold text-[#001B48] bg-white rounded-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg">
                         Mulai Skrining
                         <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
                     </a>

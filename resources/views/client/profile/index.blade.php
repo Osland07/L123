@@ -138,7 +138,7 @@
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                     <h3 class="font-bold text-[#001B48]">Riwayat Skrining</h3>
                     <!-- Link Skrining Baru -->
-                    <a href="#" class="text-xs font-medium text-[#E3943B] hover:underline flex items-center">
+                    <a href="{{ route('client.screening.index') }}" class="text-xs font-medium text-[#E3943B] hover:underline flex items-center">
                         <i data-lucide="plus-circle" class="w-3 h-3 mr-1"></i> Skrining Baru
                     </a>
                 </div>
@@ -168,7 +168,7 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-base font-medium">
-                                        <a href="#" class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-gray-100 text-[#001B48] text-sm font-bold hover:bg-[#001B48] hover:text-white transition shadow-sm">
+                                        <a href="{{ route('client.profile.detail', $h->id) }}" class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-gray-100 text-[#001B48] text-sm font-bold hover:bg-[#001B48] hover:text-white transition shadow-sm">
                                             Detail <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
                                         </a>
                                     </td>
@@ -177,7 +177,7 @@
                                 <tr>
                                     <td colspan="4" class="px-6 py-8 text-center text-gray-500">
                                         Belum ada riwayat skrining. <br>
-                                        <a href="#" class="text-[#E3943B] font-medium hover:underline mt-2 inline-block">Mulai Skrining Sekarang</a>
+                                        <a href="{{ route('client.screening.index') }}" class="text-[#E3943B] font-medium hover:underline mt-2 inline-block">Mulai Skrining Sekarang</a>
                                     </td>
                                 </tr>
                             @endforelse

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\RiskLevel;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RiskLevelController extends Controller
 {
@@ -21,6 +22,13 @@ class RiskLevelController extends Controller
 
         $riskLevels = $query->paginate(10)->withQueryString();
         return view('admin.risk-levels.index', compact('riskLevels'));
+    }
+
+    public function print()
+    {
+        $riskLevels = RiskLevel::all();
+        $pdf = Pdf::loadView('admin.risk-levels.print', compact('riskLevels'));
+        return $pdf->stream('laporan-tingkat-risiko.pdf');
     }
 
     public function create()

@@ -33,12 +33,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');
 
         // Master Data: Tingkat Risiko
+        Route::get('risk-levels/print', [\App\Http\Controllers\Admin\RiskLevelController::class, 'print'])->name('risk-levels.print');
         Route::resource('risk-levels', \App\Http\Controllers\Admin\RiskLevelController::class);
 
         // Master Data: Faktor Risiko
+        Route::get('risk-factors/print', [\App\Http\Controllers\Admin\RiskFactorController::class, 'print'])->name('risk-factors.print');
         Route::resource('risk-factors', \App\Http\Controllers\Admin\RiskFactorController::class);
 
         // Master Data: Aturan
+        Route::get('rules/print', [\App\Http\Controllers\Admin\RuleController::class, 'print'])->name('rules.print');
         Route::resource('rules', \App\Http\Controllers\Admin\RuleController::class);
 
         // Manajemen Pengguna
