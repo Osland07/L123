@@ -35,18 +35,25 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         /* Custom Scrollbar handled by Tailwind/CSS file if needed, keeping consistent with guest layout */
     </style>
 </head>
-<body x-data="{ mobileMenuOpen: false, splashActive: true, ...$store.global }" class="bg-gray-50 text-[#001B48] text-base antialiased flex flex-col min-h-screen">
+<body x-data="{ mobileMenuOpen: false, splashActive: {{ (session('success') || session('error') || session('status') || request()->routeIs('client.profile.index')) ? 'false' : 'true' }}, ...$store.global }" class="bg-gray-50 text-[#001B48] text-base antialiased flex flex-col min-h-screen">
 
     <!-- Splash Screen -->
     <div x-show="splashActive"
          x-init="
-            let duration = sessionStorage.getItem('tensi_splash_seen') ? 500 : 1500;
-            sessionStorage.setItem('tensi_splash_seen', 'true');
-            setTimeout(() => splashActive = false, duration);
+            @if(session('success') || session('error') || session('status') || request()->routeIs('client.profile.index'))
+                splashActive = false;
+            @else
+                let duration = sessionStorage.getItem('tensi_splash_seen') ? 500 : 1500;
+                sessionStorage.setItem('tensi_splash_seen', 'true');
+                setTimeout(() => splashActive = false, duration);
+            @endif
          "
          x-transition:leave="transition ease-out duration-500"
          x-transition:leave-start="opacity-100"
@@ -97,7 +104,7 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="{{ route('home') }}" @click.prevent="window.location.pathname === '/' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : window.location.href = '{{ route('home') }}'" class="px-3 py-2 rounded-md text-base font-bold transition-colors whitespace-nowrap {{ request()->routeIs('home') ? 'text-white bg-[#E3943B]' : 'text-[#E3943B] hover:text-white' }}">Home</a>
+                        <a href="{{ route('home') }}" @click.prevent="window.location.pathname === '/' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : window.location.href = '{{ route('home') }}'" class="px-3 py-2 rounded-md text-base font-bold transition-colors whitespace-nowrap text-[#E3943B] hover:text-white">Home</a>
                         
                         <!-- Dropdown Layanan -->
                         <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
@@ -183,44 +190,41 @@
     @if (!request()->is('screening*'))
     <footer class="bg-[#001B48] text-white py-12 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
+            <div class="grid grid-cols-2 lg:grid-cols-12 gap-8 mb-8">
                 
                 <!-- Column 1: Logo & Explanation (Full width on mobile) -->
-                <div class="lg:col-span-1">
+                <div class="col-span-2 lg:col-span-5">
                     <a href="/" class="flex items-center mb-4">
                         <img src="/logo.png" alt="Logo" class="h-10 w-auto">
                         <span class="ml-2 text-xl font-bold text-white tracking-wide">Tensi<span class="text-[#E3943B]">Track</span></span>
                     </a>
-                    <p class="text-sm text-gray-300 leading-relaxed">
+                    <p class="text-sm text-gray-300 leading-relaxed max-w-md">
                         TensiTrack membantu Anda memprediksi potensi risiko hipertensi berdasarkan gaya hidup Anda.
                         Deteksi dini untuk hidup yang lebih sehat.
                     </p>
                 </div>
 
-                <!-- Wrapper for Links (Side-by-side on mobile, separate cols on desktop) -->
-                <div class="col-span-1 lg:col-span-2 grid grid-cols-2 gap-8">
-                    <!-- Column 2: Tautan Cepat -->
-                    <div>
-                        <h4 class="text-lg font-bold text-white mb-4">Tautan Cepat</h4>
-                        <ul class="space-y-3">
-                            <li><a href="/" class="text-gray-300 hover:text-white transition-colors text-sm">Home</a></li>
-                            <li><a href="/#alur-interaksi" class="text-gray-300 hover:text-white transition-colors text-sm">Alur Kerja</a></li>
-                            <li><a href="/#faq" class="text-gray-300 hover:text-white transition-colors text-sm">FAQ</a></li>
-                        </ul>
-                    </div>
+                <!-- Column 2: Tautan Cepat -->
+                <div class="col-span-1 lg:col-span-2">
+                    <h4 class="text-lg font-bold text-white mb-4">Tautan Cepat</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition-colors text-sm">Home</a></li>
+                        <li><a href="/#alur-interaksi" class="text-gray-300 hover:text-white transition-colors text-sm">Alur Kerja</a></li>
+                        <li><a href="/#faq" class="text-gray-300 hover:text-white transition-colors text-sm">FAQ</a></li>
+                    </ul>
+                </div>
 
-                    <!-- Column 3: Layanan Kami -->
-                    <div>
-                        <h4 class="text-lg font-bold text-white mb-4">Layanan Kami</h4>
-                        <ul class="space-y-3">
-                            <li><a href="/#kalkulator-bmi" class="text-gray-300 hover:text-white transition-colors text-sm">Kalkulator BMI</a></li>
-                            <li><a href="/#diagnosis" class="text-gray-300 hover:text-white transition-colors text-sm">Skrining Hipertensi</a></li>
-                        </ul>
-                    </div>
+                <!-- Column 3: Layanan Kami -->
+                <div class="col-span-1 lg:col-span-2">
+                    <h4 class="text-lg font-bold text-white mb-4">Layanan Kami</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/#kalkulator-bmi" class="text-gray-300 hover:text-white transition-colors text-sm">Kalkulator BMI</a></li>
+                        <li><a href="/#diagnosis" class="text-gray-300 hover:text-white transition-colors text-sm">Skrining Hipertensi</a></li>
+                    </ul>
                 </div>
 
                 <!-- Column 4: Kontak Kami (Full width on mobile) -->
-                <div class="lg:col-span-1">
+                <div class="col-span-2 lg:col-span-3">
                     <h4 class="text-lg font-bold text-white mb-4">Kontak Kami</h4>
                     <ul class="space-y-3 text-sm text-gray-300">
                         <li class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2 text-[#E3943B]"></i> info@tensitrack.com</li>

@@ -4,11 +4,19 @@
 
 @section('content')
 
+@php
+    $redirectFromScreening = request('redirect_from') === 'screening';
+@endphp
+
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
-    @if (session('success'))
-        <div class="mb-4 p-4 bg-green-100 text-green-700 border border-green-400 rounded-lg" role="alert">
-            <p>{{ session('success') }}</p>
+    @if ($redirectFromScreening)
+        <div class="mb-6 p-4 bg-orange-50 border-l-4 border-[#E3943B] rounded-r-lg flex items-start shadow-sm">
+            <i data-lucide="info" class="w-5 h-5 text-[#E3943B] mr-3 mt-0.5"></i>
+            <div>
+                <h3 class="font-bold text-[#001B48] text-sm">Lengkapi Data Diri</h3>
+                <p class="text-sm text-gray-600 mt-1">Untuk melanjutkan proses skrining, mohon lengkapi data wajib yang ditandai (<span class="text-red-500 font-bold">*</span>) di bawah ini.</p>
+            </div>
         </div>
     @endif
 
@@ -40,20 +48,36 @@
                         
                         <!-- Nama -->
                         <div class="border-b border-gray-200 pb-4 mb-4">
-                            <label class="block text-base font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                            <input type="text" name="full_name" value="{{ old('full_name', $profile->full_name ?? auth()->user()->name) }}" class="w-full rounded-lg border border-gray-400 focus:ring-[#E3943B] focus:border-[#E3943B] bg-white transition p-2 text-base" placeholder="Nama Anda" required>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Nama Lengkap 
+                                @if($redirectFromScreening) <span class="text-red-500">*</span> @endif
+                            </label>
+                            <input type="text" name="full_name" value="{{ old('full_name', $profile->full_name ?? auth()->user()->name) }}" 
+                                   class="w-full rounded-lg border border-gray-400 focus:ring-[#E3943B] focus:border-[#E3943B] bg-white transition p-2 text-base 
+                                   @if($redirectFromScreening && !old('full_name', $profile->full_name)) ring-2 ring-red-500 border-red-500 @endif" 
+                                   placeholder="Nama Anda" required>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4 border-b border-gray-200 pb-4 mb-4">
                             <!-- Umur -->
                             <div>
-                                <label class="block text-base font-medium text-gray-700 mb-1">Umur (Tahun)</label>
-                                <input type="number" name="age" value="{{ old('age', $profile->age) }}" class="w-full rounded-lg border border-gray-400 focus:ring-[#E3943B] focus:border-[#E3943B] bg-white transition p-2 text-base" required>
+                                <label class="block text-base font-medium text-gray-700 mb-1">
+                                    Umur (Tahun)
+                                    @if($redirectFromScreening) <span class="text-red-500">*</span> @endif
+                                </label>
+                                <input type="number" name="age" value="{{ old('age', $profile->age) }}" 
+                                       class="w-full rounded-lg border border-gray-400 focus:ring-[#E3943B] focus:border-[#E3943B] bg-white transition p-2 text-base
+                                       @if($redirectFromScreening && !old('age', $profile->age)) ring-2 ring-red-500 border-red-500 @endif" 
+                                       required>
                             </div>
                             <!-- Gender -->
                             <div>
-                                <label class="block text-base font-medium text-gray-700 mb-1">Jenis Kelamin</label>
-                                <select name="gender" class="w-full rounded-lg border border-gray-400 focus:ring-[#E3943B] focus:border-[#E3943B] bg-white transition p-2 text-base">
+                                <label class="block text-base font-medium text-gray-700 mb-1">
+                                    Jenis Kelamin
+                                    @if($redirectFromScreening) <span class="text-red-500">*</span> @endif
+                                </label>
+                                <select name="gender" class="w-full rounded-lg border border-gray-400 focus:ring-[#E3943B] focus:border-[#E3943B] bg-white transition p-2 text-base
+                                        @if($redirectFromScreening && !old('gender', $profile->gender)) ring-2 ring-red-500 border-red-500 @endif">
                                     <option value="L" {{ old('gender', $profile->gender) == 'L' ? 'selected' : '' }}>Laki-laki</option>
                                     <option value="P" {{ old('gender', $profile->gender) == 'P' ? 'selected' : '' }}>Perempuan</option>
                                 </select>
@@ -189,5 +213,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    @if(session('success'))
+        Swal.fire({
+            title: 'Berhasil Diperbarui! 🎉',
+            text: 'Selamat, data profil Anda telah berhasil diperbarui.',
+            icon: 'success',
+            confirmButtonText: 'Oke, Lanjut!',
+            buttonsStyling: false,
+            customClass: {
+                popup: 'rounded-3xl shadow-2xl font-sans p-8',
+                title: 'text-2xl font-bold text-[#001B48] mb-2',
+                htmlContainer: 'text-gray-600 text-base',
+                confirmButton: 'bg-[#E3943B] text-white px-8 py-3 rounded-xl font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-lg focus:outline-none ring-0'
+            },
+            background: '#fff',
+            iconColor: '#E3943B',
+            width: '32em',
+            backdrop: `
+                rgba(0, 27, 72, 0.4)
+                left top
+                no-repeat
+            `
+        });
+    @endif
+</script>
 
 @endsection

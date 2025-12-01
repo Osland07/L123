@@ -31,6 +31,43 @@ class HistoryController extends Controller
         return $pdf->stream('laporan-riwayat-skrining.pdf');
     }
 
+    public function export()
+    {
+        $fileName = 'riwayat-skrining-' . date('Y-m-d_H-i') . '.csv';
+        $screenings = \App\Models\Screening::latest()->get();
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['No', 'Tanggal', 'Nama Client', 'Usia (Th)', 'Tensi (mmHg)', 'Hasil Risiko', 'Skor'];
+
+        $callback = function() use($screenings, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($screenings as $key => $s) {
+                $row['No']  = $key + 1;
+                $row['Tanggal']    = $s->created_at->format('d/m/Y H:i');
+                $row['Nama Client']  = $s->client_name;
+                $row['Usia']  = $s->snapshot_age;
+                $row['Tensi']  = $s->snapshot_systolic . '/' . $s->snapshot_diastolic;
+                $row['Hasil Risiko']  = $s->result_level;
+                $row['Skor']  = $s->score;
+
+                fputcsv($file, array_values($row));
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
     public function create()
     {
         //

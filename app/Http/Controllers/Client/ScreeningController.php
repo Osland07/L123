@@ -20,14 +20,18 @@ class ScreeningController extends Controller
         $profile = UserProfile::where('user_id', $userId)->first();
 
         // Daftar kode yang akan di-exclude (dihilangkan dari kuis)
-        // E03 (BMI) selalu auto karena TB/BB wajib di profil (jika ada)
-        $excludedCodes = ['E03']; 
+        $excludedCodes = []; 
 
         // Cek Tensi di Profil
         // Jika data tensi lengkap, hitung otomatis (exclude E01 dari kuis)
-        // Jika tidak lengkap, tanyakan E01 di kuis
         if ($profile && $profile->systolic && $profile->diastolic) {
             $excludedCodes[] = 'E01';
+        }
+
+        // Cek BMI di Profil (E03)
+        // Jika TB/BB ada, hitung otomatis (exclude E03 dari kuis)
+        if ($profile && $profile->height && $profile->weight) {
+            $excludedCodes[] = 'E03';
         }
 
         // Ambil faktor risiko selain yang di-exclude

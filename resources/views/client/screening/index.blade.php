@@ -4,6 +4,46 @@
 
 @section('content')
 
+@if(!$isProfileComplete)
+    <!-- Modal Blocking untuk Profil Belum Lengkap -->
+    <div class="fixed inset-0 z-[999] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop Blur -->
+        <div class="fixed inset-0 bg-[#001B48]/80 backdrop-blur-sm transition-opacity"></div>
+
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-white/20">
+                
+                <!-- Modal Content -->
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-orange-100 sm:mx-0 sm:h-12 sm:w-12">
+                            <i data-lucide="user-plus" class="h-6 w-6 text-[#E3943B]"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                            <h3 class="text-xl font-bold leading-6 text-[#001B48]" id="modal-title">Lengkapi Data Diri</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500 leading-relaxed">
+                                    Mohon maaf, fitur skrining membutuhkan data identitas dasar Anda. Silakan lengkapi <b>Nama, Umur, dan Jenis Kelamin</b> pada menu profil untuk melanjutkan.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal Actions -->
+                <div class="bg-gray-50 px-4 py-4 sm:flex sm:flex-row-reverse sm:px-6 gap-2">
+                    <a href="{{ route('client.profile.index', ['redirect_from' => 'screening']) }}" class="inline-flex w-full justify-center rounded-xl bg-[#E3943B] px-5 py-2.5 text-sm font-bold text-white shadow-lg hover:bg-orange-600 hover:shadow-orange-500/30 sm:w-auto transition-all transform hover:-translate-y-0.5">
+                        Lengkapi Sekarang
+                    </a>
+                    <a href="{{ route('home') }}" class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto transition">
+                        Kembali
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+@else
+
 <div class="h-[calc(100vh-5rem)] bg-gray-50 flex flex-col justify-between py-4 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
      x-data="screeningQuiz({{ $factors->toJson() }})">
     
@@ -194,5 +234,7 @@
         }))
     });
 </script>
+
+@endif
 
 @endsection
