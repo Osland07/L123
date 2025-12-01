@@ -20,6 +20,10 @@
             text-align: center;
             margin-bottom: 20px;
         }
+        .header img {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
         .header h1 {
             font-size: 24px;
             margin: 0;
@@ -87,6 +91,7 @@
 <body>
     <div class="container">
         <div class="header">
+            <img src="{{ public_path('logo-tensitrack.png') }}" alt="TensiTrack Logo">
             <h1>TensiTrack - Laporan Hasil Skrining</h1>
         </div>
 
