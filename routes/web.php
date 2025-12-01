@@ -1,0 +1,71 @@
+<?php
+
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// 1. Public Routes
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// 2. Authenticated Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    
+    // --- Dashboard Redirect Logic ---
+    Route::get('/dashboard', function () {
+        if (auth()->user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('home');
+    })->name('dashboard');
+
+
+    // =========================================================================
+    // FITUR ADMIN
+    // =========================================================================
+    Route::prefix('admin')->name('admin.')->group(function () {
+        
+        // Dashboard Admin
+        Route::get('/', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Master Data: Tingkat Risiko
+        Route::resource('risk-levels', \App\Http\Controllers\Admin\RiskLevelController::class);
+
+        // Master Data: Faktor Risiko
+        Route::resource('risk-factors', \App\Http\Controllers\Admin\RiskFactorController::class);
+
+        // Master Data: Aturan
+        Route::resource('rules', \App\Http\Controllers\Admin\RuleController::class);
+
+        // Manajemen Pengguna
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+        
+        // Laporan Riwayat
+        // Print route harus didefinisikan SEBELUM resource route agar tidak dianggap sebagai {id} (show)
+        Route::get('history/print', [\App\Http\Controllers\Admin\HistoryController::class, 'print'])->name('history.print');
+        Route::resource('history', \App\Http\Controllers\Admin\HistoryController::class)->only(['index', 'show', 'destroy']);
+    });
+
+
+    // =========================================================================
+    // FITUR CLIENT
+    // =========================================================================
+    Route::prefix('client')->name('client.')->group(function () {
+        
+        // Profil Pengguna
+        Route::get('/profile', [\App\Http\Controllers\Client\ProfileController::class, 'index'])->name('profile.index');
+        Route::put('/profile/update', [\App\Http\Controllers\Client\ProfileController::class, 'update'])->name('profile.update');
+
+        // Skrining Hipertensi
+        Route::get('/screening', [\App\Http\Controllers\Client\ScreeningController::class, 'index'])->name('screening.index');
+        Route::post('/screening', [\App\Http\Controllers\Client\ScreeningController::class, 'result'])->name('screening.store');
+        
+        // Detail Hasil Riwayat
+        Route::get('/detail/{id}', [\App\Http\Controllers\Client\ProfileController::class, 'detail'])->name('profile.detail');
+    });
+
+});
