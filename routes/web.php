@@ -69,7 +69,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
         // Detail Hasil Riwayat
         Route::get('/detail/{id}', [\App\Http\Controllers\Client\ProfileController::class, 'detail'])->name('profile.detail');
-        Route::get('/detail/pdf/{id}', [\App\Http\Controllers\Client\ProfileController::class, 'printPdf'])->name('pdf.print');
+        Route::get('/detail/pdf/{id}/{action?}', [\App\Http\Controllers\Client\ProfileController::class, 'printPdf'])->name('pdf.print');
     });
 
 });

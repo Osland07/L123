@@ -89,16 +89,31 @@ class ProfileController extends Controller
     {
         $screening = \App\Models\Screening::with('details.riskFactor')->where('user_id', Auth::id())->findOrFail($id);
         $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first(); 
+        $profile = UserProfile::where('user_id', Auth::id())->first();
 
-        return view('client.profile.detail', compact('screening', 'riskLevel'));
+        // Calculate BMI from Snapshot
+        $bmi = 0;
+        if ($screening->snapshot_height && $screening->snapshot_weight) {
+            $h = $screening->snapshot_height / 100;
+            $bmi = round($screening->snapshot_weight / ($h * $h), 1);
+        }
+
+        // Format Tensi
+        $tensi = $screening->snapshot_systolic . '/' . $screening->snapshot_diastolic;
+
+        return view('client.profile.detail', compact('screening', 'riskLevel', 'profile', 'bmi', 'tensi'));
     }
 
-    public function printPdf($id)
+    public function printPdf($id, $action = 'view')
     {
         $screening = \App\Models\Screening::with('details.riskFactor')->where('user_id', Auth::id())->findOrFail($id);
         $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first(); 
 
         $pdf = Pdf::loadView('client.profile.pdf', compact('screening', 'riskLevel'));
+        
+        if ($action == 'download') {
+            return $pdf->download('hasil-skrining-' . $id . '.pdf');
+        }
         return $pdf->stream('hasil-skrining-' . $id . '.pdf');
     }
 }

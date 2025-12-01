@@ -1,93 +1,204 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Hasil Skrining')
+@section('title', 'Hasil Skrining')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+<!-- Tentukan Warna & Ikon -->
+@php 
+    $isHigh = stripos($screening->result_level, 'tinggi') !== false;
+    $isMed = stripos($screening->result_level, 'sedang') !== false;
     
-    <div class="mb-6 flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-[#001B48]">Hasil Analisis</h1>
-        <a href="{{ route('client.profile.index') }}" class="text-sm font-medium text-gray-500 hover:text-[#E3943B] flex items-center">
-            <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> Kembali
+    $bgClass = $isHigh ? 'bg-red-50' : ($isMed ? 'bg-orange-50' : 'bg-green-50');
+    $textClass = $isHigh ? 'text-red-600' : ($isMed ? 'text-orange-600' : 'text-green-600');
+    $borderClass = $isHigh ? 'border-red-200' : ($isMed ? 'border-orange-200' : 'border-green-200');
+    $icon = $isHigh ? 'alert-triangle' : ($isMed ? 'alert-circle' : 'shield-check');
+    
+    // Extract bg color for stripe from text class (e.g. text-red-600 -> bg-red-600)
+    $stripeClass = str_replace('text-', 'bg-', explode(' ', $textClass)[0]);
+@endphp
+
+<!-- Container Utama: Full Height minus Navbar (80px) -->
+<div class="h-[calc(100vh-5rem)] bg-gray-50 p-4 overflow-hidden flex flex-col print:h-auto print:overflow-visible">
+    
+    <!-- Header Kecil (Breadcrumb + Aksi) -->
+    <div class="flex justify-between items-center mb-4 flex-shrink-0 px-2 no-print">
+        <a href="{{ route('client.profile.index') }}" class="inline-flex items-center text-gray-500 hover:text-[#001B48] transition font-bold text-sm">
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Kembali
         </a>
+        <div class="flex gap-2">
+            <a href="{{ route('client.pdf.print', ['id' => $screening->id, 'action' => 'view']) }}" target="_blank" class="text-[#001B48] hover:text-[#E3943B] font-bold text-sm transition">Lihat PDF</a>
+            <a href="{{ route('client.pdf.print', ['id' => $screening->id, 'action' => 'download']) }}" class="text-[#001B48] hover:text-[#E3943B] font-bold text-sm transition">Unduh PDF</a>
+        </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+    <!-- Grid 3 Kolom -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 h-full overflow-hidden">
         
-        <!-- Header Hasil -->
-        <div class="p-8 text-center bg-gray-50 border-b border-gray-200">
-            <p class="text-sm text-gray-500 uppercase tracking-wide font-bold mb-2">Tingkat Risiko Anda</p>
+        <!-- KOLOM 1: PROFIL & HASIL (3 Kolom Grid) -->
+        <div class="lg:col-span-3 flex flex-col gap-4 h-full overflow-y-auto custom-scrollbar pr-1">
             
-            @php
-                $colorClass = 'text-green-600';
-                $bgClass = 'bg-green-100';
-                if (stripos($screening->result_level, 'tinggi') !== false) {
-                    $colorClass = 'text-red-600';
-                    $bgClass = 'bg-red-100';
-                } elseif (stripos($screening->result_level, 'sedang') !== false) {
-                    $colorClass = 'text-yellow-600';
-                    $bgClass = 'bg-yellow-100';
-                }
-            @endphp
+            <!-- Kartu Hasil -->
+            <div class="bg-white rounded-2xl shadow-sm border {{ $borderClass }} p-6 text-center flex flex-col items-center justify-center flex-shrink-0 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-2 {{ $stripeClass }}"></div>
+                <div class="w-16 h-16 rounded-full {{ $bgClass }} flex items-center justify-center mb-3">
+                    <i data-lucide="{{ $icon }}" class="w-8 h-8 {{ $textClass }}"></i>
+                </div>
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Risiko Hipertensi</p>
+                <h2 class="text-2xl font-extrabold {{ $textClass }} leading-tight mt-1">
+                    {{ $screening->result_level }}
+                </h2>
+                <p class="text-xs text-gray-400 mt-2">{{ $screening->created_at->format('d M Y') }}</p>
+            </div>
 
-            <h2 class="text-4xl font-extrabold {{ $colorClass }} mb-4">{{ $screening->result_level }}</h2>
-            
-            <div class="inline-flex items-center px-4 py-2 rounded-full {{ $bgClass }} {{ $colorClass }} text-sm font-bold">
-                Skor Faktor: {{ $screening->score }}
+            <!-- Data Pasien -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 flex-grow">
+                <h3 class="text-sm font-bold text-[#001B48] mb-4 flex items-center border-b border-gray-100 pb-2">
+                    <i data-lucide="user" class="w-4 h-4 mr-2"></i> Pasien
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-xs text-gray-400 uppercase">Nama</p>
+                        <p class="font-bold text-[#001B48] text-sm truncate">{{ $screening->client_name }}</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+                            <span class="block text-xs text-gray-400 uppercase font-bold mb-1">Umur</span>
+                            <span class="block text-base font-bold text-[#001B48]">{{ $screening->snapshot_age }} Thn</span>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase">Jenis Kelamin</p>
+                            <p class="font-bold text-[#001B48] text-sm">{{ ($profile->gender ?? '-') == 'L' ? 'Laki-laki' : 'Perempuan' }}</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase">BMI</p>
+                            <p class="font-bold text-[#001B48] text-sm">{{ $bmi }}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase">Tensi</p>
+                            <p class="font-bold text-[#001B48] text-sm truncate">{{ $tensi }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- KOLOM 2: ANALISIS & REKOMENDASI (5 Kolom Grid - Terlebar) -->
+        <div class="lg:col-span-6 bg-white rounded-2xl shadow-sm border border-gray-200 p-6 flex flex-col h-full overflow-hidden">
+            <h3 class="text-base font-bold text-[#001B48] mb-4 flex items-center flex-shrink-0 border-b border-gray-100 pb-3">
+                <i data-lucide="file-text" class="w-5 h-5 mr-2 text-[#E3943B]"></i> Analisis & Rekomendasi
+            </h3>
             
-            <!-- Kiri: Saran -->
-            <div>
-                <h3 class="text-lg font-bold text-[#001B48] mb-4 flex items-center">
-                    <i data-lucide="lightbulb" class="w-5 h-5 mr-2 text-[#E3943B]"></i> Saran & Rekomendasi
-                </h3>
-                <div class="prose prose-sm text-gray-600 bg-blue-50 p-6 rounded-xl border border-blue-100">
-                    @if($riskLevel)
-                        <p class="mb-4 font-medium">{{ $riskLevel->description }}</p>
-                        <p>{{ $riskLevel->suggestion }}</p>
-                    @else
-                        <p>Data saran tidak ditemukan untuk tingkat risiko ini.</p>
-                    @endif
+            <div class="overflow-y-auto custom-scrollbar pr-2 space-y-6">
+                <!-- Keterangan -->
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Keterangan Medis</h4>
+                    <p class="text-gray-700 text-sm leading-relaxed text-justify">
+                        {{ $riskLevel ? $riskLevel->description : 'Tidak ada keterangan tersedia.' }}
+                    </p>
                 </div>
-                
-                <div class="mt-6">
-                    <a href="{{ route('client.pdf.print', $screening->id) }}" target="_blank" class="w-full inline-flex justify-center items-center px-4 py-3 bg-[#001B48] text-white font-bold rounded-xl hover:bg-blue-900 transition shadow-md">
-                        <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Cetak Hasil PDF
-                    </a>
+
+                <!-- Saran -->
+                <div class="bg-blue-50 p-5 rounded-xl border-l-4 border-[#001B48]">
+                    <h4 class="text-xs font-bold text-[#001B48] uppercase mb-3">Saran</h4>
+                    <div class="text-gray-800 text-sm leading-relaxed text-justify space-y-2">
+                        {!! $riskLevel ? nl2br(e($riskLevel->suggestion)) : 'Tidak ada saran tersedia.' !!}
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Kanan: Detail Faktor -->
-            <div>
-                <h3 class="text-lg font-bold text-[#001B48] mb-4 flex items-center">
-                    <i data-lucide="list" class="w-5 h-5 mr-2 text-[#E3943B]"></i> Faktor Risiko Terdeteksi
+        <!-- KOLOM 3: FAKTOR RISIKO (3 Kolom Grid) -->
+        <div class="lg:col-span-3 bg-white rounded-2xl shadow-sm border border-gray-200 p-5 flex flex-col h-full overflow-hidden">
+            <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-3 flex-shrink-0">
+                <h3 class="text-sm font-bold text-[#001B48] flex items-center">
+                    <i data-lucide="clipboard-list" class="w-4 h-4 mr-2 text-gray-400"></i> Faktor Risiko
                 </h3>
-                
-                @if($screening->details->isEmpty())
-                    <div class="text-center py-8 text-gray-400 italic border-2 border-dashed border-gray-200 rounded-xl">
-                        Tidak ada faktor risiko yang ditemukan.
+                <span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded-full">{{ count($screening->details) }}</span>
+            </div>
+            
+            <div class="overflow-y-auto custom-scrollbar pr-1">
+                @if ($screening->details->isEmpty())
+                    <div class="h-full flex flex-col items-center justify-center text-center text-gray-400 py-8">
+                        <i data-lucide="shield-check" class="w-10 h-10 mb-2 text-green-200"></i>
+                        <p class="text-xs">Tidak ditemukan faktor risiko signifikan.</p>
                     </div>
                 @else
-                    <ul class="space-y-3">
-                        @foreach($screening->details as $detail)
-                            <li class="flex items-start p-3 rounded-lg bg-gray-50 border border-gray-100">
-                                <i data-lucide="check-circle" class="w-5 h-5 text-red-500 mr-3 mt-0.5 flex-shrink-0"></i>
-                                <span class="text-sm text-gray-700 font-medium">{{ $detail->riskFactor->name }}</span>
-                            </li>
+                    <ul class="space-y-2">
+                        @foreach ($screening->details as $d)
+                        <li class="p-3 rounded-lg bg-gray-50 border border-gray-100 flex items-start">
+                            <i data-lucide="alert-circle" class="w-4 h-4 text-red-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                            <div>
+                                <span class="text-[10px] font-bold text-[#E3943B] block mb-0.5">[{{ $d->riskFactor->code }}]</span>
+                                <p class="text-xs font-bold text-gray-800 leading-tight">{{ $d->riskFactor->name }}</p>
+                            </div>
+                        </li>
                         @endforeach
                     </ul>
                 @endif
             </div>
-
-        </div>
-        
-        <div class="bg-gray-50 px-8 py-4 text-center text-xs text-gray-400 border-t border-gray-200">
-            Skrining dilakukan pada {{ $screening->created_at->format('d F Y, H:i') }}
         </div>
 
     </div>
 </div>
+
+<style>
+    /* Scrollbar Halus */
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+
+    @media print {
+        @page { margin: 2cm; size: A4 portrait; }
+        body { background-color: white !important; color: black !important; font-family: serif; font-size: 12pt; }
+        
+        /* Sembunyikan elemen non-cetak */
+        .no-print, nav, footer, .bg-gray-50, .overflow-hidden { display: none !important; }
+        
+        /* Reset Layout Container */
+        .h-\[calc\(100vh-5rem\)\] { height: auto !important; padding: 0 !important; background: white !important; }
+        .overflow-y-auto, .custom-scrollbar { overflow: visible !important; height: auto !important; }
+        .grid { display: block !important; }
+        .lg\:col-span-3, .lg\:col-span-6, .lg\:col-span-12 { width: 100% !important; display: block !important; }
+        
+        /* Styling Kartu menjadi Section Laporan */
+        .bg-white, .rounded-2xl, .shadow-sm, .border { 
+            background: white !important; 
+            box-shadow: none !important; 
+            border: none !important; 
+            border-radius: 0 !important; 
+            padding: 0 !important; 
+            margin-bottom: 20px !important; 
+        }
+
+        /* Header Laporan (Logo & Judul) - Kita buat element khusus print */
+        .print-header { display: block !important; text-align: center; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        .print-header h1 { font-size: 24pt; margin: 0; color: #000; }
+        .print-header p { font-size: 10pt; color: #555; }
+
+        /* Styling Konten Spesifik */
+        h1, h2, h3, h4 { color: #000 !important; page-break-after: avoid; }
+        p, li { color: #000 !important; line-height: 1.5; }
+        
+        /* Section Borders */
+        .section-print { border: 1px solid #ccc !important; padding: 15px !important; margin-bottom: 20px !important; border-radius: 5px !important; }
+    }
+</style>
+
+<!-- Header Khusus Print (Tersembunyi di Layar) -->
+<div class="print-header hidden">
+    <h1>Laporan Hasil Skrining Hipertensi</h1>
+    <p>TensiTrack - Sistem Pakar Deteksi Dini Hipertensi</p>
+</div>
+
+<script>
+    // Ensure icons are rendered if Lucide is loaded dynamically
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+</script>
+
 @endsection
