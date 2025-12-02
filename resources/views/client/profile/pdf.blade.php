@@ -8,63 +8,64 @@
         body {
             font-family: 'Arial', sans-serif;
             color: #333;
-            line-height: 1.6;
+            line-height: 1.4;
+            font-size: 11px;
             background-color: #fff; 
             margin: 0;
         }
         .container {
             width: 100%;
-            padding: 20px;
+            padding: 1cm;
         }
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .header img {
-            max-width: 150px;
-            margin-bottom: 10px;
+            max-width: 120px;
+            margin-bottom: 5px;
         }
         .header h1 {
-            font-size: 24px;
+            font-size: 20px;
             margin: 0;
             color: #001B48;
         }
         .divider {
             border-top: 2px solid #001B48;
-            margin: 20px 0;
+            margin: 15px 0;
         }
         .identity-table {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .identity-table td {
-            padding: 5px;
+            padding: 3px;
         }
         .section {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .section-title {
-            font-size: 18px;
+            font-size: 14px;
             font-weight: bold;
             color: #001B48;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
+            padding-bottom: 3px;
         }
         .risk-level {
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .risk-level-title {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         .risk-level-name {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
         }
         .risk-factors table {
@@ -73,8 +74,9 @@
         }
         .risk-factors th, .risk-factors td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 5px;
             text-align: left;
+            vertical-align: top;
         }
         .risk-factors th {
             background-color: #f2f2f2;
@@ -82,9 +84,9 @@
         .suggestion {
             background: #e6f7ff;
             border-left: 4px solid #005f99;
-            padding: 15px;
+            padding: 10px;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 11px;
         }
     </style>
 </head>
