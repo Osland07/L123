@@ -74,9 +74,9 @@ class HistoryController extends Controller
                 $gender = $s->user && $s->user->profile ? ($s->user->profile->gender == 'L' ? 'Laki-laki' : 'Perempuan') : '-';
 
                 // Get Risk Factors
-                $factors = $s->details->map(function($detail) {
-                    return $detail->riskFactor ? $detail->riskFactor->name : '-';
-                })->implode('; ');
+                $factors = $s->details->map(function($detail, $index) {
+                    return ($index + 1) . '. ' . ($detail->riskFactor ? $detail->riskFactor->name : '-');
+                })->implode("\n");
 
                 $row = [
                     $key + 1,
