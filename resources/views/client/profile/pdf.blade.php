@@ -130,7 +130,7 @@
                         <td style="text-align: center; vertical-align: top;">{{ $index + 1 }}</td>
                         <td style="vertical-align: top;">{{ $detail->riskFactor->code }}</td>
                         <td style="vertical-align: top;">{{ $detail->riskFactor->name }}</td>
-                        <td style="vertical-align: top; font-size: 12px; text-align: justify; color: #555;">
+                        <td style="vertical-align: top; text-align: justify;">
                             {{ $detail->riskFactor->medical_explanation ?? '-' }}
                         </td>
                     </tr>
