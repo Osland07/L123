@@ -34,7 +34,7 @@ class HistoryController extends Controller
     public function export()
     {
         $fileName = 'riwayat-skrining-' . date('Y-m-d_H-i') . '.csv';
-        $screenings = \App\Models\Screening::latest()->get();
+        $screenings = \App\Models\Screening::with(['details.riskFactor', 'user.profile'])->latest()->get();
 
         $headers = [
             "Content-type"        => "text/csv",
@@ -44,22 +44,55 @@ class HistoryController extends Controller
             "Expires"             => "0"
         ];
 
-        $columns = ['No', 'Tanggal', 'Nama Client', 'Usia (Th)', 'Tensi (mmHg)', 'Hasil Risiko', 'Skor'];
+        $columns = [
+            'No', 
+            'Tanggal', 
+            'Nama Client', 
+            'Jenis Kelamin', 
+            'Usia (Th)', 
+            'Tinggi (cm)', 
+            'Berat (kg)', 
+            'BMI', 
+            'Tensi (mmHg)', 
+            'Faktor Risiko Terpilih', 
+            'Hasil Risiko'
+        ];
 
         $callback = function() use($screenings, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
             foreach ($screenings as $key => $s) {
-                $row['No']  = $key + 1;
-                $row['Tanggal']    = $s->created_at->format('d/m/Y H:i');
-                $row['Nama Client']  = $s->client_name;
-                $row['Usia']  = $s->snapshot_age;
-                $row['Tensi']  = $s->snapshot_systolic . '/' . $s->snapshot_diastolic;
-                $row['Hasil Risiko']  = $s->result_level;
-                $row['Skor']  = $s->score;
+                // Calculate BMI
+                $bmi = '-';
+                if ($s->snapshot_height && $s->snapshot_weight) {
+                    $h = $s->snapshot_height / 100;
+                    $bmi = round($s->snapshot_weight / ($h * $h), 1);
+                }
 
-                fputcsv($file, array_values($row));
+                // Get Gender
+                $gender = $s->user && $s->user->profile ? ($s->user->profile->gender == 'L' ? 'Laki-laki' : 'Perempuan') : '-';
+
+                // Get Risk Factors
+                $factors = $s->details->map(function($detail) {
+                    return $detail->riskFactor ? $detail->riskFactor->name : '-';
+                })->implode('; ');
+
+                $row = [
+                    $key + 1,
+                    $s->created_at->format('d/m/Y H:i'),
+                    $s->client_name,
+                    $gender,
+                    $s->snapshot_age,
+                    $s->snapshot_height,
+                    $s->snapshot_weight,
+                    $bmi,
+                    $s->snapshot_systolic . '/' . $s->snapshot_diastolic,
+                    $factors ?: 'Tidak ada faktor risiko signifikan',
+                    $s->result_level
+                ];
+
+                fputcsv($file, $row);
             }
 
             fclose($file);
