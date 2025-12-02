@@ -24,9 +24,17 @@
             <h1 class="text-2xl font-bold text-[#001B48]">Detail Skrining</h1>
             <p class="text-sm text-gray-500 mt-1">Detail hasil diagnosa pengguna.</p>
         </div>
-        <a href="{{ route('admin.history.index') }}" class="inline-flex items-center text-gray-500 hover:text-[#001B48] transition font-bold text-sm">
-            <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Kembali
-        </a>
+        <div class="flex gap-3">
+            <a href="{{ route('admin.history.pdf', ['id' => $screening->id, 'action' => 'view']) }}" target="_blank" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-bold rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
+                <i data-lucide="file-text" class="w-4 h-4 mr-2 text-[#E3943B]"></i> Lihat PDF
+            </a>
+            <a href="{{ route('admin.history.pdf', ['id' => $screening->id, 'action' => 'download']) }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-bold rounded-lg text-white bg-[#001B48] hover:bg-blue-900 transition">
+                <i data-lucide="download" class="w-4 h-4 mr-2"></i> Unduh PDF
+            </a>
+            <a href="{{ route('admin.history.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-bold rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition ml-2">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Kembali
+            </a>
+        </div>
     </div>
 </div>
 
@@ -129,11 +137,21 @@
                 @else
                     <ul class="space-y-2">
                         @foreach ($screening->details as $d)
-                        <li class="p-3 rounded-lg bg-gray-50 border border-gray-100 flex items-start">
+                        <li class="p-3 rounded-lg bg-gray-50 border border-gray-100 flex items-start" x-data="{ openExplanation: false }">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-red-500 mr-2 mt-0.5 flex-shrink-0"></i>
-                            <div>
+                            <div class="flex-grow">
                                 <span class="text-[10px] font-bold text-[#E3943B] block mb-0.5">[{{ $d->riskFactor->code }}]</span>
                                 <p class="text-xs font-bold text-gray-800 leading-tight">{{ $d->riskFactor->name }}</p>
+
+                                @if ($d->riskFactor->medical_explanation)
+                                <button @click="openExplanation = !openExplanation" class="mt-2 text-xs text-[#E3943B] hover:text-[#001B48] font-semibold flex items-center">
+                                    <span x-text="openExplanation ? 'Sembunyikan Penjelasan' : 'Lihat Penjelasan Medis'"></span>
+                                    <i data-lucide="chevron-down" class="w-3 h-3 ml-1 transform transition-transform duration-200" :class="{ 'rotate-180': openExplanation }"></i>
+                                </button>
+                                <div x-show="openExplanation" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="mt-2 p-3 bg-white rounded-lg border border-gray-100">
+                                    <p class="text-xs text-gray-700 leading-relaxed">{{ $d->riskFactor->medical_explanation }}</p>
+                                </div>
+                                @endif
                             </div>
                         </li>
                         @endforeach

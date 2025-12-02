@@ -58,6 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Print route harus didefinisikan SEBELUM resource route agar tidak dianggap sebagai {id} (show)
         Route::get('history/print', [\App\Http\Controllers\Admin\HistoryController::class, 'print'])->name('history.print');
         Route::get('history/export', [\App\Http\Controllers\Admin\HistoryController::class, 'export'])->name('history.export');
+        Route::get('history/pdf/{id}/{action?}', [\App\Http\Controllers\Admin\HistoryController::class, 'printPdf'])->name('history.pdf');
         Route::resource('history', \App\Http\Controllers\Admin\HistoryController::class)->only(['index', 'show', 'destroy']);
     });
 

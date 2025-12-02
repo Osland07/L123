@@ -66,6 +66,19 @@ class HistoryController extends Controller
         return view('admin.history.show', compact('screening', 'riskLevel', 'profile', 'bmi', 'tensi'));
     }
 
+    public function printPdf($id, $action = 'view')
+    {
+        $screening = \App\Models\Screening::with('details.riskFactor')->findOrFail($id);
+        $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first(); 
+
+        $pdf = Pdf::loadView('client.profile.pdf', compact('screening', 'riskLevel'));
+        
+        if ($action == 'download') {
+            return $pdf->download('laporan-skrining-' . $screening->client_name . '-' . $id . '.pdf');
+        }
+        return $pdf->stream('laporan-skrining-' . $screening->client_name . '-' . $id . '.pdf');
+    }
+
     public function edit(string $id)
     {
         //
