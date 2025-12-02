@@ -112,6 +112,30 @@
             </tr>
         </table>
 
+        @if(!$screening->details->isEmpty())
+        <div class="section risk-factors">
+            <h2 class="section-title">Faktor Risiko Terpilih</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 8%; text-align: center;">No</th>
+                        <th style="width: 15%">Kode</th>
+                        <th>Nama Faktor Risiko</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($screening->details as $index => $detail)
+                    <tr>
+                        <td style="text-align: center;">{{ $index + 1 }}</td>
+                        <td>{{ $detail->riskFactor->code }}</td>
+                        <td>{{ $detail->riskFactor->name }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @endif
+
         <div class="section">
             <h2 class="section-title">Hasil Analisis</h2>
             @php
@@ -132,28 +156,6 @@
                 {{ $riskLevel ? $riskLevel->description : 'Tidak ada keterangan tersedia.' }}
             </p>
         </div>
-
-        @if(!$screening->details->isEmpty())
-        <div class="section risk-factors">
-            <h2 class="section-title">Faktor Risiko Terdeteksi</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 15%">Kode</th>
-                        <th>Nama Faktor Risiko</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($screening->details as $detail)
-                    <tr>
-                        <td>{{ $detail->riskFactor->code }}</td>
-                        <td>{{ $detail->riskFactor->name }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        @endif
 
         <div class="section">
             <h2 class="section-title">Saran & Rekomendasi</h2>

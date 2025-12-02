@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Route;
 // 1. Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// --- Custom Direct Password Reset Flow (Insecure but Requested) ---
+// Bypassing standard Fortify email verification link
+Route::get('/forgot-password', [\App\Http\Controllers\Auth\DirectPasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [\App\Http\Controllers\Auth\DirectPasswordResetController::class, 'checkEmail'])->name('password.check');
+Route::post('/reset-password-direct', [\App\Http\Controllers\Auth\DirectPasswordResetController::class, 'update'])->name('password.update.direct');
+
+
 // 2. Authenticated Routes
 Route::middleware(['auth', 'verified'])->group(function () {
     

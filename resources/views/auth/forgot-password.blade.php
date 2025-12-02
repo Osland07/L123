@@ -4,7 +4,7 @@
 
 @section('header')
     <h2 class="text-white text-lg font-medium">Lupa Kata Sandi?</h2>
-    <p class="text-blue-200 text-sm">Masukkan email Anda untuk menerima link reset.</p>
+    <p class="text-blue-200 text-sm">Masukkan email Anda untuk mereset password.</p>
 @endsection
 
 @section('main')
@@ -27,7 +27,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('password.email') }}" class="space-y-6">
+    <form method="POST" action="{{ route('password.check') }}" class="space-y-6">
         @csrf
 
         <!-- Email Address -->
@@ -46,7 +46,7 @@
 
         <!-- Submit Button -->
         <button type="submit" class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-[#001B48] hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-200 transition transform hover:-translate-y-0.5">
-            Kirim Link Reset Password
+            Lanjut Reset Password
         </button>
 
         <!-- Back to Login -->
