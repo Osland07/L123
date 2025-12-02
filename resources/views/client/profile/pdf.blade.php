@@ -118,17 +118,21 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 8%; text-align: center;">No</th>
-                        <th style="width: 15%">Kode</th>
-                        <th>Nama Faktor Risiko</th>
+                        <th style="width: 5%; text-align: center;">No</th>
+                        <th style="width: 10%">Kode</th>
+                        <th style="width: 35%">Nama Faktor Risiko</th>
+                        <th style="width: 50%">Penjelasan Medis</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($screening->details as $index => $detail)
                     <tr>
-                        <td style="text-align: center;">{{ $index + 1 }}</td>
-                        <td>{{ $detail->riskFactor->code }}</td>
-                        <td>{{ $detail->riskFactor->name }}</td>
+                        <td style="text-align: center; vertical-align: top;">{{ $index + 1 }}</td>
+                        <td style="vertical-align: top;">{{ $detail->riskFactor->code }}</td>
+                        <td style="vertical-align: top;">{{ $detail->riskFactor->name }}</td>
+                        <td style="vertical-align: top; font-size: 12px; text-align: justify; color: #555;">
+                            {{ $detail->riskFactor->medical_explanation ?? '-' }}
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
