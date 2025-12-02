@@ -27,10 +27,11 @@
         <thead>
             <tr>
                 <th style="width: 5%">No</th>
-                <th style="width: 20%">Tanggal</th>
-                <th style="width: 30%">Nama Client</th>
-                <th style="width: 10%">Usia</th>
-                <th style="width: 15%">Tensi</th>
+                <th style="width: 15%">Tanggal</th>
+                <th style="width: 20%">Nama Client</th>
+                <th style="width: 5%">Usia</th>
+                <th style="width: 10%">Tensi</th>
+                <th style="width: 25%">Faktor Risiko</th>
                 <th style="width: 20%">Hasil Risiko</th>
             </tr>
         </thead>
@@ -40,8 +41,19 @@
                 <td class="text-center">{{ $index + 1 }}</td>
                 <td class="text-center">{{ $s->created_at->format('d/m/Y H:i') }}</td>
                 <td>{{ $s->client_name }}</td>
-                <td class="text-center">{{ $s->snapshot_age }} Th</td>
+                <td class="text-center">{{ $s->snapshot_age }}</td>
                 <td class="text-center">{{ $s->snapshot_systolic }}/{{ $s->snapshot_diastolic }}</td>
+                <td>
+                    @if($s->details->isEmpty())
+                        <span style="color: #999; font-style: italic;">-</span>
+                    @else
+                        <ol style="margin: 0; padding-left: 15px; font-size: 11px;">
+                            @foreach($s->details as $d)
+                                <li>{{ $d->riskFactor->name ?? '-' }}</li>
+                            @endforeach
+                        </ol>
+                    @endif
+                </td>
                 <td class="text-center">
                     @php
                         $color = 'bg-green';

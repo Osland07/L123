@@ -25,7 +25,7 @@ class HistoryController extends Controller
 
     public function print()
     {
-        $screenings = \App\Models\Screening::latest()->get();
+        $screenings = \App\Models\Screening::with('details.riskFactor')->latest()->get();
         
         $pdf = Pdf::loadView('admin.history.print', compact('screenings'));
         return $pdf->stream('laporan-riwayat-skrining.pdf');
