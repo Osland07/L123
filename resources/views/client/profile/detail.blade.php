@@ -135,7 +135,7 @@
                                 <p class="text-xs font-bold text-gray-800 leading-tight">{{ $d->riskFactor->name }}</p>
 
                                 @if ($d->riskFactor->medical_explanation)
-                                <button @click="openExplanation = !openExplanation" class="mt-2 text-xs text-[#001B48] hover:text-[#E3943B] font-semibold flex items-center">
+                                <button @click="openExplanation = !openExplanation" class="mt-2 text-xs text-[#E3943B] hover:text-[#001B48] font-semibold flex items-center">
                                     <span x-text="openExplanation ? 'Sembunyikan Penjelasan' : 'Lihat Penjelasan Medis'"></span>
                                     <i data-lucide="chevron-down" class="w-3 h-3 ml-1 transform transition-transform duration-200" :class="{ 'rotate-180': openExplanation }"></i>
                                 </button>
