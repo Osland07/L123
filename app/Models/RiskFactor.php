@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RiskFactor extends Model
 {
-    protected $fillable = ['code', 'name', 'question_text'];
+    protected $fillable = ['code', 'name', 'question_text', 'medical_explanation'];
 
     // Fungsi generate kode otomatis (E01, E02...)
     public static function generateCode()

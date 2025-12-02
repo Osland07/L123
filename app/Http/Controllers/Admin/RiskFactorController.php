@@ -41,12 +41,14 @@ class RiskFactorController extends Controller
         $request->validate([
             'name' => 'required|string',
             'question_text' => 'required|string',
+            'medical_explanation' => 'nullable|string',
         ]);
 
         RiskFactor::create([
             'code' => RiskFactor::generateCode(),
             'name' => $request->name,
             'question_text' => $request->question_text,
+            'medical_explanation' => $request->medical_explanation,
         ]);
 
         return redirect()->route('admin.risk-factors.index')->with('success', 'Faktor risiko berhasil ditambahkan.');
@@ -63,6 +65,7 @@ class RiskFactorController extends Controller
         $request->validate([
             'name' => 'required|string',
             'question_text' => 'required|string',
+            'medical_explanation' => 'nullable|string',
         ]);
 
         $riskFactor = RiskFactor::findOrFail($id);
