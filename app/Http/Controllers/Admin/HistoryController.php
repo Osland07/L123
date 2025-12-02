@@ -80,7 +80,21 @@ class HistoryController extends Controller
 
     public function show(string $id)
     {
-        //
+        $screening = \App\Models\Screening::with('details.riskFactor')->findOrFail($id);
+        $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first(); 
+        $profile = \App\Models\UserProfile::where('user_id', $screening->user_id)->first();
+
+        // Calculate BMI from Snapshot
+        $bmi = 0;
+        if ($screening->snapshot_height && $screening->snapshot_weight) {
+            $h = $screening->snapshot_height / 100;
+            $bmi = round($screening->snapshot_weight / ($h * $h), 1);
+        }
+
+        // Format Tensi
+        $tensi = $screening->snapshot_systolic . '/' . $screening->snapshot_diastolic;
+
+        return view('admin.history.show', compact('screening', 'riskLevel', 'profile', 'bmi', 'tensi'));
     }
 
     public function edit(string $id)

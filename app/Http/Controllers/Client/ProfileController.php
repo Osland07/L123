@@ -30,8 +30,11 @@ class ProfileController extends Controller
         // Ambil Riwayat
         $history = \App\Models\Screening::where('user_id', $user->id)->latest()->get();
         
-        // Ambil Latest Result
-        $latest_result = $history->first()->result_level ?? '-';
+        // Ambil Latest Result (Tensi Terakhir dari Profil)
+        $latest_result = '-';
+        if ($profile->systolic && $profile->diastolic) {
+            $latest_result = $profile->systolic . ' / ' . $profile->diastolic;
+        }
         
         // Kategori Tensi (Logika Sederhana)
         $tensi_category = '-';

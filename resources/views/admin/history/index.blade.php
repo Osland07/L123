@@ -74,7 +74,7 @@
                         </td>
                         <td class="px-6 py-4 text-center space-x-2 whitespace-nowrap">
                             <div class="flex justify-center gap-2">
-                                <a href="#" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#001B48] text-white rounded-md hover:bg-blue-900 transition leading-none shadow-sm">
+                                <a href="{{ route('admin.history.show', $screening->id) }}" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#001B48] text-white rounded-md hover:bg-blue-900 transition leading-none shadow-sm">
                                     <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                                     <span class="text-xs">Detail</span>
                                 </a>

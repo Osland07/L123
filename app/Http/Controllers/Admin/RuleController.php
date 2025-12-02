@@ -14,7 +14,7 @@ class RuleController extends Controller
     public function index(Request $request)
     {
         $query = Rule::with(['riskLevel', 'requiredFactor'])
-                    ->orderBy('priority', 'ASC');
+                    ->orderBy('code', 'ASC');
 
         if ($request->has('q')) {
             $q = $request->q;
