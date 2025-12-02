@@ -40,7 +40,7 @@
 
                 <a href="{{ route('admin.history.export') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-bold rounded-lg hover:bg-green-700 transition shadow-sm whitespace-nowrap">
                     <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                    <span>Export Excel</span>
+                    <span>Export Excel (.xlsx)</span>
                 </a>
 
                 <a href="{{ route('admin.history.print') }}" target="_blank" class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#001B48] text-white text-sm font-bold rounded-lg hover:bg-blue-900 transition shadow-sm whitespace-nowrap">
