@@ -23,7 +23,7 @@
                     </div>
                 </form>
 
-                <a href="#" class="bg-[#001B48] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-900 transition flex items-center whitespace-nowrap">
+                <a href="{{ route('admin.users.create') }}" class="bg-[#001B48] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-900 transition flex items-center whitespace-nowrap">
                     <i data-lucide="user-plus" class="w-4 h-4 mr-2"></i> Tambah
                 </a>
             </div>
