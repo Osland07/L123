@@ -42,6 +42,7 @@ class RiskFactorController extends Controller
             'name' => 'required|string',
             'question_text' => 'required|string',
             'medical_explanation' => 'nullable|string',
+            'recommendation' => 'nullable|string',
         ]);
 
         RiskFactor::create([
@@ -49,6 +50,7 @@ class RiskFactorController extends Controller
             'name' => $request->name,
             'question_text' => $request->question_text,
             'medical_explanation' => $request->medical_explanation,
+            'recommendation' => $request->recommendation,
         ]);
 
         return redirect()->route('admin.risk-factors.index')->with('success', 'Faktor risiko berhasil ditambahkan.');
@@ -66,6 +68,7 @@ class RiskFactorController extends Controller
             'name' => 'required|string',
             'question_text' => 'required|string',
             'medical_explanation' => 'nullable|string',
+            'recommendation' => 'nullable|string',
         ]);
 
         $riskFactor = RiskFactor::findOrFail($id);

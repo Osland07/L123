@@ -33,6 +33,13 @@
                     <textarea name="medical_explanation" id="medical_explanation" rows="5" class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-[#001B48] focus:ring-[#001B48] p-2">{{ $riskFactor->medical_explanation }}</textarea>
                 </div>
 
+                <!-- Rekomendasi / Solusi -->
+                <div>
+                    <label for="recommendation" class="block text-sm font-medium text-gray-700">Langkah Perbaikan Personal (Solusi)</label>
+                    <textarea name="recommendation" id="recommendation" rows="5" class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-[#001B48] focus:ring-[#001B48] p-2">{{ $riskFactor->recommendation }}</textarea>
+                    <p class="mt-1 text-xs text-gray-500">Saran spesifik yang akan muncul jika user memiliki faktor risiko ini.</p>
+                </div>
+
                 <!-- Buttons -->
                 <div class="flex justify-end space-x-3 pt-4">
                     <a href="{{ route('admin.risk-factors.index') }}" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Batal</a>
