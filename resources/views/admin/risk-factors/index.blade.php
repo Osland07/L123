@@ -46,6 +46,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Faktor Risiko</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Pertanyaan</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider max-w-sm">Penjelasan Medis</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider max-w-sm">Solusi</th>
                         <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-48">Aksi</th>
                     </tr>
                 </thead>
@@ -74,6 +75,19 @@
                                 -
                             @endif
                         </td>
+                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-500 max-w-sm align-middle" x-data="{ open: false }">
+                            @if ($item->recommendation)
+                                <p x-show="!open">{{ Str::limit($item->recommendation, 70) }}</p>
+                                <p x-show="open" style="display: none;">{{ $item->recommendation }}</p>
+                                @if(strlen($item->recommendation) > 70)
+                                    <button @click="open = !open" class="text-[#E3943B] hover:underline text-xs font-medium mt-1">
+                                        <span x-text="open ? 'Sembunyikan' : 'Lihat Lebih Lanjut'"></span>
+                                    </button>
+                                @endif
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium align-middle text-center">
                             <div class="flex justify-center gap-2">
                                 <a href="{{ route('admin.risk-factors.edit', $item->id) }}" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#E3943B] text-white rounded-md hover:bg-orange-600 transition leading-none shadow-sm">
@@ -93,7 +107,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada data.</td>
+                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">Tidak ada data.</td>
                     </tr>
                     @endforelse
                 </tbody>
