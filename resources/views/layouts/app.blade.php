@@ -128,9 +128,15 @@
                 <!-- Auth Buttons (Desktop) -->
                 <div class="hidden md:flex items-center space-x-4">
                     @auth
-                        <a href="{{ route('client.profile.index') }}" class="px-4 py-2 rounded-full font-bold transition flex items-center {{ request()->routeIs('client.profile.index') ? 'text-[#001B48] bg-white' : 'text-white bg-[#E3943B] hover:bg-orange-600' }}">
-                            <i data-lucide="user" class="w-4 h-4 mr-2"></i> Profil Saya
-                        </a>
+                        @if(Auth::user()->isAdmin())
+                            <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 rounded-full font-bold transition flex items-center {{ request()->routeIs('admin.dashboard') ? 'text-[#001B48] bg-white' : 'text-white bg-[#E3943B] hover:bg-orange-600' }}">
+                                <i data-lucide="layout-dashboard" class="w-4 h-4 mr-2"></i> Dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('client.profile.index') }}" class="px-4 py-2 rounded-full font-bold transition flex items-center {{ request()->routeIs('client.profile.index') ? 'text-[#001B48] bg-white' : 'text-white bg-[#E3943B] hover:bg-orange-600' }}">
+                                <i data-lucide="user" class="w-4 h-4 mr-2"></i> Profil Saya
+                            </a>
+                        @endif
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="bg-[#E3943B] text-white px-6 py-2 rounded-full font-bold hover:bg-orange-600 transition shadow-md">
@@ -169,7 +175,11 @@
                 <button @click="if(window.location.pathname !== '/') { window.location.href = '/#alur-interaksi'; } else { document.getElementById('alur-interaksi').scrollIntoView({ behavior: 'smooth', block: 'center' }); mobileMenuOpen = false; }" class="text-[#E3943B] hover:text-white block w-full text-left px-3 py-3 rounded-md text-base font-bold border-b border-white/5">Alur Kerja</button>
 
                 @auth
-                    <a href="/profile" @click="mobileMenuOpen = false" class="text-white bg-[#E3943B] block px-3 py-3 rounded-md text-base font-medium mt-6 text-center shadow-md">Profil Saya</a>
+                    @if(Auth::user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}" @click="mobileMenuOpen = false" class="text-white bg-[#E3943B] block px-3 py-3 rounded-md text-base font-medium mt-6 text-center shadow-md">Dashboard</a>
+                    @else
+                        <a href="{{ route('client.profile.index') }}" @click="mobileMenuOpen = false" class="text-white bg-[#E3943B] block px-3 py-3 rounded-md text-base font-medium mt-6 text-center shadow-md">Profil Saya</a>
+                    @endif
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
                         <button type="submit" class="w-full text-white bg-[#001B48] border border-white/20 block px-3 py-3 rounded-md text-base font-medium mt-3 text-center hover:bg-white/10">Keluar</button>
