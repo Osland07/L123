@@ -92,20 +92,51 @@
             </h3>
             
             <div class="overflow-y-auto custom-scrollbar pr-2 space-y-6">
-                <!-- Keterangan -->
+                <!-- Keterangan Medis (Umum) -->
                 <div>
-                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Keterangan Medis</h4>
-                    <p class="text-gray-700 text-sm leading-relaxed text-justify">
-                        {{ $riskLevel ? $riskLevel->description : 'Tidak ada keterangan tersedia.' }}
-                    </p>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Kesimpulan Medis</h4>
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <p class="text-gray-700 text-sm leading-relaxed text-justify">
+                            {{ $riskLevel ? $riskLevel->description : 'Tidak ada keterangan tersedia.' }}
+                        </p>
+                    </div>
                 </div>
 
-                <!-- Saran -->
-                <div class="bg-blue-50 p-5 rounded-xl border-l-4 border-[#001B48]">
-                    <h4 class="text-xs font-bold text-[#001B48] uppercase mb-3">Saran</h4>
-                    <div class="text-gray-800 text-sm leading-relaxed text-justify space-y-2">
-                        {!! $riskLevel ? nl2br(e($riskLevel->suggestion)) : 'Tidak ada saran tersedia.' !!}
+                <!-- Arahan Umum (Dari Risk Level) -->
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Arahan Tindakan</h4>
+                    <div class="text-gray-800 text-sm leading-relaxed text-justify font-medium">
+                        {!! $riskLevel ? nl2br(e($riskLevel->suggestion)) : 'Tidak ada arahan tersedia.' !!}
                     </div>
+                </div>
+
+                <!-- REKOMENDASI PERSONAL (Dinamis Berdasarkan Faktor yang Dipilih) -->
+                <div class="mt-4">
+                    <h4 class="text-xs font-bold text-[#001B48] uppercase mb-3 flex items-center">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-green-600"></i>
+                        Langkah Perbaikan Personal
+                    </h4>
+                    
+                    @if ($screening->details->isEmpty())
+                        <div class="text-center py-4 bg-green-50 rounded-lg border border-green-100 text-green-700 text-sm">
+                            <p>Gaya hidup Anda sudah sangat baik! Pertahankan.</p>
+                        </div>
+                    @else
+                        <div class="space-y-3">
+                            @foreach ($screening->details as $detail)
+                                @if($detail->riskFactor->recommendation)
+                                    <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-[#E3943B]">
+                                        <h5 class="text-xs font-bold text-[#001B48] uppercase mb-1 opacity-80">
+                                            Solusi untuk: {{ Str::limit($detail->riskFactor->name, 40) }}
+                                        </h5>
+                                        <p class="text-gray-800 text-sm leading-relaxed">
+                                            {{ $detail->riskFactor->recommendation }}
+                                        </p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

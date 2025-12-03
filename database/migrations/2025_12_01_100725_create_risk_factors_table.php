@@ -13,6 +13,9 @@ return new class extends Migration
             $table->string('code')->unique(); // E01, E02
             $table->string('name');
             $table->text('question_text')->nullable();
+            $table->string('category')->nullable()->default('LIFESTYLE'); // MEDIS, LIFESTYLE, DIET, PSIKOLOGIS
+            $table->text('medical_explanation')->nullable(); // Penjelasan medis kenapa ini bahaya
+            $table->text('recommendation')->nullable(); // Saran spesifik jika user memilih ini
             $table->timestamps();
         });
     }
