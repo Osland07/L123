@@ -175,6 +175,24 @@
                 {!! $riskLevel ? nl2br(e($riskLevel->suggestion)) : 'Tidak ada saran tersedia.' !!}
             </div>
         </div>
+
+        @if($screening->details->contains(fn($d) => !empty($d->riskFactor->recommendation)))
+        <div class="section">
+            <h2 class="section-title">Langkah Perbaikan Personal</h2>
+            @foreach($screening->details as $detail)
+                @if(!empty($detail->riskFactor->recommendation))
+                <div style="margin-bottom: 10px; padding: 10px; background-color: #f0f9ff; border-left: 3px solid #001B48;">
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 3px; color: #001B48;">
+                        Solusi untuk: {{ $detail->riskFactor->name }}
+                    </div>
+                    <div style="text-align: justify;">
+                        {{ $detail->riskFactor->recommendation }}
+                    </div>
+                </div>
+                @endif
+            @endforeach
+        </div>
+        @endif
         
         <div style="margin-top: 50px; text-align: center; font-size: 12px; color: #888;">
             <p>Dicetak secara otomatis oleh sistem TensiTrack pada {{ date('d F Y H:i') }}</p>

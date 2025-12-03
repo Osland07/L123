@@ -116,6 +116,35 @@
                         {!! $riskLevel ? nl2br(e($riskLevel->suggestion)) : 'Tidak ada saran tersedia.' !!}
                     </div>
                 </div>
+
+                <!-- REKOMENDASI PERSONAL (Dinamis Berdasarkan Faktor yang Dipilih) -->
+                <div class="mt-4">
+                    <h4 class="text-xs font-bold text-[#001B48] uppercase mb-3 flex items-center">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-green-600"></i>
+                        Langkah Perbaikan Personal
+                    </h4>
+                    
+                    @if ($screening->details->isEmpty())
+                        <div class="text-center py-4 bg-green-50 rounded-lg border border-green-100 text-green-700 text-sm">
+                            <p>Gaya hidup pasien sudah sangat baik.</p>
+                        </div>
+                    @else
+                        <div class="space-y-3">
+                            @foreach ($screening->details as $detail)
+                                @if($detail->riskFactor->recommendation)
+                                    <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-[#E3943B]">
+                                        <h5 class="text-xs font-bold text-[#001B48] uppercase mb-1 opacity-80">
+                                            Solusi untuk: {{ Str::limit($detail->riskFactor->name, 40) }}
+                                        </h5>
+                                        <p class="text-gray-800 text-sm leading-relaxed">
+                                            {{ $detail->riskFactor->recommendation }}
+                                        </p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
 
