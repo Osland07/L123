@@ -55,14 +55,18 @@
                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap text-center">{{ $user->created_at->format('d M Y') }}</td>
                         <td class="px-6 py-4 text-center space-x-2 whitespace-nowrap">
                             <div class="flex justify-center gap-2">
-                                <a href="#" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#E3943B] text-white rounded-md hover:bg-orange-600 transition leading-none shadow-sm">
+                                <a href="{{ route('admin.users.edit', $user->id) }}" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#E3943B] text-white rounded-md hover:bg-orange-600 transition leading-none shadow-sm">
                                     <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                                     <span class="text-xs">Edit</span>
                                 </a>
-                                <button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition leading-none shadow-sm">
-                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                                    <span class="text-xs">Hapus</span>
-                                </button>
+                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition leading-none shadow-sm">
+                                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                        <span class="text-xs">Hapus</span>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
