@@ -98,6 +98,12 @@ class ProfileController extends Controller
     public function detail($id)
     {
         $screening = \App\Models\Screening::with('details.riskFactor')->where('user_id', Auth::id())->findOrFail($id);
+        
+        // Sort details by Risk Factor Code (Ascending)
+        $screening->setRelation('details', $screening->details->sortBy(function($detail) {
+            return $detail->riskFactor->code;
+        }));
+
         $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first(); 
         $profile = UserProfile::where('user_id', Auth::id())->first();
 

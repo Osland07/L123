@@ -19,7 +19,7 @@ class RiskFactorController extends Controller
                   ->orWhere('code', 'like', "%{$q}%");
         }
 
-        $riskFactors = $query->paginate(10)->withQueryString();
+        $riskFactors = $query->orderBy('code', 'asc')->paginate(10)->withQueryString();
         return view('admin.risk-factors.index', compact('riskFactors'));
     }
 

@@ -35,7 +35,7 @@ class ScreeningController extends Controller
         }
 
         // Ambil faktor risiko selain yang di-exclude
-        $factors = RiskFactor::whereNotIn('code', $excludedCodes)->get();
+        $factors = RiskFactor::whereNotIn('code', $excludedCodes)->orderBy('code', 'asc')->get();
 
         // Cek Kelengkapan Profil (Nama, Umur, Gender Wajib)
         $isProfileComplete = $profile && $profile->full_name && $profile->age && $profile->gender;
