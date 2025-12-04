@@ -96,7 +96,7 @@
                 <div>
                     <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Kesimpulan Medis</h4>
                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                        <p class="text-gray-700 text-base leading-relaxed text-justify">
+                        <p class="text-gray-700 text-sm leading-relaxed text-justify">
                             {{ $riskLevel ? $riskLevel->description : 'Tidak ada keterangan tersedia.' }}
                         </p>
                     </div>
@@ -105,7 +105,7 @@
                 <!-- Arahan Umum (Dari Risk Level) -->
                 <div>
                     <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Arahan Tindakan</h4>
-                    <div class="text-gray-800 text-base leading-relaxed text-justify font-medium">
+                    <div class="text-gray-800 text-sm leading-relaxed text-justify font-medium">
                         {!! $riskLevel ? nl2br(e($riskLevel->suggestion)) : 'Tidak ada arahan tersedia.' !!}
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                                         <h5 class="text-xs font-bold text-[#001B48] uppercase mb-1 opacity-80">
                                             Solusi untuk: {{ Str::limit($detail->riskFactor->name, 40) }}
                                         </h5>
-                                        <p class="text-gray-800 text-base leading-relaxed">
+                                        <p class="text-gray-800 text-sm leading-relaxed">
                                             {{ $detail->riskFactor->recommendation }}
                                         </p>
                                     </div>
