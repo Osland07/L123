@@ -150,11 +150,11 @@
 
 <!-- Fixed Bottom Actions -->
 <div class="fixed bottom-0 left-0 w-full bg-white p-4 border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-40 flex gap-3">
-    <a href="{{ route('client.pdf.print', ['id' => $screening->id, 'action' => 'view']) }}" target="_blank" class="flex-1 py-3 bg-white border border-gray-200 text-[#001B48] font-bold rounded-xl text-sm flex items-center justify-center hover:bg-gray-50 transition">
-        <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> PDF
+    <a href="{{ route('client.pdf.print', ['id' => $screening->id, 'action' => 'download']) }}" class="flex-1 py-3.5 bg-white border border-gray-200 text-[#001B48] font-bold rounded-xl text-sm flex items-center justify-center hover:bg-gray-50 transition active:bg-gray-100">
+        <i data-lucide="download" class="w-4 h-4 mr-2"></i> Simpan PDF
     </a>
-    <a href="{{ route('client.pdf.print', ['id' => $screening->id, 'action' => 'download']) }}" class="flex-1 py-3 bg-[#001B48] text-white font-bold rounded-xl text-sm flex items-center justify-center shadow-lg shadow-blue-900/20 hover:bg-blue-900 transition">
-        <i data-lucide="download" class="w-4 h-4 mr-2"></i> Simpan
+    <a href="{{ route('home') }}" class="flex-[1.5] py-3.5 bg-[#001B48] text-white font-bold rounded-xl text-sm flex items-center justify-center shadow-lg shadow-blue-900/20 hover:bg-blue-900 transition active:scale-95">
+        Selesai
     </a>
 </div>
 
