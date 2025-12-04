@@ -23,7 +23,7 @@
         <form action="{{ route('admin.risk-factors.index') }}" method="GET" class="relative">
             <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari kode atau nama..." 
                    class="w-full pl-10 pr-4 py-3 bg-gray-50 border-none rounded-xl text-sm font-medium focus:ring-2 focus:ring-[#001B48]/20">
-            <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5"></i>
+            <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 transform -translate-y-1/2"></i>
         </form>
     </div>
 
