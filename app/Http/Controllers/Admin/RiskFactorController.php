@@ -31,7 +31,7 @@ class RiskFactorController extends Controller
 
     public function print()
     {
-        $riskFactors = RiskFactor::all();
+        $riskFactors = RiskFactor::orderBy('code', 'asc')->get();
         $pdf = Pdf::loadView('admin.risk-factors.print', compact('riskFactors'));
         return $pdf->stream('laporan-faktor-risiko.pdf');
     }
