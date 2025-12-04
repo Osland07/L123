@@ -88,7 +88,7 @@
         </div>
 
         <!-- Question Card Area -->
-        <div class="flex-grow flex flex-col justify-center px-6 pb-6 relative">
+        <div class="flex-grow flex flex-col justify-center px-6 pb-32 relative overflow-y-auto">
             
             <!-- Card -->
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 w-full h-full max-h-[400px] flex flex-col items-center justify-center text-center relative overflow-hidden mt-4">
@@ -113,7 +113,7 @@
         </div>
 
         <!-- Action Buttons (Fixed Bottom) -->
-        <div class="bg-white p-6 pb-8 rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-20">
+        <div class="fixed bottom-0 left-0 w-full bg-white p-6 pb-8 rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-20">
             <div class="flex gap-4">
                 <button @click="answer(false)" class="group flex-1 py-4 rounded-2xl bg-white border-2 border-gray-100 text-gray-500 font-bold hover:border-red-200 hover:bg-red-50 hover:text-red-600 transition-all duration-300 active:scale-95 active:bg-red-100 flex flex-col items-center justify-center gap-1">
                     <span class="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-red-200 flex items-center justify-center transition-colors mb-1">
