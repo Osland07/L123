@@ -5,13 +5,13 @@
 @section('content')
 
     <!-- Header Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 mb-4 md:mb-6">
         <h1 class="text-2xl font-bold text-[#001B48]">Laporan Riwayat</h1>
         <p class="text-sm text-gray-500 mt-1">Pantau hasil skrining dan diagnosa pengguna.</p>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="p-6 border-b border-gray-100 flex flex-col lg:flex-row justify-between items-center gap-4">
+        <div class="p-4 md:p-6 border-b border-gray-100 flex flex-col lg:flex-row justify-between items-center gap-4">
             
             <!-- Kiri: Filter -->
             <div class="flex items-center gap-2 w-full lg:w-auto mr-auto">
@@ -54,34 +54,38 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
-                        <th class="px-6 py-4 font-semibold w-16 text-center">No</th>
-                        <th class="px-6 py-4 font-semibold w-32 text-center">Tanggal</th>
-                        <th class="px-6 py-4 font-semibold text-center">Nama Client</th>
-                        <th class="px-6 py-4 font-semibold text-center">Hasil Risiko</th>
-                        <th class="px-6 py-4 font-semibold text-center w-32">Aksi</th>
+                        <th class="px-4 py-4 font-semibold w-16 text-center">No</th>
+                        <th class="px-4 py-4 font-semibold w-32 text-center">Tanggal</th>
+                        <th class="px-4 py-4 font-semibold text-center">Nama Client</th>
+                        <th class="px-4 py-4 font-semibold text-center">Hasil Risiko</th>
+                        <th class="px-4 py-4 font-semibold text-center w-32">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @foreach($screenings as $screening)
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="px-6 py-4 text-sm text-gray-600 text-center">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap text-center">{{ $screening->created_at->format('d M Y H:i') }}</td>
-                        <td class="px-6 py-4 text-sm font-bold text-[#001B48] text-center">{{ $screening->client_name }}</td>
-                        <td class="px-6 py-4 text-sm text-center">
+                        <td class="px-4 py-4 text-sm text-gray-600 text-center">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-600 whitespace-nowrap text-center">{{ $screening->created_at->format('d M Y H:i') }}</td>
+                        <td class="px-4 py-4 text-sm font-bold text-[#001B48] text-center">{{ $screening->client_name }}</td>
+                        <td class="px-4 py-4 text-sm text-center">
                             <span class="px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-700">
                                 {{ $screening->result_level }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-center space-x-2 whitespace-nowrap">
+                        <td class="px-4 py-4 text-center space-x-2 whitespace-nowrap">
                             <div class="flex justify-center gap-2">
                                 <a href="{{ route('admin.history.show', $screening->id) }}" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#001B48] text-white rounded-md hover:bg-blue-900 transition leading-none shadow-sm">
                                     <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                                     <span class="text-xs">Detail</span>
                                 </a>
-                                <button class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition leading-none shadow-sm">
-                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                                    <span class="text-xs">Hapus</span>
-                                </button>
+                                <form action="{{ route('admin.history.destroy', $screening->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus riwayat ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition leading-none shadow-sm">
+                                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                        <span class="text-xs">Hapus</span>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -90,7 +94,7 @@
             </table>
         </div>
         
-        <div class="p-6 border-t border-gray-100">
+        <div class="p-4 md:p-6 border-t border-gray-100">
             {{ $screenings->links() }}
         </div>
     </div>

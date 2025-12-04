@@ -47,11 +47,15 @@
                ]">
             
             <!-- Logo -->
-            <div class="flex items-center justify-center h-20 border-b border-white/10 overflow-hidden whitespace-nowrap flex-shrink-0">
+            <div class="flex items-center justify-center h-20 border-b border-white/10 overflow-hidden whitespace-nowrap flex-shrink-0 relative">
                 <a href="/" class="flex items-center space-x-2">
                     <img src="/logo.png" alt="Logo" class="h-16 w-auto flex-shrink-0">
                     <span x-show="!sidebarMinimized" class="text-xl font-bold tracking-wide transition-opacity duration-300">Tensi<span class="text-[#E3943B]">Track</span></span>
                 </a>
+                <!-- Mobile Close Button -->
+                <button @click="sidebarOpen = false" class="md:hidden absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white p-2 focus:outline-none">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
             </div>
 
             <!-- Menu Admin -->

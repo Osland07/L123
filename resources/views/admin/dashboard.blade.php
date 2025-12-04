@@ -76,8 +76,8 @@
                             <span class="text-xs font-medium text-gray-700">{{ $level }}</span>
                             <span class="text-xs font-bold text-gray-900">{{ $percentage }}%</span>
                         </div>
-                        <div class="w-full bg-gray-100 rounded-xl h-20">
-                            <div class="{{ $colorClass }} h-20 rounded-xl transition-all duration-1000 ease-out" style="width: {{ $percentage }}%;"></div>
+                        <div class="w-full bg-gray-100 rounded-xl h-4">
+                            <div class="{{ $colorClass }} h-4 rounded-xl transition-all duration-1000 ease-out" style="width: {{ $percentage }}%;"></div>
                         </div>
                     </div>
                 @endforeach
