@@ -13,10 +13,16 @@ class HistoryController extends Controller
     {
         $query = \App\Models\Screening::latest();
 
-        if ($request->has('q')) {
+        if ($request->filled('q')) {
             $q = $request->q;
-            $query->where('client_name', 'like', "%{$q}%")
-                  ->orWhere('result_level', 'like', "%{$q}%");
+            $query->where(function ($sub) use ($q) {
+                $sub->where('client_name', 'like', "%{$q}%")
+                    ->orWhere('result_level', 'like', "%{$q}%");
+            });
+        }
+
+        if ($request->filled('filter_risk')) {
+            $query->where('result_level', 'like', "%" . $request->filter_risk . "%");
         }
 
         $screenings = $query->paginate(10)->withQueryString();

@@ -31,9 +31,9 @@
             <div class="relative">
                 <select onchange="window.location.href=this.value" class="h-full pl-3 pr-8 py-2 bg-gray-50 border-none rounded-xl text-xs font-bold text-gray-600 focus:ring-0">
                     <option value="{{ route('admin.history.index') }}">Semua</option>
-                    <option value="{{ route('admin.history.index', ['q' => 'Tinggi']) }}" {{ request('q') == 'Tinggi' ? 'selected' : '' }}>Tinggi</option>
-                    <option value="{{ route('admin.history.index', ['q' => 'Sedang']) }}" {{ request('q') == 'Sedang' ? 'selected' : '' }}>Sedang</option>
-                    <option value="{{ route('admin.history.index', ['q' => 'Rendah']) }}" {{ request('q') == 'Rendah' ? 'selected' : '' }}>Rendah</option>
+                    <option value="{{ route('admin.history.index', ['filter_risk' => 'Tinggi']) }}" {{ request('filter_risk') == 'Tinggi' ? 'selected' : '' }}>Tinggi</option>
+                    <option value="{{ route('admin.history.index', ['filter_risk' => 'Sedang']) }}" {{ request('filter_risk') == 'Sedang' ? 'selected' : '' }}>Sedang</option>
+                    <option value="{{ route('admin.history.index', ['filter_risk' => 'Rendah']) }}" {{ request('filter_risk') == 'Rendah' ? 'selected' : '' }}>Rendah</option>
                 </select>
             </div>
         </div>
