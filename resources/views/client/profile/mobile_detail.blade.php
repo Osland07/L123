@@ -13,27 +13,6 @@
 @php 
     $isHigh = stripos($screening->result_level, 'tinggi') !== false;
     $isMed = stripos($screening->result_level, 'sedang') !== false;
-    
-    // Modern Color Palette
-    if ($isHigh) {
-        $bgClass = 'bg-red-50';
-        $textClass = 'text-red-600';
-        $borderClass = 'border-red-100';
-        $icon = 'alert-triangle';
-        $gradient = 'from-red-500 to-red-600';
-    } elseif ($isMed) {
-        $bgClass = 'bg-orange-50';
-        $textClass = 'text-orange-600';
-        $borderClass = 'border-orange-100';
-        $icon = 'alert-circle';
-        $gradient = 'from-orange-400 to-orange-500';
-    } else {
-        $bgClass = 'bg-green-50';
-        $textClass = 'text-green-600';
-        $borderClass = 'border-green-100';
-        $icon = 'shield-check';
-        $gradient = 'from-green-500 to-green-600';
-    }
 @endphp
 
 <div class="flex flex-col min-h-full bg-gray-50 pb-24"> <!-- pb-24 for fixed bottom action -->
@@ -44,14 +23,30 @@
             
             <!-- Icon Ring -->
             <div class="relative mb-4">
-                <div class="absolute inset-0 bg-gradient-to-tr {{ $gradient }} opacity-20 rounded-full blur-xl animate-pulse"></div>
-                <div class="w-20 h-20 rounded-full bg-gradient-to-tr {{ $gradient }} flex items-center justify-center shadow-lg relative z-10">
-                    <i data-lucide="{{ $icon }}" class="w-10 h-10 text-white"></i>
+                <div @class([
+                    'absolute inset-0 opacity-20 rounded-full blur-xl animate-pulse',
+                    'bg-gradient-to-tr from-red-500 to-red-600' => $isHigh,
+                    'bg-gradient-to-tr from-orange-400 to-orange-500' => $isMed,
+                    'bg-gradient-to-tr from-green-500 to-green-600' => !$isHigh && !$isMed
+                ])></div>
+                
+                <div @class([
+                    'w-20 h-20 rounded-full flex items-center justify-center shadow-lg relative z-10',
+                    'bg-gradient-to-tr from-red-500 to-red-600' => $isHigh,
+                    'bg-gradient-to-tr from-orange-400 to-orange-500' => $isMed,
+                    'bg-gradient-to-tr from-green-500 to-green-600' => !$isHigh && !$isMed
+                ])>
+                    <i data-lucide="{{ $isHigh ? 'alert-triangle' : ($isMed ? 'alert-circle' : 'shield-check') }}" class="w-10 h-10 text-white"></i>
                 </div>
             </div>
 
             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Tingkat Risiko Anda</p>
-            <h1 class="text-2xl font-extrabold text-[#001B48] leading-tight mb-2">{{ $screening->result_level }}</h1>
+            <h1 @class([
+                'text-2xl font-extrabold leading-tight mb-2',
+                'text-red-600' => $isHigh,
+                'text-orange-600' => $isMed,
+                'text-green-600' => !$isHigh && !$isMed
+            ])>{{ $screening->result_level }}</h1>
             <p class="text-xs text-gray-400">{{ $screening->created_at->format('d M Y • H:i') }} WIB</p>
         
             <!-- Vital Stats Row -->
