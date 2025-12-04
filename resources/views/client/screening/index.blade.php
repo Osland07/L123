@@ -150,7 +150,7 @@
                 <h2 class="text-2xl md:text-3xl font-extrabold text-[#001B48] mb-12 leading-snug tracking-tight" x-text="questions[currentIndex].question_text ? questions[currentIndex].question_text : questions[currentIndex].name"></h2>
                 
                 <!-- Tombol Aksi -->
-                <div class="flex flex-col sm:flex-row gap-5 justify-center w-full max-w-lg mx-auto">
+                <div class="flex gap-5 justify-center w-full max-w-lg mx-auto">
                     <button @click="answer(false)" class="group flex-1 py-4 px-6 rounded-2xl border-2 border-gray-200 bg-white text-gray-500 font-bold hover:border-red-200 hover:bg-red-50 hover:text-red-600 transition-all duration-300 focus:ring-4 focus:ring-red-100 focus:outline-none flex items-center justify-center text-base">
                         <span class="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-red-200 flex items-center justify-center mr-3 transition-colors">
                             <i data-lucide="x" class="w-5 h-5"></i>
