@@ -99,7 +99,7 @@
                                 if (stripos($screening->result_level, 'tinggi') !== false) {
                                     $badgeClass = 'bg-red-100 text-red-700 border border-red-200';
                                 } elseif (stripos($screening->result_level, 'sedang') !== false) {
-                                    $badgeClass = 'bg-orange-100 text-orange-700 border border-orange-200';
+                                    $badgeClass = 'bg-orange-200 text-orange-800 border border-orange-300';
                                 }
                             @endphp
                             <span class="px-3 py-1 rounded-full text-xs font-bold {{ $badgeClass }}">
