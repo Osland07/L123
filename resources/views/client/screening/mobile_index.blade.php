@@ -114,20 +114,24 @@
 
         <!-- Action Buttons (Fixed Bottom) -->
         <div class="bg-white p-6 pb-8 rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-20">
-            <div class="flex gap-3">
-                <button @click="answer(false)" class="flex-1 py-4 rounded-xl bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition active:scale-95 flex flex-col items-center justify-center gap-1">
-                    <i data-lucide="x" class="w-6 h-6 text-gray-400"></i>
-                    <span class="text-xs">Tidak</span>
+            <div class="flex gap-4">
+                <button @click="answer(false)" class="group flex-1 py-4 rounded-2xl bg-white border-2 border-gray-100 text-gray-500 font-bold hover:border-red-200 hover:bg-red-50 hover:text-red-600 transition-all duration-300 active:scale-95 active:bg-red-100 flex flex-col items-center justify-center gap-1">
+                    <span class="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-red-200 flex items-center justify-center transition-colors mb-1">
+                        <i data-lucide="x" class="w-5 h-5 group-hover:text-red-600 text-gray-400 transition-colors"></i>
+                    </span>
+                    <span class="text-sm">Tidak</span>
                 </button>
                 
-                <button @click="answer(true)" class="flex-[2] py-4 rounded-xl bg-[#001B48] text-white font-bold shadow-lg shadow-blue-900/20 hover:bg-blue-900 transition active:scale-95 flex flex-col items-center justify-center gap-1">
-                    <i data-lucide="check" class="w-6 h-6"></i>
-                    <span class="text-xs">Ya, Saya Alami</span>
+                <button @click="answer(true)" class="group flex-1 py-4 rounded-2xl bg-[#001B48] text-white font-bold shadow-lg shadow-blue-900/20 hover:bg-[#E3943B] hover:shadow-orange-500/30 transition-all duration-300 active:scale-95 active:bg-orange-700 flex flex-col items-center justify-center gap-1">
+                    <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mb-1">
+                        <i data-lucide="check" class="w-5 h-5"></i>
+                    </span>
+                    <span class="text-sm">Ya, Benar</span>
                 </button>
             </div>
             
             <div class="text-center mt-4 h-6">
-                <button x-show="currentIndex > 0" @click="currentIndex--" class="text-xs text-gray-400 font-medium hover:text-gray-600 flex items-center justify-center mx-auto">
+                <button x-show="currentIndex > 0" @click="currentIndex--" class="text-xs text-gray-400 font-medium hover:text-gray-600 flex items-center justify-center mx-auto transition-colors">
                     <i data-lucide="chevron-left" class="w-3 h-3 mr-1"></i> Koreksi Jawaban
                 </button>
             </div>
