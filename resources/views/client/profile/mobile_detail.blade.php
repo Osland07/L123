@@ -153,7 +153,7 @@
     <a href="{{ route('client.pdf.print', ['id' => $screening->id, 'action' => 'download']) }}" class="flex-1 py-3.5 bg-white border border-gray-200 text-[#001B48] font-bold rounded-xl text-sm flex items-center justify-center hover:bg-gray-50 transition active:bg-gray-100">
         <i data-lucide="download" class="w-4 h-4 mr-2"></i> Simpan PDF
     </a>
-    <a href="{{ route('home') }}" class="flex-[1.5] py-3.5 bg-[#001B48] text-white font-bold rounded-xl text-sm flex items-center justify-center shadow-lg shadow-blue-900/20 hover:bg-blue-900 transition active:scale-95">
+    <a href="{{ route('home') }}" class="flex-1 py-3.5 bg-[#001B48] text-white font-bold rounded-xl text-sm flex items-center justify-center shadow-lg shadow-blue-900/20 hover:bg-blue-900 transition active:scale-95">
         Selesai
     </a>
 </div>
