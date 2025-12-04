@@ -17,13 +17,13 @@
     $redirectFromScreening = request('redirect_from') === 'screening';
 @endphp
 
-<div class="pb-24 flex flex-col h-full bg-gray-50">
+<div class="pb-24 flex flex-col h-full bg-gray-50" x-init="setTimeout(() => lucide.createIcons(), 100)">
 
     <!-- 1. HERO SECTION (Mirip Desktop Header) -->
-    <div class="bg-[#001B48] px-6 pt-6 pb-12 rounded-b-[3rem] shadow-lg relative overflow-hidden">
+    <div class="bg-[#001B48] px-6 pt-6 pb-12 rounded-b-[3rem] shadow-lg relative overflow-hidden" style="background-color: #001B48;">
         <!-- Background Pattern/Decor -->
-        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 w-40 h-40 bg-[#E3943B] opacity-10 rounded-full -ml-10 -mb-10 blur-2xl"></div>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-40 h-40 bg-[#E3943B]/10 rounded-full -ml-10 -mb-10 blur-2xl"></div>
 
         <div class="relative z-10 flex flex-col items-center text-center text-white">
             <!-- Avatar -->
@@ -95,19 +95,19 @@
         </div>
 
         <!-- TAB: DATA DIRI -->
-        <div x-show="tab === 'data'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+        <div x-show="tab === 'data'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" x-init="$watch('tab', value => { if(value === 'data') setTimeout(() => lucide.createIcons(), 50) })">
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <!-- Header Form (Like Desktop) -->
-                <div class="bg-[#001B48] px-5 py-4 flex items-center justify-between relative overflow-hidden">
+                <div class="bg-[#001B48] px-5 py-4 flex items-center justify-between relative overflow-hidden" style="background-color: #001B48;">
                     <!-- Decor -->
-                    <div class="absolute top-0 right-0 w-16 h-16 bg-white opacity-5 rounded-full -mr-8 -mt-8"></div>
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-white/5 rounded-full -mr-8 -mt-8"></div>
                     
                     <div class="relative z-10">
                         <h3 class="text-sm font-bold text-white">Data Diri</h3>
                         <p class="text-blue-200 text-[10px]">Pastikan data selalu valid.</p>
                     </div>
                     <div class="relative z-10 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white">
-                        <i data-lucide="user" class="w-4 h-4"></i>
+                        <i data-lucide="user" class="w-4 h-4 text-white"></i>
                     </div>
                 </div>
 
