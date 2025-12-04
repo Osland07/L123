@@ -57,6 +57,20 @@ class AdminDashboardController extends Controller
         // 4. Aktivitas Terbaru (5 Terakhir)
         $latestScreenings = Screening::latest()->limit(5)->get();
 
+        if ($this->isMobile()) {
+            return view('admin.dashboard.mobile_index', compact(
+                'totalScreenings',
+                'totalUsers',
+                'totalRiskFactors',
+                'totalRiskLevels',
+                'totalRules',
+                'riskCounts',
+                'riskPercentages',
+                'riskLevelColors',
+                'latestScreenings'
+            ));
+        }
+
         return view('admin.dashboard', compact(
             'totalScreenings',
             'totalUsers',
