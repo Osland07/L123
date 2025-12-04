@@ -66,7 +66,16 @@
                             {{ $rule->min_other_factors }} s/d {{ $rule->max_other_factors == 99 ? 'Tak Terbatas' : $rule->max_other_factors }}
                         </td>
                         <td class="px-4 py-4 text-sm text-gray-900 text-center">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                            @php
+                                $riskName = strtolower($rule->riskLevel->name);
+                                $colorClass = match(true) {
+                                    str_contains($riskName, 'tinggi') => 'bg-red-100 text-red-800',
+                                    str_contains($riskName, 'sedang') => 'bg-orange-100 text-orange-800',
+                                    str_contains($riskName, 'rendah') => 'bg-green-100 text-green-800',
+                                    default => 'bg-blue-100 text-blue-800',
+                                };
+                            @endphp
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $colorClass }}">
                                 {{ $rule->riskLevel->name }}
                             </span>
                         </td>
