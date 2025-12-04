@@ -46,6 +46,13 @@ class ProfileController extends Controller
             else $tensi_category = 'Hipertensi';
         }
 
+        if ($this->isMobile()) {
+            return view('client.profile.mobile_index', compact(
+                'user', 'profile', 'bmi', 'bmi_category', 
+                'history', 'latest_result', 'tensi_category'
+            ));
+        }
+
         return view('client.profile.index', compact(
             'user', 'profile', 'bmi', 'bmi_category', 
             'history', 'latest_result', 'tensi_category'
