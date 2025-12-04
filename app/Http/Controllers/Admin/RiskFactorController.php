@@ -20,6 +20,11 @@ class RiskFactorController extends Controller
         }
 
         $riskFactors = $query->orderBy('code', 'asc')->paginate(10)->withQueryString();
+
+        if ($this->isMobile()) {
+            return view('admin.risk-factors.mobile_index', compact('riskFactors'));
+        }
+
         return view('admin.risk-factors.index', compact('riskFactors'));
     }
 
@@ -82,6 +87,15 @@ class RiskFactorController extends Controller
         $riskFactor = RiskFactor::findOrFail($id);
         $riskFactor->delete();
 
-        return redirect()->route('admin.risk-factors.index')->with('success', 'Faktor risiko berhasil dihapus.');
+        // Re-sequence codes (E01, E02, ...)
+        $factors = RiskFactor::orderBy('id', 'asc')->get();
+        foreach ($factors as $index => $factor) {
+            $newCode = 'E' . str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+            if ($factor->code !== $newCode) {
+                $factor->update(['code' => $newCode]);
+            }
+        }
+
+        return redirect()->route('admin.risk-factors.index')->with('success', 'Faktor risiko berhasil dihapus dan kode diurutkan ulang.');
     }
 }

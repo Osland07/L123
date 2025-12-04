@@ -21,6 +21,11 @@ class RiskLevelController extends Controller
         }
 
         $riskLevels = $query->paginate(10)->withQueryString();
+
+        if ($this->isMobile()) {
+            return view('admin.risk-levels.mobile_index', compact('riskLevels'));
+        }
+
         return view('admin.risk-levels.index', compact('riskLevels'));
     }
 

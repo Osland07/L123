@@ -22,6 +22,11 @@ class RuleController extends Controller
         }
 
         $rules = $query->paginate(10)->withQueryString();
+
+        if ($this->isMobile()) {
+            return view('admin.rules.mobile_index', compact('rules'));
+        }
+
         return view('admin.rules.index', compact('rules'));
     }
 
