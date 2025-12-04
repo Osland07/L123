@@ -94,7 +94,15 @@
                         </td>
 
                         <td class="px-4 py-4 text-sm text-center">
-                            <span class="px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-700">
+                            @php
+                                $badgeClass = 'bg-green-100 text-green-700 border border-green-200';
+                                if (stripos($screening->result_level, 'tinggi') !== false) {
+                                    $badgeClass = 'bg-red-100 text-red-700 border border-red-200';
+                                } elseif (stripos($screening->result_level, 'sedang') !== false) {
+                                    $badgeClass = 'bg-orange-100 text-orange-700 border border-orange-200';
+                                }
+                            @endphp
+                            <span class="px-3 py-1 rounded-full text-xs font-bold {{ $badgeClass }}">
                                 {{ $screening->result_level }}
                             </span>
                         </td>
