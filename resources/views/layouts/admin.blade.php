@@ -113,7 +113,7 @@
         <!-- Content Area -->
         <div class="flex-1 flex flex-col h-screen overflow-hidden bg-gray-50">
             <!-- Topbar -->
-            <header class="flex items-center justify-between px-6 py-4 bg-white shadow-sm z-40">
+            <header class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4 bg-white shadow-sm z-40">
                 <div class="flex items-center gap-4">
                     <!-- Toggle Button -->
                     <button @click="sidebarOpen = !sidebarOpen" class="md:hidden text-gray-500 focus:outline-none">
@@ -149,7 +149,7 @@
             </header>
 
             <!-- Main Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6">
                 @yield('content')
             </main>
         </div>
