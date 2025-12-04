@@ -88,7 +88,7 @@ class RiskFactorController extends Controller
         $riskFactor->delete();
 
         // Re-sequence codes (E01, E02, ...)
-        $factors = RiskFactor::orderBy('id', 'asc')->get();
+        $factors = RiskFactor::orderBy('code', 'asc')->get();
         foreach ($factors as $index => $factor) {
             $newCode = 'E' . str_pad($index + 1, 2, '0', STR_PAD_LEFT);
             if ($factor->code !== $newCode) {

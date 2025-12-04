@@ -20,6 +20,11 @@ class UserController extends Controller
         }
 
         $users = $query->paginate(10)->withQueryString();
+
+        if ($this->isMobile()) {
+            return view('admin.users.mobile_index', compact('users'));
+        }
+
         return view('admin.users.index', compact('users'));
     }
 

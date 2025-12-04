@@ -20,6 +20,11 @@ class HistoryController extends Controller
         }
 
         $screenings = $query->paginate(10)->withQueryString();
+
+        if ($this->isMobile()) {
+            return view('admin.history.mobile_index', compact('screenings'));
+        }
+
         return view('admin.history.index', compact('screenings'));
     }
 
