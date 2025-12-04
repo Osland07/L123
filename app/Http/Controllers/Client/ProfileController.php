@@ -104,6 +104,10 @@ class ProfileController extends Controller
         // Format Tensi
         $tensi = $screening->snapshot_systolic . '/' . $screening->snapshot_diastolic;
 
+        if ($this->isMobile()) {
+            return view('client.profile.mobile_detail', compact('screening', 'riskLevel', 'profile', 'bmi', 'tensi'));
+        }
+
         return view('client.profile.detail', compact('screening', 'riskLevel', 'profile', 'bmi', 'tensi'));
     }
 

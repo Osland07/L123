@@ -40,6 +40,10 @@ class ScreeningController extends Controller
         // Cek Kelengkapan Profil (Nama, Umur, Gender Wajib)
         $isProfileComplete = $profile && $profile->full_name && $profile->age && $profile->gender;
 
+        if ($this->isMobile()) {
+            return view('client.screening.mobile_index', compact('factors', 'isProfileComplete'));
+        }
+
         return view('client.screening.index', compact('factors', 'isProfileComplete'));
     }
 
