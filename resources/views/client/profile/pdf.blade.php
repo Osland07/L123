@@ -15,7 +15,7 @@
             font-family: 'Arial', sans-serif;
             color: #333;
             line-height: 1.4;
-            font-size: 11px;
+            font-size: 12px;
             background-color: #fff; 
             margin: 0;
         }
@@ -92,7 +92,7 @@
             border-left: 4px solid #005f99;
             padding: 10px;
             border-radius: 5px;
-            font-size: 11px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -182,7 +182,7 @@
             @foreach($screening->details as $detail)
                 @if(!empty($detail->riskFactor->recommendation))
                 <div style="margin-bottom: 10px; padding: 10px; background-color: #f0f9ff; border-left: 3px solid #001B48;">
-                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 3px; color: #001B48;">
+                    <div style="font-weight: bold; font-size: 12px; margin-bottom: 3px; color: #001B48;">
                         Solusi untuk: {{ $detail->riskFactor->name }}
                     </div>
                     <div style="text-align: justify;">
