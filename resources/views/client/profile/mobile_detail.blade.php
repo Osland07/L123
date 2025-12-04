@@ -21,20 +21,13 @@
     <div class="bg-white p-6 pb-8 rounded-b-[2.5rem] shadow-sm relative z-10">
         <div class="flex flex-col items-center text-center">
             
-            <!-- Icon Ring -->
+            <!-- Icon Ring (Simplified & Fixed) -->
             <div class="relative mb-4">
                 <div @class([
-                    'absolute inset-0 opacity-20 rounded-full blur-xl animate-pulse',
-                    'bg-gradient-to-tr from-red-500 to-red-600' => $isHigh,
-                    'bg-gradient-to-tr from-orange-400 to-orange-500' => $isMed,
-                    'bg-gradient-to-tr from-green-500 to-green-600' => !$isHigh && !$isMed
-                ])></div>
-                
-                <div @class([
-                    'w-20 h-20 rounded-full flex items-center justify-center shadow-lg relative z-10',
-                    'bg-gradient-to-tr from-red-500 to-red-600' => $isHigh,
-                    'bg-gradient-to-tr from-orange-400 to-orange-500' => $isMed,
-                    'bg-gradient-to-tr from-green-500 to-green-600' => !$isHigh && !$isMed
+                    'w-20 h-20 rounded-full flex items-center justify-center shadow-lg mx-auto',
+                    'bg-red-500 shadow-red-200' => $isHigh,
+                    'bg-orange-500 shadow-orange-200' => $isMed,
+                    'bg-green-500 shadow-green-200' => !$isHigh && !$isMed
                 ])>
                     <i data-lucide="{{ $isHigh ? 'alert-triangle' : ($isMed ? 'alert-circle' : 'shield-check') }}" class="w-10 h-10 text-white"></i>
                 </div>
