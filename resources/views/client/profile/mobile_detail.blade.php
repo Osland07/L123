@@ -129,13 +129,13 @@
                             @if($detail->riskFactor->recommendation)
                                 <div class="mb-3">
                                     <p class="text-[10px] font-bold text-gray-400 uppercase mb-1">Rekomendasi</p>
-                                    <p class="text-xs text-gray-700 leading-relaxed">{{ $detail->riskFactor->recommendation }}</p>
+                                    <p class="text-sm text-gray-700 leading-relaxed">{{ $detail->riskFactor->recommendation }}</p>
                                 </div>
                             @endif
                             @if($detail->riskFactor->medical_explanation)
                                 <div>
                                     <p class="text-[10px] font-bold text-gray-400 uppercase mb-1">Penjelasan Medis</p>
-                                    <p class="text-xs text-gray-500 italic leading-relaxed">{{ $detail->riskFactor->medical_explanation }}</p>
+                                    <p class="text-sm text-gray-500 italic leading-relaxed">{{ $detail->riskFactor->medical_explanation }}</p>
                                 </div>
                             @endif
                         </div>
