@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\RiskFactor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class RiskFactorController extends Controller
@@ -26,6 +27,24 @@ class RiskFactorController extends Controller
         }
 
         return view('admin.risk-factors.index', compact('riskFactors'));
+    }
+
+    public function reorder()
+    {
+        DB::transaction(function () {
+            $factors = RiskFactor::orderBy('code', 'asc')->get();
+            foreach ($factors as $index => $factor) {
+                $newCode = 'E' . str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                if ($factor->code !== $newCode) {
+                    // Update diam-diam agar timestamp updated_at tidak berubah drastis jika tidak perlu
+                    $factor->timestamps = false; 
+                    $factor->update(['code' => $newCode]);
+                    $factor->timestamps = true;
+                }
+            }
+        });
+
+        return redirect()->back()->with('success', 'Kode faktor risiko berhasil diurutkan ulang (E01 - E' . RiskFactor::count() . ').');
     }
 
     public function print()
@@ -84,17 +103,21 @@ class RiskFactorController extends Controller
 
     public function destroy(string $id)
     {
-        $riskFactor = RiskFactor::findOrFail($id);
-        $riskFactor->delete();
+        DB::transaction(function () use ($id) {
+            $riskFactor = RiskFactor::findOrFail($id);
+            $riskFactor->delete();
 
-        // Re-sequence codes (E01, E02, ...)
-        $factors = RiskFactor::orderBy('code', 'asc')->get();
-        foreach ($factors as $index => $factor) {
-            $newCode = 'E' . str_pad($index + 1, 2, '0', STR_PAD_LEFT);
-            if ($factor->code !== $newCode) {
-                $factor->update(['code' => $newCode]);
+            // Re-sequence codes (E01, E02, ...)
+            $factors = RiskFactor::orderBy('code', 'asc')->get();
+            foreach ($factors as $index => $factor) {
+                $newCode = 'E' . str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                if ($factor->code !== $newCode) {
+                    $factor->timestamps = false;
+                    $factor->update(['code' => $newCode]);
+                    $factor->timestamps = true;
+                }
             }
-        }
+        });
 
         return redirect()->route('admin.risk-factors.index')->with('success', 'Faktor risiko berhasil dihapus dan kode diurutkan ulang.');
     }

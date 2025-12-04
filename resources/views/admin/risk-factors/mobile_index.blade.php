@@ -10,9 +10,14 @@
     <div class="bg-white p-4 border-b border-gray-100 sticky top-0 z-10">
         <div class="flex justify-between items-center mb-4">
             <h1 class="font-bold text-[#001B48] text-lg">Faktor Risiko</h1>
-            <a href="{{ route('admin.risk-factors.create') }}" class="w-8 h-8 bg-[#001B48] rounded-full flex items-center justify-center text-white shadow-md hover:bg-blue-900 transition">
-                <i data-lucide="plus" class="w-5 h-5"></i>
-            </a>
+            <div class="flex">
+                <a href="{{ route('admin.risk-factors.create') }}" class="w-8 h-8 bg-[#001B48] rounded-full flex items-center justify-center text-white shadow-md hover:bg-blue-900 transition">
+                    <i data-lucide="plus" class="w-5 h-5"></i>
+                </a>
+                <a href="{{ route('admin.risk-factors.reorder') }}" class="w-8 h-8 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center shadow-md hover:bg-orange-200 transition ml-2">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                </a>
+            </div>
         </div>
         
         <form action="{{ route('admin.risk-factors.index') }}" method="GET" class="relative">

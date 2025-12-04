@@ -45,6 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Master Data: Faktor Risiko
         Route::get('risk-factors/print', [\App\Http\Controllers\Admin\RiskFactorController::class, 'print'])->name('risk-factors.print');
+        Route::get('risk-factors/reorder', [\App\Http\Controllers\Admin\RiskFactorController::class, 'reorder'])->name('risk-factors.reorder');
         Route::resource('risk-factors', \App\Http\Controllers\Admin\RiskFactorController::class);
 
         // Master Data: Aturan

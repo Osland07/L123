@@ -19,6 +19,10 @@
                     <i data-lucide="plus" class="w-4 h-4"></i>
                     <span>Tambah Data</span>
                 </a>
+                <a href="{{ route('admin.risk-factors.reorder') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-50 border border-orange-200 text-orange-700 text-sm font-medium rounded-lg hover:bg-orange-100 transition shadow-sm leading-none" title="Urutkan Ulang Kode">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                    <span>Urutkan</span>
+                </a>
                 <a href="{{ route('admin.risk-factors.print') }}" target="_blank" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-300 text-[#001B48] text-sm font-medium rounded-lg hover:bg-[#001B48] hover:text-white hover:border-[#001B48] transition shadow-sm leading-none">
                     <i data-lucide="printer" class="w-4 h-4 mr-2"></i>
                     <span>Cetak PDF</span>
