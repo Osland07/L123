@@ -1,10 +1,10 @@
-@extends('layouts.mobile_admin')
+@extends('layouts.admin')
 
 @section('title', 'Dashboard Admin')
 
 @section('content')
 
-<div class="flex flex-col gap-4 p-4">
+<div class="flex flex-col gap-4">
 
     <!-- 1. Ringkasan (Scroll Horizontal) -->
     <div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar snap-x">
