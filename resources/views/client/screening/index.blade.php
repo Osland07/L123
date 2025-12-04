@@ -47,6 +47,52 @@
 <div class="h-[calc(100vh-5rem)] bg-gray-50 flex flex-col justify-between py-4 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
      x-data="screeningQuiz({{ $factors->toJson() }})">
     
+    <!-- MODAL BATAL SKRINING -->
+    <div x-show="showCancelModal" style="display: none;" 
+         class="fixed inset-0 z-[300] overflow-y-auto" 
+         aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        
+        <!-- Backdrop -->
+        <div x-show="showCancelModal" x-transition.opacity 
+             class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity"></div>
+
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div x-show="showCancelModal" 
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+                
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <i data-lucide="alert-triangle" class="h-6 w-6 text-red-600"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                            <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Batalkan Skrining?</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    Apakah Anda yakin ingin membatalkan proses skrining ini? Progres jawaban Anda tidak akan tersimpan.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2">
+                    <a href="{{ route('home') }}" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto transition">
+                        Ya, Batalkan
+                    </a>
+                    <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto transition" @click="showCancelModal = false">
+                        Tidak, Lanjutkan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL PERSETUJUAN -->
     <div x-show="!consentGiven" style="display: none;" 
          class="fixed inset-0 z-[100] overflow-y-auto" 
@@ -116,16 +162,21 @@
     <!-- KONTEN KUIS (Hanya tampil jika consentGiven = true) -->
     <div class="max-w-3xl mx-auto w-full flex flex-col justify-center flex-grow" x-show="consentGiven && !processing" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100">
         
-        <!-- Progress Bar -->
-        <div class="mb-4">
-            <div class="flex justify-between text-xs font-medium text-gray-500 mb-1">
-                <span x-text="'Pertanyaan ' + (currentIndex + 1) + ' dari ' + questions.length"></span>
-                <span x-text="Math.round(((currentIndex + 1) / questions.length) * 100) + '%'"></span>
+        <!-- Progress Bar & Close Button -->
+        <div class="mb-4 flex items-end gap-4">
+            <div class="flex-grow">
+                <div class="flex justify-between text-xs font-medium text-gray-500 mb-1">
+                    <span x-text="'Pertanyaan ' + (currentIndex + 1) + ' dari ' + questions.length"></span>
+                    <span x-text="Math.round(((currentIndex + 1) / questions.length) * 100) + '%'"></span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-1.5">
+                    <div class="bg-[#E3943B] h-1.5 rounded-full transition-all duration-500 ease-out"
+                         :style="'width: ' + (((currentIndex + 1) / questions.length) * 100) + '%'"></div>
+                </div>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-1.5">
-                <div class="bg-[#E3943B] h-1.5 rounded-full transition-all duration-500 ease-out"
-                     :style="'width: ' + (((currentIndex + 1) / questions.length) * 100) + '%'"></div>
-            </div>
+            <button @click="showCancelModal = true" class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50" title="Batalkan Skrining">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
         </div>
 
         <!-- Question Card -->
@@ -195,6 +246,7 @@
             currentIndex: 0,
             selectedAnswers: [], // Menyimpan ID faktor yang dijawab YA
             consentGiven: false, // State persetujuan
+            showCancelModal: false, // State modal batal
             processing: false,   // State splash screen
             processingText: 'Menganalisis Jawaban...',
 
