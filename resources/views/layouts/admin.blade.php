@@ -189,7 +189,13 @@
         
         // Check for Flashdata Success
         @if (session('success'))
-            showToast('success', '{{ session('success') }}');
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                confirmButtonColor: '#001B48',
+                timer: 3000
+            });
         @endif
 
         // Check for Flashdata Error

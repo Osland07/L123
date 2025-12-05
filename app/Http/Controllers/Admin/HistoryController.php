@@ -102,6 +102,9 @@ class HistoryController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $screening = \App\Models\Screening::findOrFail($id);
+        $screening->delete();
+
+        return redirect()->route('admin.history.index')->with('success', 'Data riwayat berhasil dihapus.');
     }
 }
