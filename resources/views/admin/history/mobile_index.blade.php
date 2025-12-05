@@ -71,7 +71,7 @@
                     <a href="{{ route('admin.history.show', $s->id) }}" class="px-3 py-1.5 bg-[#001B48] text-white rounded-lg text-xs font-bold shadow-sm hover:bg-blue-900 transition flex items-center">
                         Detail <i data-lucide="chevron-right" class="w-3 h-3 ml-1"></i>
                     </a>
-                    <form action="{{ route('admin.history.destroy', $s->id) }}" method="POST" onsubmit="return confirm('Hapus riwayat ini?');">
+                    <form action="{{ route('admin.history.destroy', $s->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="w-7 h-7 flex items-center justify-center bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition">
