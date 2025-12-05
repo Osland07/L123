@@ -40,10 +40,9 @@
                         <i data-lucide="pencil" class="w-3 h-3 mr-1.5"></i> Edit
                     </a>
                 </div>
-                <form action="{{ route('admin.risk-levels.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="w-8 h-8 flex items-center justify-center text-gray-300 hover:text-red-500 transition">
+                                    <form action="{{ route('admin.risk-levels.destroy', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')                    <button type="submit" class="w-8 h-8 flex items-center justify-center text-gray-300 hover:text-red-500 transition">
                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                     </button>
                 </form>

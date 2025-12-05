@@ -50,10 +50,9 @@
                 <a href="{{ route('admin.users.edit', $user->id) }}" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-gray-400 hover:bg-[#E3943B] hover:text-white transition">
                     <i data-lucide="pencil" class="w-4 h-4"></i>
                 </a>
-                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Hapus pengguna ini?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-gray-400 hover:bg-red-500 hover:text-white transition">
+                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-gray-400 hover:bg-red-500 hover:text-white transition">
                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                     </button>
                 </form>

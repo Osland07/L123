@@ -71,7 +71,7 @@
                     <a href="{{ route('admin.risk-factors.edit', $item->id) }}" class="text-gray-400 hover:text-[#E3943B] transition">
                         <i data-lucide="pencil" class="w-4 h-4"></i>
                     </a>
-                    <form action="{{ route('admin.risk-factors.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus faktor risiko ini?');">
+                    <form action="{{ route('admin.risk-factors.destroy', $item->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="text-gray-400 hover:text-red-500 transition">

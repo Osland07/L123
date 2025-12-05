@@ -93,10 +93,9 @@
                 <a href="{{ route('admin.rules.edit', $rule->id) }}" class="text-gray-400 hover:text-[#E3943B] transition p-2">
                     <i data-lucide="pencil" class="w-4 h-4"></i>
                 </a>
-                <form action="{{ route('admin.rules.destroy', $rule->id) }}" method="POST" onsubmit="return confirm('Hapus aturan ini?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="text-gray-400 hover:text-red-500 transition p-2">
+                                            <form action="{{ route('admin.rules.destroy', $rule->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')                    <button type="submit" class="text-gray-400 hover:text-red-500 transition p-2">
                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                     </button>
                 </form>
