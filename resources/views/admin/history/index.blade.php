@@ -112,7 +112,7 @@
                                     <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                                     <span class="text-xs">Detail</span>
                                 </a>
-                                <form action="{{ route('admin.history.destroy', $screening->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus riwayat ini?');">
+                                <form action="{{ route('admin.history.destroy', $screening->id) }}" method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition leading-none shadow-sm">
