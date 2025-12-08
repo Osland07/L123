@@ -144,10 +144,9 @@
                             </button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" class="bg-[#E3943B] text-white px-6 py-2 rounded-full font-bold hover:bg-orange-600 transition shadow-md">
-                            Login
-                        </a>
-                    @endauth
+                                            <a href="{{ route('login') }}" class="bg-[#E3943B] text-white px-6 py-2 rounded-full font-bold hover:bg-orange-600 transition shadow-md">
+                                                Login/Daftar
+                                            </a>                    @endauth
                 </div>
 
                 <!-- Mobile menu button -->
@@ -185,7 +184,7 @@
                         <button type="submit" class="w-full text-white bg-[#001B48] border border-white/20 block px-3 py-3 rounded-md text-base font-medium mt-3 text-center hover:bg-white/10">Keluar</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" @click="mobileMenuOpen = false" class="text-white bg-[#E3943B] block px-3 py-3 rounded-md text-base font-medium mt-6 text-center shadow-md">Login</a>
+                    <a href="{{ route('login') }}" @click="mobileMenuOpen = false" class="text-white bg-[#E3943B] block px-3 py-3 rounded-md text-base font-medium mt-6 text-center shadow-md">Login/Daftar</a>
                 @endauth
             </div>
         </div>

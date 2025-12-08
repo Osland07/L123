@@ -3,18 +3,40 @@
 namespace App\Exports;
 
 use App\Models\Screening;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ScreeningExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
+class ScreeningExport implements FromCollection, ShouldAutoSize, WithHeadings, WithMapping, WithStyles
 {
+    protected $request;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
     public function collection()
     {
-        return Screening::with(['details.riskFactor', 'user.profile'])->latest()->get();
+        $query = Screening::with(['details.riskFactor', 'user.profile'])->latest();
+
+        if ($this->request->filled('q')) {
+            $q = $this->request->q;
+            $query->where(function ($sub) use ($q) {
+                $sub->where('client_name', 'like', "%{$q}%")
+                    ->orWhere('result_level', 'like', "%{$q}%");
+            });
+        }
+
+        if ($this->request->filled('filter_risk')) {
+            $query->where('result_level', 'like', '%'.$this->request->filter_risk.'%');
+        }
+
+        return $query->get();
     }
 
     public function headings(): array
@@ -30,7 +52,7 @@ class ScreeningExport implements FromCollection, WithHeadings, WithMapping, Shou
             'BMI',
             'Tensi (mmHg)',
             'Faktor Risiko Terpilih',
-            'Hasil Risiko'
+            'Hasil Risiko',
         ];
     }
 
@@ -47,13 +69,13 @@ class ScreeningExport implements FromCollection, WithHeadings, WithMapping, Shou
         }
 
         // Gender
-        $gender = $screening->user && $screening->user->profile 
-            ? ($screening->user->profile->gender == 'L' ? 'Laki-laki' : 'Perempuan') 
+        $gender = $screening->user && $screening->user->profile
+            ? ($screening->user->profile->gender == 'L' ? 'Laki-laki' : 'Perempuan')
             : '-';
 
         // Faktor Risiko (List turun ke bawah)
-        $factors = $screening->details->map(function($detail, $index) {
-            return ($index + 1) . '. ' . ($detail->riskFactor ? $detail->riskFactor->name : '-');
+        $factors = $screening->details->map(function ($detail, $index) {
+            return ($index + 1).'. '.($detail->riskFactor ? $detail->riskFactor->name : '-');
         })->implode("\n");
 
         if (empty($factors)) {
@@ -69,9 +91,9 @@ class ScreeningExport implements FromCollection, WithHeadings, WithMapping, Shou
             $screening->snapshot_height,
             $screening->snapshot_weight,
             $bmi,
-            $screening->snapshot_systolic . '/' . $screening->snapshot_diastolic,
+            $screening->snapshot_systolic.'/'.$screening->snapshot_diastolic,
             $factors,
-            $screening->result_level
+            $screening->result_level,
         ];
     }
 
@@ -79,10 +101,10 @@ class ScreeningExport implements FromCollection, WithHeadings, WithMapping, Shou
     {
         // Style Header
         $sheet->getStyle('A1:K1')->getFont()->setBold(true);
-        
+
         // Enable Text Wrapping untuk kolom Faktor Risiko (J)
         $sheet->getStyle('J')->getAlignment()->setWrapText(true);
-        
+
         // Align Top untuk semua cell agar rapi jika ada multiline
         $sheet->getStyle('A:K')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
 
