@@ -446,20 +446,21 @@
                     if (this.weight > 0 && this.height > 0) {
                         // Rumus BMI: BB / (TB/100)^2
                         const hInMeters = this.height / 100;
-                        const bmi = this.weight / (hInMeters * hInMeters);
-                        this.bmiValue = bmi.toFixed(1);
+                        const bmiRaw = this.weight / (hInMeters * hInMeters);
+                        this.bmiValue = bmiRaw.toFixed(1);
+                        const bmi = parseFloat(this.bmiValue);
                         this.result = true;
 
-                        // Kategori (Standar Kemenkes RI)
+                        // Kategori (Standar Asia/Indonesia)
                         if (bmi < 18.5) {
                             this.category = 'Kurus';
                             this.advice = 'Berat badan kurang. Tingkatkan asupan nutrisi dan konsultasi ahli gizi.';
-                        } else if (bmi >= 18.5 && bmi <= 25.0) {
+                        } else if (bmi >= 18.5 && bmi <= 22.9) {
                             this.category = 'Normal';
                             this.advice = 'Selamat! Berat badan ideal. Pertahankan pola hidup sehat.';
-                        } else if (bmi > 25.0 && bmi <= 27.0) {
+                        } else if (bmi >= 23.0 && bmi <= 24.9) {
                             this.category = 'Gemuk';
-                            this.advice = 'Kelebihan berat badan tingkat ringan. Kurangi gula/lemak dan rutin olahraga.';
+                            this.advice = 'Kelebihan berat badan. Kurangi gula/lemak dan rutin olahraga.';
                         } else {
                             this.category = 'Obesitas';
                             this.advice = 'Waspada! Risiko penyakit tinggi. Segera konsultasi ke dokter untuk program diet.';

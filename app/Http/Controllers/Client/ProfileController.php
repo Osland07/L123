@@ -22,8 +22,8 @@ class ProfileController extends Controller
             $h = $profile->height / 100;
             $bmi = round($profile->weight / ($h * $h), 1);
             if ($bmi < 18.5) $bmi_category = 'Kurus';
-            elseif ($bmi <= 25) $bmi_category = 'Normal';
-            elseif ($bmi <= 27) $bmi_category = 'Gemuk';
+            elseif ($bmi <= 22.9) $bmi_category = 'Normal';
+            elseif ($bmi <= 24.9) $bmi_category = 'Gemuk';
             else $bmi_category = 'Obesitas';
         }
 
