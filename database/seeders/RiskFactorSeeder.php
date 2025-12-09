@@ -20,8 +20,8 @@ class RiskFactorSeeder extends Seeder
             [
                 'code' => 'E01',
                 'category' => 'MEDIS',
-                'name' => 'Tekanan darah pre-hipertensi (120-139 / 80-89 mmHg)',
-                'question_text' => 'Apakah Anda memiliki riwayat tekanan darah sistolik antara 120-139 mmHg atau diastolik antara 80-89 mmHg?',
+                'name' => 'Tekanan darah meningkat (121-139 / 81-89 mmHg)',
+                'question_text' => 'Apakah Anda memiliki riwayat tekanan darah sistolik antara 121-139 mmHg atau diastolik antara 81-89 mmHg?',
                 'medical_explanation' => 'Tekanan darah pre-hipertensi adalah sinyal peringatan dini. Pembuluh darah Anda mulai mengalami tekanan berlebih yang jika dibiarkan akan merusak organ vital.',
                 'recommendation' => 'Lakukan pemantauan tekanan darah rutin setiap minggu. Mulai kurangi konsumsi garam < 1 sendok teh per hari.',
             ],

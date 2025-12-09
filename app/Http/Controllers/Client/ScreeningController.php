@@ -66,8 +66,8 @@ class ScreeningController extends Controller
                 if ($profile->systolic && $profile->diastolic) {
                     $sys = $profile->systolic;
                     $dia = $profile->diastolic;
-                    // Cek E01 (Tensi): Pre-Hipertensi atau lebih tinggi (>= 120/80)
-                    if (($sys >= 120) || ($dia >= 80)) {
+                    // Cek E01 (Tensi): Pre-Hipertensi atau lebih tinggi (>= 121/81)
+                    if (($sys >= 121) || ($dia >= 81)) {
                         $e01 = RiskFactor::where('code', 'E01')->first();
                         if ($e01) {
                             $autoFactors[] = (int) $e01->id;
