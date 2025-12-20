@@ -206,11 +206,20 @@
                 <div class="space-y-4">
                     @foreach($history as $h)
                     @php
-                        $isHigh = stripos($h->result_level, 'tinggi') !== false;
-                        $isMed = stripos($h->result_level, 'sedang') !== false;
-                        $borderColor = $isHigh ? 'border-red-500' : ($isMed ? 'border-yellow-500' : 'border-green-500');
-                        $textColor = $isHigh ? 'text-red-600' : ($isMed ? 'text-yellow-600' : 'text-green-600');
-                        $bgColor = $isHigh ? 'bg-red-50' : ($isMed ? 'bg-yellow-50' : 'bg-green-50');
+                        $r = strtolower($h->result_level);
+                        $isBerat = stripos($r, 'berat') !== false || stripos($r, 'tinggi') !== false;
+                        $isSedang = stripos($r, 'sedang') !== false;
+                        $isRendah = stripos($r, 'rendah') !== false;
+
+                        if ($isBerat) {
+                            $borderColor = 'border-red-500'; $textColor = 'text-red-600'; $bgColor = 'bg-red-50';
+                        } elseif ($isSedang) {
+                            $borderColor = 'border-orange-500'; $textColor = 'text-orange-600'; $bgColor = 'bg-orange-50';
+                        } elseif ($isRendah) {
+                            $borderColor = 'border-blue-500'; $textColor = 'text-blue-600'; $bgColor = 'bg-blue-50';
+                        } else {
+                            $borderColor = 'border-green-500'; $textColor = 'text-green-600'; $bgColor = 'bg-green-50';
+                        }
                     @endphp
 
                     <a href="{{ route('client.profile.detail', $h->id) }}" class="block bg-white rounded-2xl shadow-sm hover:shadow-md transition group relative overflow-hidden border-l-[6px] {{ $borderColor }}">

@@ -158,7 +158,7 @@
                     $bg = '#fff5f5'; $color = '#c53030'; // Merah
                 } elseif (stripos($r, 'sedang') !== false) {
                     $bg = '#fffbeb'; $color = '#b7791f'; // Oranye
-                } elseif (stripos($r, 'ringan') !== false) {
+                } elseif (stripos($r, 'rendah') !== false) {
                     $bg = '#eff6ff'; $color = '#2563eb'; // Biru
                 }
             @endphp

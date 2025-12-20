@@ -194,7 +194,7 @@
                                                 $badgeClass = 'bg-red-100 text-red-800';
                                             } elseif (stripos($r, 'sedang') !== false) {
                                                 $badgeClass = 'bg-orange-100 text-orange-800';
-                                            } elseif (stripos($r, 'ringan') !== false) {
+                                            } elseif (stripos($r, 'rendah') !== false) {
                                                 $badgeClass = 'bg-blue-100 text-blue-800';
                                             }
                                         @endphp

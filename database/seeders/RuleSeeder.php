@@ -37,27 +37,25 @@ class RuleSeeder extends Seeder
         // --- KELOMPOK RISIKO TINGGI (H04) ---
 
         // PRIO 1: Jika ada E01 DAN E02 dan 1-10 faktor lain
-        // Operator: AND (Wajib Keduanya)
         $r1 = Rule::create([
             'code' => 'R1',
             'risk_level_id' => $h_tinggi->id,
             'operator' => 'AND',
             'min_other_factors' => 1,
             'max_other_factors' => 10,
-            'priority' => 10,
+            'priority' => 1,
         ]);
         if($e01) $r1->riskFactors()->attach($e01->id);
         if($e02) $r1->riskFactors()->attach($e02->id);
 
         // PRIO 2: Jika punya SALAH SATU dari E01/E02 dan >7 faktor lain
-        // Operator: OR (Salah Satu Cukup)
         $r2 = Rule::create([
             'code' => 'R2',
             'risk_level_id' => $h_tinggi->id,
             'operator' => 'OR',
             'min_other_factors' => 8,
             'max_other_factors' => 99,
-            'priority' => 20,
+            'priority' => 2,
         ]);
         if($e01) $r2->riskFactors()->attach($e01->id);
         if($e02) $r2->riskFactors()->attach($e02->id);
@@ -66,41 +64,38 @@ class RuleSeeder extends Seeder
         // --- KELOMPOK RISIKO SEDANG (H03) ---
 
         // PRIO 3: Jika punya SALAH SATU dari E01/E02 dan >= 5 faktor lain
-        // Operator: OR
         $r3 = Rule::create([
             'code' => 'R3',
             'risk_level_id' => $h_sedang->id,
             'operator' => 'OR',
             'min_other_factors' => 5,
             'max_other_factors' => 7,
-            'priority' => 30,
+            'priority' => 3,
         ]);
         if($e01) $r3->riskFactors()->attach($e01->id);
         if($e02) $r3->riskFactors()->attach($e02->id);
 
         // PRIO 4: Jika ga punya E01 dan E02, harus punya >= 7 faktor lain
-        // Tidak ada faktor wajib, operator tidak ngefek
         $r4 = Rule::create([
             'code' => 'R4',
             'risk_level_id' => $h_sedang->id,
             'operator' => 'AND', 
             'min_other_factors' => 7,
             'max_other_factors' => 99,
-            'priority' => 40,
+            'priority' => 4,
         ]);
 
 
         // --- KELOMPOK RISIKO RENDAH (H02) ---
 
         // PRIO 5: Jika punya SALAH SATU E01/E02 dan punya 1-4 faktor lain
-        // Operator: OR
         $r5 = Rule::create([
             'code' => 'R5',
             'risk_level_id' => $h_rendah->id,
             'operator' => 'OR',
             'min_other_factors' => 1,
             'max_other_factors' => 4,
-            'priority' => 50,
+            'priority' => 5,
         ]);
         if($e01) $r5->riskFactors()->attach($e01->id);
         if($e02) $r5->riskFactors()->attach($e02->id);
@@ -113,7 +108,7 @@ class RuleSeeder extends Seeder
             'operator' => 'AND',
             'min_other_factors' => 4,
             'max_other_factors' => 6,
-            'priority' => 60,
+            'priority' => 6,
         ]);
 
 
@@ -126,7 +121,7 @@ class RuleSeeder extends Seeder
             'operator' => 'AND',
             'min_other_factors' => 0,
             'max_other_factors' => 3,
-            'priority' => 70,
+            'priority' => 7,
         ]);
     }
 }

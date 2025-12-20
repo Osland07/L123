@@ -66,13 +66,13 @@
             <h3 class="text-sm font-bold text-[#001B48] mb-4 flex-shrink-0">Distribusi Risiko</h3>
             
             <div class="space-y-4 flex-grow flex flex-col justify-center overflow-y-auto">
-                @foreach (['Berat', 'Sedang', 'Ringan', 'Tidak Berisiko'] as $level)
+                @foreach (['Berat', 'Sedang', 'Rendah', 'Tidak Berisiko'] as $level)
                     @php
                         $percentage = $riskPercentages[$level] ?? 0;
                         $colorClass = match($level) {
                             'Berat' => 'bg-red-500',
                             'Sedang' => 'bg-orange-500',
-                            'Ringan' => 'bg-blue-500',
+                            'Rendah' => 'bg-blue-500',
                             'Tidak Berisiko' => 'bg-green-500',
                             default => 'bg-gray-500'
                         };

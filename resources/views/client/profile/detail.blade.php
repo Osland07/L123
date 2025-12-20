@@ -9,29 +9,13 @@
     $level = strtolower($screening->result_level);
 
     if (stripos($level, 'berat') !== false) {
-        // RISIKO BERAT (MERAH)
-        $bgClass = 'bg-red-50';
-        $textClass = 'text-red-600';
-        $borderClass = 'border-red-200';
-        $icon = 'alert-triangle';
+        $bgClass = 'bg-red-50'; $textClass = 'text-red-600'; $borderClass = 'border-red-200'; $icon = 'alert-triangle';
     } elseif (stripos($level, 'sedang') !== false) {
-        // RISIKO SEDANG (ORANYE)
-        $bgClass = 'bg-orange-50';
-        $textClass = 'text-orange-600';
-        $borderClass = 'border-orange-200';
-        $icon = 'alert-circle';
-    } elseif (stripos($level, 'ringan') !== false) {
-        // RISIKO RINGAN (BIRU)
-        $bgClass = 'bg-blue-50';
-        $textClass = 'text-blue-600';
-        $borderClass = 'border-blue-200';
-        $icon = 'info';
+        $bgClass = 'bg-orange-50'; $textClass = 'text-orange-600'; $borderClass = 'border-orange-200'; $icon = 'alert-circle';
+    } elseif (stripos($level, 'rendah') !== false) {
+        $bgClass = 'bg-blue-50'; $textClass = 'text-blue-600'; $borderClass = 'border-blue-200'; $icon = 'info';
     } else {
-        // TIDAK BERISIKO / AMAN (HIJAU)
-        $bgClass = 'bg-green-50';
-        $textClass = 'text-green-600';
-        $borderClass = 'border-green-200';
-        $icon = 'shield-check';
+        $bgClass = 'bg-green-50'; $textClass = 'text-green-600'; $borderClass = 'border-green-200'; $icon = 'shield-check';
     }
     
     // Extract bg color for stripe from text class (e.g. text-red-600 -> bg-red-600)

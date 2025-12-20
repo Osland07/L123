@@ -24,7 +24,7 @@ class AdminDashboardController extends Controller
         // 2. Hitung Distribusi Risiko (4 Kategori)
         $riskCounts = [
             'Tidak Berisiko' => 0,
-            'Ringan' => 0,
+            'Rendah' => 0,
             'Sedang' => 0,
             'Berat' => 0,
         ];
@@ -38,8 +38,8 @@ class AdminDashboardController extends Controller
                 $riskCounts['Berat']++;
             } elseif (stripos($l, 'sedang') !== false) {
                 $riskCounts['Sedang']++;
-            } elseif (stripos($l, 'ringan') !== false || stripos($l, 'rendah') !== false) {
-                $riskCounts['Ringan']++;
+            } elseif (stripos($l, 'rendah') !== false || stripos($l, 'ringan') !== false) {
+                $riskCounts['Rendah']++;
             } else {
                 // Default / Aman / Tidak Berisiko
                 $riskCounts['Tidak Berisiko']++;
@@ -49,7 +49,7 @@ class AdminDashboardController extends Controller
         // 3. Hitung Persentase
         $riskPercentages = [
             'Tidak Berisiko' => $totalScreenings > 0 ? round(($riskCounts['Tidak Berisiko'] / $totalScreenings) * 100) : 0,
-            'Ringan' => $totalScreenings > 0 ? round(($riskCounts['Ringan'] / $totalScreenings) * 100) : 0,
+            'Rendah' => $totalScreenings > 0 ? round(($riskCounts['Rendah'] / $totalScreenings) * 100) : 0,
             'Sedang' => $totalScreenings > 0 ? round(($riskCounts['Sedang'] / $totalScreenings) * 100) : 0,
             'Berat' => $totalScreenings > 0 ? round(($riskCounts['Berat'] / $totalScreenings) * 100) : 0,
         ];
@@ -57,7 +57,7 @@ class AdminDashboardController extends Controller
         // Warna untuk UI
         $riskLevelColors = [
             'Tidak Berisiko' => 'bg-green-500',
-            'Ringan' => 'bg-blue-500',
+            'Rendah' => 'bg-blue-500',
             'Sedang' => 'bg-orange-500',
             'Berat' => 'bg-red-500',
         ];

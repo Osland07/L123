@@ -21,7 +21,7 @@
                         <select name="filter_risk" onchange="this.form.submit()" class="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#001B48] text-gray-600 bg-white cursor-pointer">
                             <option value="">Semua Risiko</option>
                             <option value="Tidak Berisiko" {{ request('filter_risk') == 'Tidak Berisiko' ? 'selected' : '' }}>Tidak Berisiko</option>
-                            <option value="Ringan" {{ request('filter_risk') == 'Ringan' ? 'selected' : '' }}>Risiko Ringan</option>
+                            <option value="Rendah" {{ request('filter_risk') == 'Rendah' ? 'selected' : '' }}>Risiko Rendah</option>
                             <option value="Sedang" {{ request('filter_risk') == 'Sedang' ? 'selected' : '' }}>Risiko Sedang</option>
                             <option value="Berat" {{ request('filter_risk') == 'Berat' ? 'selected' : '' }}>Risiko Berat</option>
                         </select>
@@ -103,7 +103,7 @@
                                     $badgeClass = 'bg-red-100 text-red-700 border border-red-200';
                                 } elseif (stripos($r, 'sedang') !== false) {
                                     $badgeClass = 'bg-orange-50 text-[#E3943B] border border-orange-300';
-                                } elseif (stripos($r, 'ringan') !== false) {
+                                } elseif (stripos($r, 'rendah') !== false) {
                                     $badgeClass = 'bg-blue-100 text-blue-700 border border-blue-200';
                                 }
                             @endphp

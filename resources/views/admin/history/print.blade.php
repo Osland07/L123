@@ -62,7 +62,7 @@
                         
                         if (stripos($r, 'berat') !== false) $color = 'bg-red';
                         elseif (stripos($r, 'sedang') !== false) $color = 'bg-yellow';
-                        elseif (stripos($r, 'ringan') !== false) $color = 'bg-blue';
+                        elseif (stripos($r, 'rendah') !== false) $color = 'bg-blue';
                     @endphp
                     <span class="badge {{ $color }}">{{ $s->result_level }}</span>
                 </td>

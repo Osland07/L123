@@ -12,7 +12,7 @@
         $bgClass = 'bg-red-50'; $textClass = 'text-red-600'; $borderClass = 'border-red-200'; $icon = 'alert-triangle';
     } elseif (stripos($level, 'sedang') !== false) {
         $bgClass = 'bg-orange-50'; $textClass = 'text-orange-600'; $borderClass = 'border-orange-200'; $icon = 'alert-circle';
-    } elseif (stripos($level, 'ringan') !== false) {
+    } elseif (stripos($level, 'rendah') !== false) {
         $bgClass = 'bg-blue-50'; $textClass = 'text-blue-600'; $borderClass = 'border-blue-200'; $icon = 'info';
     } else {
         $bgClass = 'bg-green-50'; $textClass = 'text-green-600'; $borderClass = 'border-green-200'; $icon = 'shield-check';

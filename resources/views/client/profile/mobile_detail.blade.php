@@ -11,8 +11,30 @@
 @section('content')
 
 @php 
-    $isHigh = stripos($screening->result_level, 'tinggi') !== false;
-    $isMed = stripos($screening->result_level, 'sedang') !== false;
+    $level = strtolower($screening->result_level);
+    
+    $isBerat = stripos($level, 'berat') !== false;
+    $isSedang = stripos($level, 'sedang') !== false;
+    $isRendah = stripos($level, 'rendah') !== false;
+
+    // Tentukan Warna & Ikon
+    if ($isBerat) {
+        $colorClass = 'bg-red-500 shadow-red-200';
+        $textClass = 'text-red-600';
+        $iconName = 'alert-triangle';
+    } elseif ($isSedang) {
+        $colorClass = 'bg-orange-500 shadow-orange-200';
+        $textClass = 'text-orange-600';
+        $iconName = 'alert-circle';
+    } elseif ($isRendah) {
+        $colorClass = 'bg-blue-500 shadow-blue-200';
+        $textClass = 'text-blue-600';
+        $iconName = 'info';
+    } else {
+        $colorClass = 'bg-green-500 shadow-green-200';
+        $textClass = 'text-green-600';
+        $iconName = 'shield-check';
+    }
 @endphp
 
 <div class="flex flex-col min-h-full bg-gray-50 pb-24"> <!-- pb-24 for fixed bottom action -->
@@ -21,25 +43,15 @@
     <div class="bg-white p-6 pb-8 rounded-b-[2.5rem] shadow-sm relative z-10">
         <div class="flex flex-col items-center text-center">
             
-            <!-- Icon Ring (Simplified & Fixed) -->
+            <!-- Icon Ring -->
             <div class="relative mb-4">
-                <div @class([
-                    'w-20 h-20 rounded-full flex items-center justify-center shadow-lg mx-auto',
-                    'bg-red-500 shadow-red-200' => $isHigh,
-                    'bg-orange-500 shadow-orange-200' => $isMed,
-                    'bg-green-500 shadow-green-200' => !$isHigh && !$isMed
-                ])>
-                    <i data-lucide="{{ $isHigh ? 'alert-triangle' : ($isMed ? 'alert-circle' : 'shield-check') }}" class="w-10 h-10 text-white"></i>
+                <div class="w-20 h-20 rounded-full flex items-center justify-center shadow-lg mx-auto {{ $colorClass }}">
+                    <i data-lucide="{{ $iconName }}" class="w-10 h-10 text-white"></i>
                 </div>
             </div>
 
             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Tingkat Risiko Anda</p>
-            <h1 @class([
-                'text-2xl font-extrabold leading-tight mb-2',
-                'text-red-600' => $isHigh,
-                'text-orange-600' => $isMed,
-                'text-green-600' => !$isHigh && !$isMed
-            ])>{{ $screening->result_level }}</h1>
+            <h1 class="text-2xl font-extrabold leading-tight mb-2 {{ $textClass }}">{{ $screening->result_level }}</h1>
             <p class="text-xs text-gray-400">{{ $screening->created_at->format('d M Y • H:i') }} WIB</p>
         
             <!-- Vital Stats Row -->

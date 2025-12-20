@@ -83,7 +83,7 @@
                                     $colorClass = 'bg-red-100 text-red-800 border border-red-200';
                                 } elseif (str_contains($riskName, 'sedang')) {
                                     $colorClass = 'bg-orange-100 text-orange-800 border border-orange-200';
-                                } elseif (str_contains($riskName, 'ringan')) {
+                                } elseif (str_contains($riskName, 'rendah')) {
                                     $colorClass = 'bg-blue-100 text-blue-800 border border-blue-200';
                                 }
                             @endphp

@@ -46,7 +46,7 @@
                         $color = 'bg-green';
                         if (stripos($r, 'berat') !== false) $color = 'bg-red';
                         elseif (stripos($r, 'sedang') !== false) $color = 'bg-orange';
-                        elseif (stripos($r, 'ringan') !== false) $color = 'bg-blue';
+                        elseif (stripos($r, 'rendah') !== false) $color = 'bg-blue';
                     @endphp
                     <span class="badge {{ $color }}">{{ $rule->riskLevel->name }}</span>
                 </td>
