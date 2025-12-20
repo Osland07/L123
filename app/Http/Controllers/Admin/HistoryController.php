@@ -51,6 +51,13 @@ class HistoryController extends Controller
 
         $screenings = $query->get();
 
+        // Sort details for each screening by risk factor code
+        foreach ($screenings as $s) {
+            $s->setRelation('details', $s->details->sortBy(function ($detail) {
+                return $detail->riskFactor->code;
+            }));
+        }
+
         $pdf = Pdf::loadView('admin.history.print', compact('screenings'));
 
         return $pdf->stream('laporan-riwayat-skrining.pdf');
