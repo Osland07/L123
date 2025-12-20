@@ -72,7 +72,7 @@
                 <tbody class="divide-y divide-gray-100">
                     @foreach($screenings as $screening)
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-4 text-sm text-gray-600 text-center">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-600 text-center">{{ ($screenings->currentPage() - 1) * $screenings->perPage() + $loop->iteration }}</td>
                         <td class="px-4 py-4 text-sm text-gray-600 whitespace-nowrap text-center">{{ $screening->created_at->format('d M Y H:i') }}</td>
                         <td class="px-4 py-4 text-sm font-bold text-[#001B48] text-center">{{ $screening->client_name }}</td>
                         

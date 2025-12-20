@@ -44,7 +44,7 @@
                 <tbody class="divide-y divide-gray-100">
                     @foreach($users as $user)
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-4 text-sm text-gray-600 text-center">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-600 text-center">{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
                         <td class="px-4 py-4 text-sm font-bold text-[#001B48] text-center">{{ $user->name }}</td>
                         <td class="px-4 py-4 text-sm text-gray-600 text-center">{{ $user->email }}</td>
                         <td class="px-4 py-4 text-sm text-center">
