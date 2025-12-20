@@ -34,7 +34,7 @@
             <a href="{{ route('admin.history.pdf', ['id' => $screening->id, 'action' => 'download']) }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-bold rounded-lg text-white bg-[#001B48] hover:bg-blue-900 transition">
                 <i data-lucide="download" class="w-4 h-4 mr-2"></i> Unduh PDF
             </a>
-            <a href="{{ route('admin.history.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-bold rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition ml-2">
+            <a href="{{ url()->previous() == url()->current() ? route('admin.history.index') : url()->previous() }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-bold rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition ml-2">
                 <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Kembali
             </a>
         </div>
