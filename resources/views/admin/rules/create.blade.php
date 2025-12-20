@@ -60,7 +60,7 @@
             <div class="xl:col-span-2 space-y-6">
                 
                 <!-- KONDISI FAKTOR UTAMA -->
-                <div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+                <div class="bg-white shadow-sm rounded-xl border border-gray-200">
                     <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
                         <h3 class="font-bold text-gray-800 flex items-center gap-2">
                             <i data-lucide="git-branch" class="w-5 h-5 text-brand-blue"></i>
@@ -136,17 +136,10 @@
                     <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
                         <h3 class="font-bold text-gray-800 flex items-center gap-2">
                             <i data-lucide="hash" class="w-5 h-5 text-brand-orange"></i>
-                            Jumlah Faktor Lainnya (E03 - E12)
+                            Jumlah Faktor Risiko Tambahan
                         </h3>
                     </div>
                     <div class="p-6">
-                        <div class="bg-blue-50 border border-blue-100 rounded-lg p-3 mb-5 flex items-start gap-3">
-                            <i data-lucide="info" class="w-5 h-5 text-brand-blue mt-0.5 flex-shrink-0"></i>
-                            <p class="text-sm text-blue-800 leading-snug">
-                                <strong>Catatan:</strong> Input di bawah ini <u>TIDAK MENGHITUNG</u> faktor <strong>E01</strong> dan <strong>E02</strong>. Hanya menghitung jumlah faktor risiko sisanya.
-                            </p>
-                        </div>
-
                         <div class="grid grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2">Minimal Jumlah</label>
