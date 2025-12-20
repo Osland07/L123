@@ -79,18 +79,17 @@
                     </div>
                 </div>
 
-                <!-- Faktor Tambahan -->
                 <div class="pt-4 border-t border-gray-100">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Jumlah Faktor Risiko Tambahan (Rentang)</label>
                     <div class="flex items-center gap-3">
                         <div class="flex-1">
-                            <label class="text-[10px] text-gray-400 font-bold uppercase">Minimal</label>
-                            <input type="number" name="min_other_factors" value="{{ $rule->min_other_factors }}" class="w-full rounded-md border-gray-300 p-2 text-sm" min="0">
+                            <label class="text-[10px] text-gray-400 font-bold uppercase mb-1 block">Minimal</label>
+                            <input type="number" name="min_other_factors" value="{{ $rule->min_other_factors }}" class="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-[#001B48] focus:ring-[#001B48] shadow-sm" min="0">
                         </div>
-                        <div class="mt-4 text-gray-400">s/d</div>
+                        <div class="mt-4 text-gray-400 font-bold">s/d</div>
                         <div class="flex-1">
-                            <label class="text-[10px] text-gray-400 font-bold uppercase">Maksimal</label>
-                            <input type="number" name="max_other_factors" value="{{ $rule->max_other_factors }}" class="w-full rounded-md border-gray-300 p-2 text-sm" min="0">
+                            <label class="text-[10px] text-gray-400 font-bold uppercase mb-1 block">Maksimal</label>
+                            <input type="number" name="max_other_factors" value="{{ $rule->max_other_factors }}" class="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-[#001B48] focus:ring-[#001B48] shadow-sm" min="0">
                         </div>
                     </div>
                     <p class="mt-2 text-xs text-gray-500 italic">* Menghitung jumlah faktor risiko lain di luar yang dipilih di atas.</p>
