@@ -79,7 +79,7 @@
                                 $riskName = strtolower($rule->riskLevel->name);
                                 $colorClass = 'bg-green-100 text-green-800 border border-green-200'; // Default: Hijau
 
-                                if (str_contains($riskName, 'berat') || str_contains($riskName, 'tinggi')) {
+                                if (str_contains($riskName, 'tinggi')) {
                                     $colorClass = 'bg-red-100 text-red-800 border border-red-200';
                                 } elseif (str_contains($riskName, 'sedang')) {
                                     $colorClass = 'bg-orange-100 text-orange-800 border border-orange-200';

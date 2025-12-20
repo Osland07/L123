@@ -26,7 +26,7 @@ class AdminDashboardController extends Controller
             'Tidak Berisiko' => 0,
             'Rendah' => 0,
             'Sedang' => 0,
-            'Berat' => 0,
+            'Tinggi' => 0,
         ];
 
         // Ambil semua result_level untuk dihitung
@@ -35,7 +35,7 @@ class AdminDashboardController extends Controller
         foreach ($results as $level) {
             $l = strtolower($level);
             if (stripos($l, 'berat') !== false || stripos($l, 'tinggi') !== false) {
-                $riskCounts['Berat']++;
+                $riskCounts['Tinggi']++;
             } elseif (stripos($l, 'sedang') !== false) {
                 $riskCounts['Sedang']++;
             } elseif (stripos($l, 'rendah') !== false || stripos($l, 'ringan') !== false) {
@@ -51,7 +51,7 @@ class AdminDashboardController extends Controller
             'Tidak Berisiko' => $totalScreenings > 0 ? round(($riskCounts['Tidak Berisiko'] / $totalScreenings) * 100) : 0,
             'Rendah' => $totalScreenings > 0 ? round(($riskCounts['Rendah'] / $totalScreenings) * 100) : 0,
             'Sedang' => $totalScreenings > 0 ? round(($riskCounts['Sedang'] / $totalScreenings) * 100) : 0,
-            'Berat' => $totalScreenings > 0 ? round(($riskCounts['Berat'] / $totalScreenings) * 100) : 0,
+            'Tinggi' => $totalScreenings > 0 ? round(($riskCounts['Tinggi'] / $totalScreenings) * 100) : 0,
         ];
 
         // Warna untuk UI
@@ -59,7 +59,7 @@ class AdminDashboardController extends Controller
             'Tidak Berisiko' => 'bg-green-500',
             'Rendah' => 'bg-blue-500',
             'Sedang' => 'bg-orange-500',
-            'Berat' => 'bg-red-500',
+            'Tinggi' => 'bg-red-500',
         ];
 
         // 4. Aktivitas Terbaru (5 Terakhir)

@@ -154,7 +154,7 @@
                 $r = strtolower($screening->result_level);
                 $bg = '#f0fff4'; $color = '#2f855a'; // Default: Hijau
                 
-                if (stripos($r, 'berat') !== false) {
+                if (stripos($r, 'tinggi') !== false) {
                     $bg = '#fff5f5'; $color = '#c53030'; // Merah
                 } elseif (stripos($r, 'sedang') !== false) {
                     $bg = '#fffbeb'; $color = '#b7791f'; // Oranye

@@ -127,6 +127,12 @@ class ProfileController extends Controller
     public function printPdf($id, $action = 'view')
     {
         $screening = \App\Models\Screening::with('details.riskFactor')->where('user_id', Auth::id())->findOrFail($id);
+        
+        // Sort details by risk factor code ascending (E01 -> E12)
+        $screening->setRelation('details', $screening->details->sortBy(function ($detail) {
+            return $detail->riskFactor->code;
+        }));
+
         $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first(); 
 
         $pdf = Pdf::loadView('client.profile.pdf', compact('screening', 'riskLevel'));

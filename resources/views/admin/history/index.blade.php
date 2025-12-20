@@ -23,7 +23,7 @@
                             <option value="Tidak Berisiko" {{ request('filter_risk') == 'Tidak Berisiko' ? 'selected' : '' }}>Tidak Berisiko</option>
                             <option value="Rendah" {{ request('filter_risk') == 'Rendah' ? 'selected' : '' }}>Risiko Rendah</option>
                             <option value="Sedang" {{ request('filter_risk') == 'Sedang' ? 'selected' : '' }}>Risiko Sedang</option>
-                            <option value="Berat" {{ request('filter_risk') == 'Berat' ? 'selected' : '' }}>Risiko Berat</option>
+                            <option value="Tinggi" {{ request('filter_risk') == 'Tinggi' ? 'selected' : '' }}>Risiko Tinggi</option>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                             <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
@@ -99,7 +99,7 @@
                                 $r = strtolower($screening->result_level);
                                 $badgeClass = 'bg-green-100 text-green-700 border border-green-200';
                                 
-                                if (stripos($r, 'berat') !== false) {
+                                if (stripos($r, 'tinggi') !== false) {
                                     $badgeClass = 'bg-red-100 text-red-700 border border-red-200';
                                 } elseif (stripos($r, 'sedang') !== false) {
                                     $badgeClass = 'bg-orange-50 text-[#E3943B] border border-orange-300';

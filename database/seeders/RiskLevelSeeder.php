@@ -36,7 +36,7 @@ class RiskLevelSeeder extends Seeder
             ],
             [
                 'code'        => 'H04',
-                'name'        => 'Risiko Berat',
+                'name'        => 'Risiko Tinggi',
                 'description' => 'BAHAYA (Zona Merah)! Kombinasi faktor risiko Anda sangat tinggi. Kemungkinan besar hipertensi akan atau sudah menyerang.',
                 'suggestion'  => 'Wajib konsultasi ke dokter SEGERA. Jangan tunda. Perubahan gaya hidup total diperlukan untuk mencegah stroke/jantung.',
             ],

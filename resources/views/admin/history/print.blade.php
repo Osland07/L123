@@ -60,7 +60,7 @@
                         $r = strtolower($s->result_level);
                         $color = 'bg-green';
                         
-                        if (stripos($r, 'berat') !== false) $color = 'bg-red';
+                        if (stripos($r, 'tinggi') !== false) $color = 'bg-red';
                         elseif (stripos($r, 'sedang') !== false) $color = 'bg-yellow';
                         elseif (stripos($r, 'rendah') !== false) $color = 'bg-blue';
                     @endphp

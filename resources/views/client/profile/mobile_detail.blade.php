@@ -13,12 +13,12 @@
 @php 
     $level = strtolower($screening->result_level);
     
-    $isBerat = stripos($level, 'berat') !== false;
+    $isTinggi = stripos($level, 'tinggi') !== false;
     $isSedang = stripos($level, 'sedang') !== false;
     $isRendah = stripos($level, 'rendah') !== false;
 
     // Tentukan Warna & Ikon
-    if ($isBerat) {
+    if ($isTinggi) {
         $colorClass = 'bg-red-500 shadow-red-200';
         $textClass = 'text-red-600';
         $iconName = 'alert-triangle';

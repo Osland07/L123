@@ -76,6 +76,12 @@ class HistoryController extends Controller
     public function show(string $id)
     {
         $screening = \App\Models\Screening::with('details.riskFactor')->findOrFail($id);
+
+        // Sort details by risk factor code ascending (E01 -> E12)
+        $screening->setRelation('details', $screening->details->sortBy(function ($detail) {
+            return $detail->riskFactor->code;
+        }));
+
         $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first();
         $profile = \App\Models\UserProfile::where('user_id', $screening->user_id)->first();
 
@@ -95,6 +101,12 @@ class HistoryController extends Controller
     public function printPdf($id, $action = 'view')
     {
         $screening = \App\Models\Screening::with('details.riskFactor')->findOrFail($id);
+        
+        // Sort details by risk factor code ascending (E01 -> E12)
+        $screening->setRelation('details', $screening->details->sortBy(function ($detail) {
+            return $detail->riskFactor->code;
+        }));
+
         $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first();
 
         $pdf = Pdf::loadView('client.profile.pdf', compact('screening', 'riskLevel'));

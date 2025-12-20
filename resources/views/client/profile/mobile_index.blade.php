@@ -207,11 +207,11 @@
                     @foreach($history as $h)
                     @php
                         $r = strtolower($h->result_level);
-                        $isBerat = stripos($r, 'berat') !== false || stripos($r, 'tinggi') !== false;
+                        $isTinggi = stripos($r, 'tinggi') !== false;
                         $isSedang = stripos($r, 'sedang') !== false;
                         $isRendah = stripos($r, 'rendah') !== false;
 
-                        if ($isBerat) {
+                        if ($isTinggi) {
                             $borderColor = 'border-red-500'; $textColor = 'text-red-600'; $bgColor = 'bg-red-50';
                         } elseif ($isSedang) {
                             $borderColor = 'border-orange-500'; $textColor = 'text-orange-600'; $bgColor = 'bg-orange-50';

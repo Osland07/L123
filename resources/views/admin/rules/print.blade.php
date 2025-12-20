@@ -2,46 +2,81 @@
 <html>
 <head>
     <title>Laporan Aturan Diagnosa</title>
+    <!-- Import Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: sans-serif; font-size: 12px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #000; padding: 8px; text-align: center; } /* Semua border hitam & rata tengah */
-        th { background-color: #f2f2f2; font-weight: bold; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .header h1 { margin: 0; font-size: 18px; color: #000; } /* Judul Hitam */
-        .header p { margin: 5px 0 0; color: #333; }
-        .text-left { text-align: left !important; } /* Helper jika butuh rata kiri spesifik */
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            font-size: 12px; 
+            color: #333; 
+            margin: 0;
+            padding: 20px;
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        .header h1 { 
+            margin: 0; 
+            font-size: 20px; 
+            color: #001B48; 
+            font-weight: 700;
+        }
+        .header p { 
+            margin: 5px 0 0; 
+            color: #666; 
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 10px 8px; 
+            text-align: center; /* Rata Tengah */
+        }
+        th { 
+            background-color: #f2f2f2; /* Header Abu-abu */
+            font-weight: bold; 
+            color: #333;
+            font-size: 11px;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>Data Aturan Diagnosa TensiTrack</h1>
-        <p>Dicetak pada: {{ date('d F Y, H:i') }}</p>
+        <p>Laporan Konfigurasi Sistem Pakar • Dicetak pada {{ date('d F Y, H:i') }}</p>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th style="width: 10%">Prioritas</th>
+                <th style="width: 12%">Prioritas</th> <!-- Nama Kolom Prioritas -->
                 <th style="width: 10%">Kode</th>
-                <th style="width: 20%">Hasil Risiko</th>
+                <th style="width: 23%">Hasil Risiko</th>
                 <th style="width: 30%">Kondisi Faktor Utama</th>
-                <th style="width: 15%">Min. Lain</th>
-                <th style="width: 15%">Max. Lain</th>
+                <th style="width: 12.5%">Min. Lain</th>
+                <th style="width: 12.5%">Max. Lain</th>
             </tr>
         </thead>
         <tbody>
             @foreach($rules as $rule)
             <tr>
                 <td>{{ $rule->priority }}</td>
-                <td>{{ $rule->code }}</td>
-                <td>{{ $rule->riskLevel->name }}</td>
+                <td style="font-weight: 600;">{{ $rule->code }}</td>
+                <td>{{ $rule->riskLevel->name }}</td> <!-- Tanpa Warna -->
                 <td>
                     @if($rule->riskFactors->count() > 0)
                         <strong>{{ $rule->operator }}</strong>: 
                         {{ $rule->riskFactors->pluck('code')->join(', ') }}
                     @else
-                        <span style="color: #666; font-style: italic;">Tidak ada</span>
+                        -
                     @endif
                 </td>
                 <td>{{ $rule->min_other_factors }}</td>

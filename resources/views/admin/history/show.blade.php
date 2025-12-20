@@ -8,7 +8,7 @@
 @php 
     $level = strtolower($screening->result_level);
 
-    if (stripos($level, 'berat') !== false) {
+    if (stripos($level, 'tinggi') !== false) {
         $bgClass = 'bg-red-50'; $textClass = 'text-red-600'; $borderClass = 'border-red-200'; $icon = 'alert-triangle';
     } elseif (stripos($level, 'sedang') !== false) {
         $bgClass = 'bg-orange-50'; $textClass = 'text-orange-600'; $borderClass = 'border-orange-200'; $icon = 'alert-circle';

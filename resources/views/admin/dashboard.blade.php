@@ -66,11 +66,11 @@
             <h3 class="text-sm font-bold text-[#001B48] mb-4 flex-shrink-0">Distribusi Risiko</h3>
             
             <div class="space-y-4 flex-grow flex flex-col justify-center overflow-y-auto">
-                @foreach (['Berat', 'Sedang', 'Rendah', 'Tidak Berisiko'] as $level)
+                @foreach (['Tinggi', 'Sedang', 'Rendah', 'Tidak Berisiko'] as $level)
                     @php
                         $percentage = $riskPercentages[$level] ?? 0;
                         $colorClass = match($level) {
-                            'Berat' => 'bg-red-500',
+                            'Tinggi' => 'bg-red-500',
                             'Sedang' => 'bg-orange-500',
                             'Rendah' => 'bg-blue-500',
                             'Tidak Berisiko' => 'bg-green-500',
@@ -126,13 +126,12 @@
                                 
                                 @php
                                     $result = strtolower($screening->result_level);
-                                    $badgeClass = 'bg-gray-100 text-gray-600';
                                     
-                                    if (stripos($result, 'berat') !== false) {
+                                    if (str_contains($result, 'tinggi') || str_contains($result, 'berat')) {
                                         $badgeClass = 'bg-red-50 text-red-700 border border-red-100';
-                                    } elseif (stripos($result, 'sedang') !== false) {
+                                    } elseif (str_contains($result, 'sedang')) {
                                         $badgeClass = 'bg-orange-50 text-orange-700 border border-orange-100';
-                                    } elseif (stripos($result, 'ringan') !== false) {
+                                    } elseif (str_contains($result, 'rendah') || str_contains($result, 'ringan')) {
                                         $badgeClass = 'bg-blue-50 text-blue-700 border border-blue-100';
                                     } else {
                                         $badgeClass = 'bg-green-50 text-green-700 border border-green-100';

@@ -190,7 +190,7 @@
                                             $r = strtolower($h->result_level);
                                             $badgeClass = 'bg-green-100 text-green-800'; // Default: Aman/Tidak Berisiko
                                             
-                                            if (stripos($r, 'berat') !== false || stripos($r, 'tinggi') !== false) {
+                                            if (stripos($r, 'tinggi') !== false) {
                                                 $badgeClass = 'bg-red-100 text-red-800';
                                             } elseif (stripos($r, 'sedang') !== false) {
                                                 $badgeClass = 'bg-orange-100 text-orange-800';
