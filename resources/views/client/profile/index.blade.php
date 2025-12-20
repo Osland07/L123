@@ -186,8 +186,19 @@
                                         <span class="block text-xs text-gray-400">{{ $h->created_at->format('H:i') }} WIB</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                                        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full 
-                                            {{ stripos($h->result_level, 'tinggi') !== false ? 'bg-red-100 text-red-800' : (stripos($h->result_level, 'sedang') !== false ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800') }}">
+                                        @php
+                                            $r = strtolower($h->result_level);
+                                            $badgeClass = 'bg-green-100 text-green-800'; // Default: Aman/Tidak Berisiko
+                                            
+                                            if (stripos($r, 'berat') !== false || stripos($r, 'tinggi') !== false) {
+                                                $badgeClass = 'bg-red-100 text-red-800';
+                                            } elseif (stripos($r, 'sedang') !== false) {
+                                                $badgeClass = 'bg-orange-100 text-orange-800';
+                                            } elseif (stripos($r, 'ringan') !== false) {
+                                                $badgeClass = 'bg-blue-100 text-blue-800';
+                                            }
+                                        @endphp
+                                        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full {{ $badgeClass }}">
                                             {{ $h->result_level }}
                                         </span>
                                     </td>

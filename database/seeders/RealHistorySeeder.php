@@ -22,7 +22,7 @@ class RealHistorySeeder extends Seeder
      */
     public function run(): void
     {
-        $file = base_path('riwayat-skrining-2025-12-19_21-41.xlsx');
+        $file = base_path('riwayat-skrining-2025-12-19_21-18.xlsx');
 
         if (!file_exists($file)) {
             $this->command->error("File Excel tidak ditemukan: $file");
@@ -32,7 +32,6 @@ class RealHistorySeeder extends Seeder
         $this->command->info("Mengimpor & Menghitung Ulang Data Skrining...");
 
         // Load Rules untuk Engine Diagnosa
-        // Menggunakan "with('riskFactors')" sesuai update terbaru kita
         $rules = Rule::with('riskFactors')->orderBy('priority', 'ASC')->get();
         
         // Load Default Risk Level (H01 - Tidak Berisiko)
@@ -45,9 +44,14 @@ class RealHistorySeeder extends Seeder
 
             $riskFactorMap = RiskFactor::all()->pluck('id', 'name')->toArray();
 
-            // Referensi ID Faktor Penting untuk Logika Otomatis
+            // Referensi ID Faktor Spesial
             $e01 = RiskFactor::where('code', 'E01')->first(); // Tensi
+            $e02 = RiskFactor::where('code', 'E02')->first(); // Keluarga
             $e08 = RiskFactor::where('code', 'E08')->first(); // Obesitas (BMI)
+
+            $specialFactorIds = [];
+            if ($e01) $specialFactorIds[] = $e01->id;
+            if ($e02) $specialFactorIds[] = $e02->id;
 
             foreach ($data as $row) {
                 if (empty($row[2])) continue;
@@ -86,10 +90,10 @@ class RealHistorySeeder extends Seeder
                     ]
                 );
 
-                // 2. Kumpulkan ID Faktor Risiko (Inputan User + Otomatis Sistem)
+                // 2. Kumpulkan ID Faktor Risiko
                 $selectedFactorIds = [];
 
-                // a. Dari Text Excel (Jawaban Manual)
+                // a. Dari Text Excel
                 $faktorList = explode("\n", $faktorTerpilihText);
                 foreach ($faktorList as $fRaw) {
                     $fName = trim(preg_replace('/^\d+\.\s*/', '', $fRaw));
@@ -105,12 +109,10 @@ class RealHistorySeeder extends Seeder
                     }
                 }
 
-                // b. Logika Otomatis Sistem (Sesuai Controller)
-                // Cek Tensi (E01)
+                // b. Logika Otomatis
                 if ($e01 && (($systolic >= 121) || ($diastolic >= 81))) {
                     $selectedFactorIds[] = $e01->id;
                 }
-                // Cek BMI (E08)
                 if ($e08 && $tinggi > 0 && $berat > 0) {
                     $h_m = $tinggi / 100;
                     $bmi = $berat / ($h_m * $h_m);
@@ -119,30 +121,28 @@ class RealHistorySeeder extends Seeder
                     }
                 }
 
-                // Hapus duplikat
                 $finalFactors = array_unique($selectedFactorIds);
 
-                // 3. JALANKAN ENGINE DIAGNOSA (Hitung Ulang Risiko)
+                // 3. JALANKAN ENGINE DIAGNOSA
                 $diagnosedLevelName = 'Tidak diketahui';
-                
-                // (Logika ini copas dari runDiagnosis di Controller yang baru)
                 $foundRule = false;
+                
                 foreach ($rules as $rule) {
-                    // Cek Required Factors (Pivot)
                     $requiredIds = $rule->riskFactors->pluck('id')->toArray();
                     
-                    // Apakah punya semua required factors?
-                    $missing = array_diff($requiredIds, $finalFactors);
-                    if (!empty($missing)) continue;
-
-                    // Hitung Sisa Faktor
-                    $others = array_diff($finalFactors, $requiredIds);
-                    
-                    // Exclude Tensi E01 manual logic agar konsisten dengan controller
-                    if (empty($requiredIds) && $e01) { 
-                        $others = array_diff($others, [$e01->id]); 
+                    // CEK LOGIKA UTAMA (Required Factors)
+                    if ($rule->operator === 'OR' && !empty($requiredIds)) {
+                        // LOGIKA OR
+                        $hasAny = !empty(array_intersect($requiredIds, $finalFactors));
+                        if (!$hasAny) continue;
+                    } else {
+                        // LOGIKA AND
+                        $missing = array_diff($requiredIds, $finalFactors);
+                        if (!empty($missing)) continue;
                     }
 
+                    // Logika Baru: Other Factors adalah selain E01 dan E02
+                    $others = array_diff($finalFactors, $specialFactorIds);
                     $count = count($others);
 
                     if ($count >= $rule->min_other_factors && $count <= $rule->max_other_factors) {

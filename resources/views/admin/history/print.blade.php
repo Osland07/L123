@@ -13,6 +13,7 @@
         .badge { padding: 2px 6px; border-radius: 4px; color: #fff; font-size: 10px; font-weight: bold; display: inline-block; }
         .bg-red { background-color: #dc2626; }
         .bg-yellow { background-color: #d97706; }
+        .bg-blue { background-color: #2563eb; }
         .bg-green { background-color: #16a34a; }
         .text-center { text-align: center; }
     </style>
@@ -56,9 +57,12 @@
                 </td>
                 <td class="text-center">
                     @php
+                        $r = strtolower($s->result_level);
                         $color = 'bg-green';
-                        if (stripos($s->result_level, 'tinggi') !== false) $color = 'bg-red';
-                        elseif (stripos($s->result_level, 'sedang') !== false) $color = 'bg-yellow';
+                        
+                        if (stripos($r, 'berat') !== false) $color = 'bg-red';
+                        elseif (stripos($r, 'sedang') !== false) $color = 'bg-yellow';
+                        elseif (stripos($r, 'ringan') !== false) $color = 'bg-blue';
                     @endphp
                     <span class="badge {{ $color }}">{{ $s->result_level }}</span>
                 </td>

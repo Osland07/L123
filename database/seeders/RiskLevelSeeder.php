@@ -19,26 +19,30 @@ class RiskLevelSeeder extends Seeder
             [
                 'code'        => 'H01',
                 'name'        => 'Tidak berisiko',
-                'description' => 'Tidak ditemukan faktor risiko yang signifikan. Kondisi kesehatan dan tekanan darah Anda saat ini berada dalam rentang normal.',
-                'suggestion'  => 'Pertahankan gaya hidup sehat Anda. Tetap konsumsi makanan bergizi dan lakukan olahraga rutin untuk menjaga kondisi ini.',
+                'description' => 'Kondisi kesehatan Anda sangat baik. Tidak ditemukan faktor risiko signifikan yang dapat memicu hipertensi saat ini.',
+                'suggestion'  => 'Pertahankan gaya hidup sehat ini! Tetap rutin berolahraga dan konsumsi makanan bergizi seimbang.',
+                // Warna: HIJAU (Green)
             ],
             [
                 'code'        => 'H02',
                 'name'        => 'Risiko ringan',
-                'description' => 'Ditemukan sedikit faktor risiko yang perlu diperhatikan. Meskipun belum berbahaya, ini adalah peringatan dini bagi kesehatan Anda.',
-                'suggestion'  => 'Mulai kurangi kebiasaan buruk seperti konsumsi garam berlebih atau kurang tidur. Lakukan pemantauan mandiri terhadap tekanan darah Anda.',
+                'description' => 'Mulai waspada. Ditemukan sedikit faktor risiko yang jika dibiarkan dapat berkembang menjadi masalah serius.',
+                'suggestion'  => 'Lakukan perubahan kecil mulai hari ini: Kurangi sedikit garam, tidur lebih teratur, dan mulai rutin jalan kaki.',
+                // Warna: BIRU (Blue)
             ],
             [
                 'code'        => 'H03',
                 'name'        => 'Risiko sedang',
-                'description' => 'Ditemukan beberapa faktor risiko yang cukup signifikan yang dapat memicu kenaikan tekanan darah dalam waktu dekat.',
-                'suggestion'  => 'Segera perbaiki gaya hidup. Kurangi asupan kafein, garam, dan kelola stres dengan lebih baik. Disarankan konsultasi ringan dengan tenaga kesehatan.',
+                'description' => 'Peringatan Kuning! Anda memiliki beberapa kebiasaan atau kondisi yang secara medis terbukti memicu hipertensi.',
+                'suggestion'  => 'Segera perbaiki pola hidup secara disiplin. Kurangi drastis kafein & rokok. Pantau tekanan darah seminggu sekali.',
+                // Warna: KUNING/ORANGE (Orange)
             ],
             [
                 'code'        => 'H04',
                 'name'        => 'Risiko berat',
-                'description' => 'Ditemukan banyak faktor risiko gabungan dan/atau tekanan darah sudah dalam kategori pre-hipertensi tinggi. Risiko terkena hipertensi kronis sangat besar.',
-                'suggestion'  => 'Wajib segera konsultasi dengan dokter. Lakukan perubahan gaya hidup secara total dan rutinlah melakukan pemeriksaan tekanan darah di fasilitas kesehatan.',
+                'description' => 'BAHAYA (Zona Merah)! Kombinasi faktor risiko Anda sangat tinggi. Kemungkinan besar hipertensi akan atau sudah menyerang.',
+                'suggestion'  => 'Wajib konsultasi ke dokter SEGERA. Jangan tunda. Perubahan gaya hidup total diperlukan untuk mencegah stroke/jantung.',
+                // Warna: MERAH (Red)
             ],
         ];
 

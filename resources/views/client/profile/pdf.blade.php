@@ -151,10 +151,16 @@
         <div class="section">
             <h2 class="section-title">Hasil Analisis</h2>
             @php
-                $isHigh = stripos($screening->result_level, 'tinggi') !== false;
-                $isMed = stripos($screening->result_level, 'sedang') !== false;
-                $bg = $isHigh ? '#fff5f5' : ($isMed ? '#fffbeb' : '#f0fff4');
-                $color = $isHigh ? '#c53030' : ($isMed ? '#b7791f' : '#2f855a');
+                $r = strtolower($screening->result_level);
+                $bg = '#f0fff4'; $color = '#2f855a'; // Default: Hijau
+                
+                if (stripos($r, 'berat') !== false) {
+                    $bg = '#fff5f5'; $color = '#c53030'; // Merah
+                } elseif (stripos($r, 'sedang') !== false) {
+                    $bg = '#fffbeb'; $color = '#b7791f'; // Oranye
+                } elseif (stripos($r, 'ringan') !== false) {
+                    $bg = '#eff6ff'; $color = '#2563eb'; // Biru
+                }
             @endphp
             <div class="risk-level" style="background-color: {{ $bg }}; color: {{ $color }};">
                 <div class="risk-level-title">Tingkat Risiko Hipertensi</div>

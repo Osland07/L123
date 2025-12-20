@@ -20,9 +20,10 @@
                     <div class="relative">
                         <select name="filter_risk" onchange="this.form.submit()" class="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#001B48] text-gray-600 bg-white cursor-pointer">
                             <option value="">Semua Risiko</option>
-                            <option value="Rendah" {{ request('filter_risk') == 'Rendah' ? 'selected' : '' }}>Risiko Rendah</option>
+                            <option value="Tidak Berisiko" {{ request('filter_risk') == 'Tidak Berisiko' ? 'selected' : '' }}>Tidak Berisiko</option>
+                            <option value="Ringan" {{ request('filter_risk') == 'Ringan' ? 'selected' : '' }}>Risiko Ringan</option>
                             <option value="Sedang" {{ request('filter_risk') == 'Sedang' ? 'selected' : '' }}>Risiko Sedang</option>
-                            <option value="Tinggi" {{ request('filter_risk') == 'Tinggi' ? 'selected' : '' }}>Risiko Tinggi</option>
+                            <option value="Berat" {{ request('filter_risk') == 'Berat' ? 'selected' : '' }}>Risiko Berat</option>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                             <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
@@ -95,11 +96,15 @@
 
                         <td class="px-4 py-4 text-sm text-center">
                             @php
+                                $r = strtolower($screening->result_level);
                                 $badgeClass = 'bg-green-100 text-green-700 border border-green-200';
-                                if (stripos($screening->result_level, 'tinggi') !== false) {
+                                
+                                if (stripos($r, 'berat') !== false) {
                                     $badgeClass = 'bg-red-100 text-red-700 border border-red-200';
-                                } elseif (stripos($screening->result_level, 'sedang') !== false) {
+                                } elseif (stripos($r, 'sedang') !== false) {
                                     $badgeClass = 'bg-orange-50 text-[#E3943B] border border-orange-300';
+                                } elseif (stripos($r, 'ringan') !== false) {
+                                    $badgeClass = 'bg-blue-100 text-blue-700 border border-blue-200';
                                 }
                             @endphp
                             <span class="px-3 py-1 rounded-full text-xs font-bold {{ $badgeClass }}">

@@ -4,17 +4,20 @@
 
 @section('content')
 
-<!-- Tentukan Warna & Ikon -->
+<!-- Tentukan Warna & Ikon Berdasarkan 4 Kategori -->
 @php 
-    $isHigh = stripos($screening->result_level, 'tinggi') !== false;
-    $isMed = stripos($screening->result_level, 'sedang') !== false;
+    $level = strtolower($screening->result_level);
+
+    if (stripos($level, 'berat') !== false) {
+        $bgClass = 'bg-red-50'; $textClass = 'text-red-600'; $borderClass = 'border-red-200'; $icon = 'alert-triangle';
+    } elseif (stripos($level, 'sedang') !== false) {
+        $bgClass = 'bg-orange-50'; $textClass = 'text-orange-600'; $borderClass = 'border-orange-200'; $icon = 'alert-circle';
+    } elseif (stripos($level, 'ringan') !== false) {
+        $bgClass = 'bg-blue-50'; $textClass = 'text-blue-600'; $borderClass = 'border-blue-200'; $icon = 'info';
+    } else {
+        $bgClass = 'bg-green-50'; $textClass = 'text-green-600'; $borderClass = 'border-green-200'; $icon = 'shield-check';
+    }
     
-    $bgClass = $isHigh ? 'bg-red-50' : ($isMed ? 'bg-orange-50' : 'bg-green-50');
-    $textClass = $isHigh ? 'text-red-600' : ($isMed ? 'text-orange-600' : 'text-green-600');
-    $borderClass = $isHigh ? 'border-red-200' : ($isMed ? 'border-orange-200' : 'border-green-200');
-    $icon = $isHigh ? 'alert-triangle' : ($isMed ? 'alert-circle' : 'shield-check');
-    
-    // Extract bg color for stripe from text class (e.g. text-red-600 -> bg-red-600)
     $stripeClass = str_replace('text-', 'bg-', explode(' ', $textClass)[0]);
 @endphp
 

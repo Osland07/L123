@@ -9,6 +9,7 @@ class Rule extends Model
     protected $fillable = [
         'code',
         'risk_level_id',
+        'operator',
         'min_other_factors',
         'max_other_factors',
         'priority',

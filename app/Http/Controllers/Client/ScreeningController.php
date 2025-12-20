@@ -127,39 +127,41 @@ class ScreeningController extends Controller
 
     private function runDiagnosis($selectedFactorIds, $tensiFactorId = null)
     {
+        // Ambil ID untuk E01 dan E02 sebagai faktor spesial
+        $e01 = RiskFactor::where('code', 'E01')->first();
+        $e02 = RiskFactor::where('code', 'E02')->first();
+        
+        $specialFactorIds = [];
+        if ($e01) $specialFactorIds[] = $e01->id;
+        if ($e02) $specialFactorIds[] = $e02->id;
+
         // Ambil semua aturan beserta faktor wajibnya, urutkan prioritas
         $rules = Rule::with('riskFactors')->orderBy('priority', 'ASC')->get();
 
         foreach ($rules as $rule) {
-            // 1. Ambil ID faktor-faktor yang WAJIB ada untuk rule ini
             $requiredFactorIds = $rule->riskFactors->pluck('id')->toArray();
             
-            // 2. Cek apakah user memiliki SEMUA faktor wajib tersebut
-            // Logika: Jika ada ID wajib yang TIDAK ada di selectedFactorIds, maka rule gugur.
-            $missingFactors = array_diff($requiredFactorIds, $selectedFactorIds);
-            
-            if (!empty($missingFactors)) {
-                continue; // Syarat wajib tidak terpenuhi
+            // CEK LOGIKA UTAMA (Required Factors)
+            if ($rule->operator === 'OR' && !empty($requiredFactorIds)) {
+                // LOGIKA OR: Harus punya MINIMAL SATU dari faktor wajib
+                $hasAny = !empty(array_intersect($requiredFactorIds, $selectedFactorIds));
+                if (!$hasAny) {
+                    continue; // Gagal syarat OR
+                }
+            } else {
+                // LOGIKA AND (Default): Harus punya SEMUA faktor wajib
+                $missingFactors = array_diff($requiredFactorIds, $selectedFactorIds);
+                if (!empty($missingFactors)) {
+                    continue; // Gagal syarat AND
+                }
             }
 
-            // 3. Hitung Faktor Lain (Total Faktor User - Faktor Wajib Rule Ini)
-            // Faktor user yang tersisa dianggap sebagai "Other Factors"
-            $otherFactors = array_diff($selectedFactorIds, $requiredFactorIds);
-            
-            // PENTING: Jika rule ini TIDAK punya required factor sama sekali (seperti Rule Umum),
-            // kita harus hati-hati agar tidak double counting jika ada faktor E01 yang biasanya spesial.
-            // Namun dengan sistem pivot baru, logika "exclude E01" manual sebenarnya bisa dihapus 
-            // asalkan E01 dimasukkan ke pivot jika memang dia menjadi penentu utama.
-            // Tapi untuk menjaga kompatibilitas dengan logika lama "Tensi Tinggi diperlakukan khusus",
-            // kita bisa tetap meng-exclude E01 dari hitungan "Faktor Lain" JIKA rule ini murni rule umum (tanpa required factor).
-            
-            if (empty($requiredFactorIds) && $tensiFactorId) {
-                 $otherFactors = array_diff($otherFactors, [$tensiFactorId]);
-            }
-
+            // CEK LOGIKA FAKTOR LAIN (E03 - E12)
+            // Definisi: Faktor lain adalah faktor user dikurangi faktor spesial (E01 & E02)
+            $otherFactors = array_diff($selectedFactorIds, $specialFactorIds);
             $count = count($otherFactors);
 
-            // 4. Cek Range Jumlah Faktor Lain
+            // Cek Range Jumlah Faktor Lain
             if ($count >= $rule->min_other_factors && $count <= $rule->max_other_factors) {
                 return RiskLevel::find($rule->risk_level_id);
             }

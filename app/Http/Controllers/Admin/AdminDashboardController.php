@@ -21,37 +21,45 @@ class AdminDashboardController extends Controller
         $totalRiskLevels = RiskLevel::count();
         $totalRules = Rule::count();
 
-        // 2. Hitung Distribusi Risiko
+        // 2. Hitung Distribusi Risiko (4 Kategori)
         $riskCounts = [
-            'Rendah' => 0,
+            'Tidak Berisiko' => 0,
+            'Ringan' => 0,
             'Sedang' => 0,
-            'Tinggi' => 0,
+            'Berat' => 0,
         ];
 
         // Ambil semua result_level untuk dihitung
         $results = Screening::pluck('result_level');
 
         foreach ($results as $level) {
-            if (stripos($level, 'rendah') !== false) {
-                $riskCounts['Rendah']++;
-            } elseif (stripos($level, 'sedang') !== false) {
+            $l = strtolower($level);
+            if (stripos($l, 'berat') !== false || stripos($l, 'tinggi') !== false) {
+                $riskCounts['Berat']++;
+            } elseif (stripos($l, 'sedang') !== false) {
                 $riskCounts['Sedang']++;
-            } elseif (stripos($level, 'tinggi') !== false) {
-                $riskCounts['Tinggi']++;
+            } elseif (stripos($l, 'ringan') !== false || stripos($l, 'rendah') !== false) {
+                $riskCounts['Ringan']++;
+            } else {
+                // Default / Aman / Tidak Berisiko
+                $riskCounts['Tidak Berisiko']++;
             }
         }
 
         // 3. Hitung Persentase
         $riskPercentages = [
-            'Rendah' => $totalScreenings > 0 ? round(($riskCounts['Rendah'] / $totalScreenings) * 100) : 0,
+            'Tidak Berisiko' => $totalScreenings > 0 ? round(($riskCounts['Tidak Berisiko'] / $totalScreenings) * 100) : 0,
+            'Ringan' => $totalScreenings > 0 ? round(($riskCounts['Ringan'] / $totalScreenings) * 100) : 0,
             'Sedang' => $totalScreenings > 0 ? round(($riskCounts['Sedang'] / $totalScreenings) * 100) : 0,
-            'Tinggi' => $totalScreenings > 0 ? round(($riskCounts['Tinggi'] / $totalScreenings) * 100) : 0,
+            'Berat' => $totalScreenings > 0 ? round(($riskCounts['Berat'] / $totalScreenings) * 100) : 0,
         ];
 
+        // Warna untuk UI
         $riskLevelColors = [
-            'Rendah' => 'bg-green-500',
-            'Sedang' => 'bg-yellow-500',
-            'Tinggi' => 'bg-red-500',
+            'Tidak Berisiko' => 'bg-green-500',
+            'Ringan' => 'bg-blue-500',
+            'Sedang' => 'bg-orange-500',
+            'Berat' => 'bg-red-500',
         ];
 
         // 4. Aktivitas Terbaru (5 Terakhir)

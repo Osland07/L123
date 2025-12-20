@@ -56,8 +56,17 @@
                         <td class="px-4 py-4 text-sm text-gray-500 font-mono text-center">{{ $rule->priority }}</td>
                         <td class="px-4 py-4 whitespace-nowrap text-sm font-bold text-[#E3943B] text-center">{{ $rule->code }}</td>
                         <td class="px-4 py-4 text-sm text-gray-900 text-center">
-                            @if($rule->requiredFactor)
-                                {{ $rule->requiredFactor->name }} ({{ $rule->requiredFactor->code }})
+                            @if($rule->riskFactors->count() > 0)
+                                <div class="flex flex-wrap justify-center gap-1">
+                                    @foreach($rule->riskFactors as $rf)
+                                        <span class="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-bold rounded border border-blue-100">
+                                            {{ $rf->code }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                                <div class="mt-1 text-[10px] text-gray-400 font-medium uppercase tracking-wide">
+                                    {{ $rule->operator == 'OR' ? '(Salah Satu)' : '(Wajib Semua)' }}
+                                </div>
                             @else
                                 <span class="text-gray-400 italic">Tidak ada</span>
                             @endif
@@ -68,14 +77,17 @@
                         <td class="px-4 py-4 text-sm text-gray-900 text-center">
                             @php
                                 $riskName = strtolower($rule->riskLevel->name);
-                                $colorClass = match(true) {
-                                    str_contains($riskName, 'tinggi') => 'bg-red-100 text-red-800',
-                                    str_contains($riskName, 'sedang') => 'bg-orange-100 text-orange-800',
-                                    str_contains($riskName, 'rendah') => 'bg-green-100 text-green-800',
-                                    default => 'bg-blue-100 text-blue-800',
-                                };
+                                $colorClass = 'bg-green-100 text-green-800 border border-green-200'; // Default: Hijau
+
+                                if (str_contains($riskName, 'berat') || str_contains($riskName, 'tinggi')) {
+                                    $colorClass = 'bg-red-100 text-red-800 border border-red-200';
+                                } elseif (str_contains($riskName, 'sedang')) {
+                                    $colorClass = 'bg-orange-100 text-orange-800 border border-orange-200';
+                                } elseif (str_contains($riskName, 'ringan')) {
+                                    $colorClass = 'bg-blue-100 text-blue-800 border border-blue-200';
+                                }
                             @endphp
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $colorClass }}">
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full {{ $colorClass }}">
                                 {{ $rule->riskLevel->name }}
                             </span>
                         </td>

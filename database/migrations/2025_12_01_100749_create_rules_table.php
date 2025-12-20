@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique(); // R1, R2
             $table->foreignId('risk_level_id')->constrained('risk_levels')->onDelete('cascade');
-            // required_factor_id DIHAPUS, diganti tabel pivot
+            $table->string('operator')->default('AND'); // 'AND' atau 'OR'
             $table->integer('min_other_factors')->default(0);
             $table->integer('max_other_factors')->default(99);
             $table->integer('priority')->default(0);

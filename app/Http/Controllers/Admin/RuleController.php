@@ -51,6 +51,7 @@ class RuleController extends Controller
     {
         $request->validate([
             'risk_level_id' => 'required|exists:risk_levels,id',
+            'operator' => 'required|in:AND,OR',
             'min_other_factors' => 'required|numeric|min:0',
             'priority' => 'required|numeric|min:1',
             'risk_factor_ids' => 'nullable|array', // Validasi array checkbox
@@ -60,6 +61,7 @@ class RuleController extends Controller
         $rule = Rule::create([
             'code' => Rule::generateCode(),
             'risk_level_id' => $request->risk_level_id,
+            'operator' => $request->operator,
             'min_other_factors' => $request->min_other_factors,
             'max_other_factors' => $request->max_other_factors ?: 99,
             'priority' => $request->priority,
@@ -85,6 +87,7 @@ class RuleController extends Controller
     {
         $request->validate([
             'risk_level_id' => 'required|exists:risk_levels,id',
+            'operator' => 'required|in:AND,OR',
             'min_other_factors' => 'required|numeric|min:0',
             'priority' => 'required|numeric|min:1',
             'risk_factor_ids' => 'nullable|array',
@@ -94,6 +97,7 @@ class RuleController extends Controller
         $rule = Rule::findOrFail($id);
         $rule->update([
             'risk_level_id' => $request->risk_level_id,
+            'operator' => $request->operator,
             'min_other_factors' => $request->min_other_factors,
             'max_other_factors' => $request->max_other_factors ?: 99,
             'priority' => $request->priority,
