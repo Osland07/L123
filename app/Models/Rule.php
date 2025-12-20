@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Rule extends Model
 {
     protected $fillable = [
-        'code', 
-        'risk_level_id', 
-        'required_factor_id', 
-        'min_other_factors', 
-        'max_other_factors', 
-        'priority'
+        'code',
+        'risk_level_id',
+        'min_other_factors',
+        'max_other_factors',
+        'priority',
     ];
 
     public function riskLevel()
@@ -20,16 +19,24 @@ class Rule extends Model
         return $this->belongsTo(RiskLevel::class);
     }
 
-    public function requiredFactor()
+    public function riskFactors()
     {
-        return $this->belongsTo(RiskFactor::class, 'required_factor_id');
+        return $this->belongsToMany(RiskFactor::class, 'rule_risk_factors', 'rule_id', 'risk_factor_id');
     }
 
+    // Fungsi generate kode otomatis (R1, R2...)
     public static function generateCode()
     {
         $last = self::orderBy('id', 'DESC')->first();
-        if (!$last) return 'R01';
-        $num = (int) substr($last->code, 1);
-        return 'R' . str_pad((string)($num + 1), 2, '0', STR_PAD_LEFT);
+
+        if (!$last) {
+            return 'R1';
+        }
+
+        $lastCode = $last->code;
+        $number   = (int) substr($lastCode, 1);
+        $nextNumber = $number + 1;
+
+        return 'R' . $nextNumber;
     }
 }

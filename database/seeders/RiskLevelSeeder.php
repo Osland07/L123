@@ -12,29 +12,38 @@ class RiskLevelSeeder extends Seeder
      */
     public function run(): void
     {
+        // Kosongkan tabel agar bersih
+        RiskLevel::truncate();
+
         $levels = [
             [
                 'code'        => 'H01',
-                'name'        => 'Risiko hipertensi rendah',
-                'description' => 'Tidak ditemukan faktor risiko signifikan atau hanya ditemukan sedikit faktor risiko yang mudah dikelola. Tekanan darah cenderung normal.',
-                'suggestion'  => 'Pertahankan gaya hidup sehat: diet seimbang, olahraga teratur, hindari rokok dan alkohol. Lakukan pemeriksaan tekanan darah setidaknya setahun sekali.',
+                'name'        => 'Tidak berisiko',
+                'description' => 'Tidak ditemukan faktor risiko yang signifikan. Kondisi kesehatan dan tekanan darah Anda saat ini berada dalam rentang normal.',
+                'suggestion'  => 'Pertahankan gaya hidup sehat Anda. Tetap konsumsi makanan bergizi dan lakukan olahraga rutin untuk menjaga kondisi ini.',
             ],
             [
                 'code'        => 'H02',
-                'name'        => 'Risiko hipertensi sedang',
-                'description' => 'Ditemukan beberapa faktor risiko yang memerlukan perhatian lebih. Tekanan darah mungkin sudah mulai meningkat (pre-hipertensi).',
-                'suggestion'  => 'Segera perbaiki gaya hidup: kurangi garam dan lemak, tingkatkan aktivitas fisik, kelola stres. Pertimbangkan konsultasi dengan dokter untuk pemantauan lebih lanjut.',
+                'name'        => 'Risiko ringan',
+                'description' => 'Ditemukan sedikit faktor risiko yang perlu diperhatikan. Meskipun belum berbahaya, ini adalah peringatan dini bagi kesehatan Anda.',
+                'suggestion'  => 'Mulai kurangi kebiasaan buruk seperti konsumsi garam berlebih atau kurang tidur. Lakukan pemantauan mandiri terhadap tekanan darah Anda.',
             ],
             [
                 'code'        => 'H03',
-                'name'        => 'Risiko hipertensi tinggi',
-                'description' => 'Ditemukan banyak faktor risiko signifikan dan/atau tekanan darah sudah termasuk kategori hipertensi. Sangat berisiko tinggi terkena komplikasi.',
-                'suggestion'  => 'Wajib segera konsultasi dan ikuti anjuran dokter. Lakukan pemeriksaan tekanan darah secara rutin, patuhi pengobatan, dan terapkan gaya hidup sehat secara ketat.',
+                'name'        => 'Risiko sedang',
+                'description' => 'Ditemukan beberapa faktor risiko yang cukup signifikan yang dapat memicu kenaikan tekanan darah dalam waktu dekat.',
+                'suggestion'  => 'Segera perbaiki gaya hidup. Kurangi asupan kafein, garam, dan kelola stres dengan lebih baik. Disarankan konsultasi ringan dengan tenaga kesehatan.',
+            ],
+            [
+                'code'        => 'H04',
+                'name'        => 'Risiko berat',
+                'description' => 'Ditemukan banyak faktor risiko gabungan dan/atau tekanan darah sudah dalam kategori pre-hipertensi tinggi. Risiko terkena hipertensi kronis sangat besar.',
+                'suggestion'  => 'Wajib segera konsultasi dengan dokter. Lakukan perubahan gaya hidup secara total dan rutinlah melakukan pemeriksaan tekanan darah di fasilitas kesehatan.',
             ],
         ];
 
         foreach ($levels as $level) {
-            RiskLevel::firstOrCreate(['code' => $level['code']], $level);
+            RiskLevel::create($level);
         }
     }
 }

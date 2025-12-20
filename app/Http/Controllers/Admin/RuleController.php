@@ -13,7 +13,8 @@ class RuleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Rule::with(['riskLevel', 'requiredFactor'])
+        // Ganti requiredFactor (single) dengan riskFactors (multi)
+        $query = Rule::with(['riskLevel', 'riskFactors'])
                     ->orderBy('code', 'ASC');
 
         if ($request->has('q')) {
@@ -32,7 +33,7 @@ class RuleController extends Controller
 
     public function print()
     {
-        $rules = Rule::with(['riskLevel', 'requiredFactor'])
+        $rules = Rule::with(['riskLevel', 'riskFactors'])
                     ->orderBy('priority', 'ASC')->get();
         $pdf = Pdf::loadView('admin.rules.print', compact('rules'));
         return $pdf->stream('laporan-aturan.pdf');
@@ -52,23 +53,29 @@ class RuleController extends Controller
             'risk_level_id' => 'required|exists:risk_levels,id',
             'min_other_factors' => 'required|numeric|min:0',
             'priority' => 'required|numeric|min:1',
+            'risk_factor_ids' => 'nullable|array', // Validasi array checkbox
+            'risk_factor_ids.*' => 'exists:risk_factors,id',
         ]);
 
-        Rule::create([
+        $rule = Rule::create([
             'code' => Rule::generateCode(),
             'risk_level_id' => $request->risk_level_id,
-            'required_factor_id' => $request->required_factor_id,
             'min_other_factors' => $request->min_other_factors,
             'max_other_factors' => $request->max_other_factors ?: 99,
             'priority' => $request->priority,
         ]);
+
+        // Simpan checkbox ke tabel pivot
+        if ($request->has('risk_factor_ids')) {
+            $rule->riskFactors()->sync($request->risk_factor_ids);
+        }
 
         return redirect()->route('admin.rules.index')->with('success', 'Aturan berhasil ditambahkan.');
     }
 
     public function edit(string $id)
     {
-        $rule = Rule::findOrFail($id);
+        $rule = Rule::with('riskFactors')->findOrFail($id);
         $levels = RiskLevel::all();
         $factors = RiskFactor::all();
         return view('admin.rules.edit', compact('rule', 'levels', 'factors'));
@@ -80,16 +87,20 @@ class RuleController extends Controller
             'risk_level_id' => 'required|exists:risk_levels,id',
             'min_other_factors' => 'required|numeric|min:0',
             'priority' => 'required|numeric|min:1',
+            'risk_factor_ids' => 'nullable|array',
+            'risk_factor_ids.*' => 'exists:risk_factors,id',
         ]);
 
         $rule = Rule::findOrFail($id);
         $rule->update([
             'risk_level_id' => $request->risk_level_id,
-            'required_factor_id' => $request->required_factor_id,
             'min_other_factors' => $request->min_other_factors,
             'max_other_factors' => $request->max_other_factors ?: 99,
             'priority' => $request->priority,
         ]);
+
+        // Sync checkbox (jika kosong, akan menghapus semua relasi)
+        $rule->riskFactors()->sync($request->risk_factor_ids ?? []);
 
         return redirect()->route('admin.rules.index')->with('success', 'Aturan berhasil diperbarui.');
     }
@@ -97,7 +108,7 @@ class RuleController extends Controller
     public function destroy(string $id)
     {
         $rule = Rule::findOrFail($id);
-        $rule->delete();
+        $rule->delete(); // Otomatis hapus di pivot table karena on cascade delete
 
         return redirect()->route('admin.rules.index')->with('success', 'Aturan berhasil dihapus.');
     }

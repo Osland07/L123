@@ -10,21 +10,27 @@ return new class extends Migration
     {
         Schema::create('rules', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique(); // R01, R02
-            
-            // Foreign Keys
+            $table->string('code')->unique(); // R1, R2
             $table->foreignId('risk_level_id')->constrained('risk_levels')->onDelete('cascade');
-            $table->foreignId('required_factor_id')->nullable()->constrained('risk_factors')->onDelete('set null');
-            
+            // required_factor_id DIHAPUS, diganti tabel pivot
             $table->integer('min_other_factors')->default(0);
-            $table->integer('max_other_factors')->nullable();
-            $table->integer('priority');
+            $table->integer('max_other_factors')->default(99);
+            $table->integer('priority')->default(0);
+            $table->timestamps();
+        });
+
+        // Tabel Pivot: rule_risk_factors (Many-to-Many)
+        Schema::create('rule_risk_factors', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('rule_id')->constrained('rules')->onDelete('cascade');
+            $table->foreignId('risk_factor_id')->constrained('risk_factors')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('rule_risk_factors');
         Schema::dropIfExists('rules');
     }
 };

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             RiskLevelSeeder::class,
             RiskFactorSeeder::class,
             RuleSeeder::class,
+            RealHistorySeeder::class,
         ]);
     }
 }

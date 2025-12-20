@@ -28,10 +28,10 @@ class ScreeningController extends Controller
             $excludedCodes[] = 'E01';
         }
 
-        // Cek BMI di Profil (E03)
-        // Jika TB/BB ada, hitung otomatis (exclude E03 dari kuis)
+        // Cek BMI di Profil (E08)
+        // Jika TB/BB ada, hitung otomatis (exclude E08 dari kuis)
         if ($profile && $profile->height && $profile->weight) {
-            $excludedCodes[] = 'E03';
+            $excludedCodes[] = 'E08';
         }
 
         // Ambil faktor risiko selain yang di-exclude
@@ -75,14 +75,14 @@ class ScreeningController extends Controller
                     }
                 }
 
-                // Cek E03 (BMI): Selalu otomatis dari profil
+                // Cek E08 (BMI): Selalu otomatis dari profil
                 if ($profile->height && $profile->weight) {
                     $h = $profile->height / 100;
                     $bmi = $profile->weight / ($h * $h);
                     if ($bmi >= 25) {
-                        $e03 = RiskFactor::where('code', 'E03')->first();
-                        if ($e03) {
-                            $autoFactors[] = (int) $e03->id;
+                        $e08 = RiskFactor::where('code', 'E08')->first();
+                        if ($e08) {
+                            $autoFactors[] = (int) $e08->id;
                         }
                     }
                 }
@@ -127,40 +127,47 @@ class ScreeningController extends Controller
 
     private function runDiagnosis($selectedFactorIds, $tensiFactorId = null)
     {
-        // Ambil semua aturan, urutkan berdasarkan prioritas (1 duluan)
-        $rules = Rule::orderBy('priority', 'ASC')->get();
+        // Ambil semua aturan beserta faktor wajibnya, urutkan prioritas
+        $rules = Rule::with('riskFactors')->orderBy('priority', 'ASC')->get();
 
         foreach ($rules as $rule) {
-            // 1. Cek Required Factor
-            if ($rule->required_factor_id) {
-                if (! in_array((int) $rule->required_factor_id, $selectedFactorIds)) {
-                    continue; // Syarat wajib tidak terpenuhi
-                }
+            // 1. Ambil ID faktor-faktor yang WAJIB ada untuk rule ini
+            $requiredFactorIds = $rule->riskFactors->pluck('id')->toArray();
+            
+            // 2. Cek apakah user memiliki SEMUA faktor wajib tersebut
+            // Logika: Jika ada ID wajib yang TIDAK ada di selectedFactorIds, maka rule gugur.
+            $missingFactors = array_diff($requiredFactorIds, $selectedFactorIds);
+            
+            if (!empty($missingFactors)) {
+                continue; // Syarat wajib tidak terpenuhi
             }
 
-            // 2. Hitung Faktor Lain (Count Others)
-            $otherFactors = $selectedFactorIds;
-            if ($rule->required_factor_id) {
-                $otherFactors = array_diff($selectedFactorIds, [(int) $rule->required_factor_id]);
-            } else {
-                // Jika tidak ada required factor, kecualikan E01 (Tensi) dari hitungan jika ada
-                if ($tensiFactorId) {
-                    $otherFactors = array_diff($selectedFactorIds, [$tensiFactorId]);
-                }
+            // 3. Hitung Faktor Lain (Total Faktor User - Faktor Wajib Rule Ini)
+            // Faktor user yang tersisa dianggap sebagai "Other Factors"
+            $otherFactors = array_diff($selectedFactorIds, $requiredFactorIds);
+            
+            // PENTING: Jika rule ini TIDAK punya required factor sama sekali (seperti Rule Umum),
+            // kita harus hati-hati agar tidak double counting jika ada faktor E01 yang biasanya spesial.
+            // Namun dengan sistem pivot baru, logika "exclude E01" manual sebenarnya bisa dihapus 
+            // asalkan E01 dimasukkan ke pivot jika memang dia menjadi penentu utama.
+            // Tapi untuk menjaga kompatibilitas dengan logika lama "Tensi Tinggi diperlakukan khusus",
+            // kita bisa tetap meng-exclude E01 dari hitungan "Faktor Lain" JIKA rule ini murni rule umum (tanpa required factor).
+            
+            if (empty($requiredFactorIds) && $tensiFactorId) {
+                 $otherFactors = array_diff($otherFactors, [$tensiFactorId]);
             }
 
             $count = count($otherFactors);
 
-            // 3. Cek Range Jumlah
+            // 4. Cek Range Jumlah Faktor Lain
             if ($count >= $rule->min_other_factors && $count <= $rule->max_other_factors) {
                 return RiskLevel::find($rule->risk_level_id);
             }
         }
 
-        // Default: Rendah
+        // Default: Tidak Berisiko (H01)
         $default = RiskLevel::where('code', 'H01')->first();
 
-        // Create a dummy object if default not found to avoid error, though H01 should exist
         return $default ? $default : (object) ['name' => 'Risiko Tidak Diketahui'];
     }
 }

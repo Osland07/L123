@@ -25,16 +25,23 @@
                     </select>
                 </div>
 
-                <!-- Required Factor -->
+                <!-- Required Factors (Multi-Select) -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Faktor Utama Wajib (Opsional)</label>
-                    <select name="required_factor_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#001B48] focus:ring-[#001B48] p-2">
-                        <option value="">-- Tidak Ada --</option>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Faktor Utama Wajib (Opsional)</label>
+                    <div class="border border-gray-300 rounded-md p-3 max-h-60 overflow-y-auto bg-gray-50">
                         @foreach($factors as $factor)
-                            <option value="{{ $factor->id }}">{{ $factor->code }} - {{ Str::limit($factor->name, 50) }}</option>
+                            <div class="flex items-start mb-2">
+                                <div class="flex items-center h-5">
+                                    <input id="factor-{{ $factor->id }}" name="risk_factor_ids[]" value="{{ $factor->id }}" type="checkbox" class="focus:ring-[#001B48] h-4 w-4 text-[#001B48] border-gray-300 rounded">
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label for="factor-{{ $factor->id }}" class="font-medium text-gray-700">{{ $factor->code }}</label>
+                                    <p class="text-gray-500">{{ Str::limit($factor->name, 60) }}</p>
+                                </div>
+                            </div>
                         @endforeach
-                    </select>
-                    <p class="text-xs text-gray-500 mt-1">Jika dipilih, faktor ini HARUS ada agar aturan ini berlaku.</p>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Pilih satu atau lebih. Faktor yang dicentang HARUS ada pada jawaban user agar aturan ini berlaku.</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
