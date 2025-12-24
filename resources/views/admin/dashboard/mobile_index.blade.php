@@ -55,6 +55,7 @@
                     $percentage = $riskPercentages[$level];
                     $color = $level == 'Tinggi' ? 'bg-red-500' : ($level == 'Sedang' ? 'bg-yellow-500' : 'bg-green-500');
                     $text = $level == 'Tinggi' ? 'text-red-600' : ($level == 'Sedang' ? 'text-yellow-600' : 'text-green-600');
+                    $hex = $level == 'Tinggi' ? '#ef4444' : ($level == 'Sedang' ? '#eab308' : '#22c55e');
                 @endphp
                 <div>
                     <div class="flex justify-between text-xs font-bold mb-1">
@@ -62,7 +63,7 @@
                         <span class="text-gray-600">{{ $percentage }}%</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
-                        <div class="{{ $color }} h-full rounded-full" style="width: {{ $percentage }}%"></div>
+                        <div class="{{ $color }} h-full rounded-full" style="width: {{ $percentage }}%; background-color: {{ $hex }};"></div>
                     </div>
                 </div>
             @endforeach

@@ -76,6 +76,13 @@
                             'Tidak Berisiko' => 'bg-green-500',
                             default => 'bg-gray-500'
                         };
+                        $hexColor = match($level) {
+                            'Tinggi' => '#ef4444',
+                            'Sedang' => '#f97316',
+                            'Rendah' => '#3b82f6',
+                            'Tidak Berisiko' => '#22c55e',
+                            default => '#6b7280'
+                        };
                     @endphp
                     <div>
                         <div class="flex justify-between items-center mb-1">
@@ -83,7 +90,7 @@
                             <span class="text-xs font-bold text-gray-900">{{ $percentage }}%</span>
                         </div>
                         <div class="w-full bg-gray-100 rounded-xl h-16 overflow-hidden">
-                            <div class="{{ $colorClass }} h-16 rounded-xl transition-all duration-1000 ease-out" style="width: {{ $percentage }}%;"></div>
+                            <div class="{{ $colorClass }} h-16 rounded-xl transition-all duration-1000 ease-out" style="width: {{ $percentage }}%; background-color: {{ $hexColor }};"></div>
                         </div>
                     </div>
                 @endforeach
