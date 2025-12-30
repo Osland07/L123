@@ -13,16 +13,16 @@
 
     <!-- Baris 1: Statistik Ringkas (4 Kolom) -->
     <div class="flex-shrink-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-        <!-- Total Pasien -->
-        <div class="p-3 bg-white rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
-            <div>
-                <p class="text-[10px] font-medium text-gray-500 uppercase">Total Pasien</p>
-                <p class="text-xl font-bold text-[#001B48]">{{ $totalUsers }}</p>
-            </div>
-            <div class="p-1.5 bg-blue-50 rounded-lg">
-                <i data-lucide="users" class="w-5 h-5 text-blue-600"></i>
-            </div>
-        </div>
+                <!-- Total Pengguna -->
+                <div class="p-3 bg-white rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-medium text-gray-500 uppercase">Total Pengguna</p>
+                        <p class="text-xl font-bold text-[#001B48]">{{ $totalUsers }}</p>
+                    </div>
+                    <div class="p-1.5 bg-blue-50 rounded-lg">
+                        <i data-lucide="users" class="w-5 h-5 text-blue-600"></i>
+                    </div>
+                </div>
 
         <!-- Faktor Risiko -->
         <div class="p-3 bg-white rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">

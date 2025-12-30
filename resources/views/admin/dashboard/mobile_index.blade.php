@@ -15,7 +15,7 @@
             </div>
             <div>
                 <span class="text-2xl font-extrabold text-[#001B48]">{{ $totalUsers }}</span>
-                <p class="text-[10px] font-bold text-gray-400 uppercase mt-1">Total Pasien</p>
+                <p class="text-[10px] font-bold text-gray-400 uppercase mt-1">Total Pengguna</p>
             </div>
         </div>
 

@@ -71,8 +71,11 @@ class RealHistorySeeder extends Seeder
                     list($systolic, $diastolic) = explode('/', $tensi);
                 }
 
+                // Ambil Email dari Excel (Kolom K / Index 10) atau generate jika kosong
+                $emailFromExcel = isset($row[10]) ? trim($row[10]) : null;
+                $email = !empty($emailFromExcel) ? $emailFromExcel : (Str::slug($nama, '_') . '@tensitrack.com');
+
                 // 1. Setup User & Profile
-                $email = Str::slug($nama, '_') . '@tensitrack.com';
                 $user = User::firstOrCreate(
                     ['email' => $email],
                     [
