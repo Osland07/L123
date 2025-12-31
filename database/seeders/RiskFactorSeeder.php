@@ -28,7 +28,7 @@ class RiskFactorSeeder extends Seeder
                 'name' => 'Riwayat hipertensi pada keluarga inti',
                 'question_text' => 'Apakah ada anggota keluarga inti anda (ayah, ibu, kakak/adik) yang memiliki riwayat tekanan darah tinggi?',
                 'medical_explanation' => 'Faktor genetik membuat tubuh Anda lebih sensitif terhadap garam dan stres. Risiko Anda terkena hipertensi 2-3x lebih tinggi dibanding orang tanpa riwayat keluarga.',
-                'recommendation' => 'Karena Anda memiliki bakat genetik, Anda harus lebih ketat menjaga gaya hidup dibanding orang lain. Jangan remehkan kenaikan berat badan sedikitpun.',
+                'recommendation' => 'Karena Anda memiliki faktor keturunan, Anda perlu lebih waspada dalam menjaga pola hidup sehat. Upayakan untuk menjaga berat badan tetap ideal karena obesitas akan melipatgandakan risiko hipertensi pada orang dengan riwayat keluarga.',
             ],
             [
                 'code' => 'E03',
