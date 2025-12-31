@@ -25,14 +25,14 @@ class RiskLevelSeeder extends Seeder
             [
                 'code'        => 'H02',
                 'name'        => 'Risiko Rendah',
-                'description' => 'Mulai waspada. Ditemukan sedikit faktor risiko yang jika dibiarkan dapat berkembang menjadi masalah serius.',
-                'suggestion'  => 'Lakukan perubahan kecil mulai hari ini: Kurangi sedikit garam, tidur lebih teratur, dan mulai rutin jalan kaki.',
+                'description' => 'Teridentifikasi beberapa faktor risiko ringan. Meskipun kondisi ini belum mengkhawatirkan, sebaiknya tetap diperhatikan agar tidak bertambah di kemudian hari.',
+                'suggestion'  => 'Tetap jaga pola hidup sehat Anda. Perbaiki beberapa kebiasaan kecil yang masih kurang baik sebagai investasi kesehatan jangka panjang.',
             ],
             [
                 'code'        => 'H03',
                 'name'        => 'Risiko Sedang',
-                'description' => 'Peringatan Kuning! Anda memiliki beberapa kebiasaan atau kondisi yang secara medis terbukti memicu hipertensi.',
-                'suggestion'  => 'Segera perbaiki pola hidup secara disiplin. Kurangi drastis kafein & rokok. Pantau tekanan darah seminggu sekali.',
+                'description' => 'Ada beberapa indikasi atau kebiasaan harian yang terpantau bisa meningkatkan risiko hipertensi Anda jika tidak dikelola dengan baik.',
+                'suggestion'  => 'Coba tinjau kembali pola makan dan tingkat stres Anda. Melakukan perubahan kecil secara konsisten sekarang akan sangat membantu menjaga tekanan darah tetap normal ke depannya.',
             ],
             [
                 'code'        => 'H04',
