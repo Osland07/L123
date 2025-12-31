@@ -237,8 +237,8 @@
                     <h4 class="text-lg font-bold text-white mb-4">Kontak Kami</h4>
                     <ul class="space-y-3 text-sm text-gray-300">
                         <li class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2 text-[#E3943B]"></i> info@tensitrack.com</li>
-                        <li class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-2 text-[#E3943B]"></i> +62 812 3456 7890</li>
-                        <li class="flex items-start"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-[#E3943B] mt-1"></i> Jl. Kesehatan No. 123, Kota Sehat, Indonesia</li>
+                            <li class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-2 text-[#E3943B]"></i> +62 852-7333-7881</li>
+                        <li class="flex items-start"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-[#E3943B] mt-1"></i> Jl. Terusan Ryacudu Way Hui, Kecamatan Jati Agung, Lampung Selatan</li>
                     </ul>
                 </div>
             </div>
