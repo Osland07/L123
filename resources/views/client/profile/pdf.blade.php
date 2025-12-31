@@ -135,7 +135,7 @@
                 <tbody>
                     @foreach($screening->details as $index => $detail)
                     <tr>
-                        <td style="text-align: center; vertical-align: top;">{{ $index + 1 }}</td>
+                        <td style="text-align: center; vertical-align: top;">{{ $loop->iteration }}</td>
                         <td style="vertical-align: top;">{{ $detail->riskFactor->code }}</td>
                         <td style="vertical-align: top;">{{ $detail->riskFactor->name }}</td>
                         <td style="vertical-align: top; text-align: justify;">

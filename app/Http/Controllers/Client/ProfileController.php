@@ -131,7 +131,7 @@ class ProfileController extends Controller
         // Sort details by risk factor code ascending (E01 -> E12)
         $screening->setRelation('details', $screening->details->sortBy(function ($detail) {
             return $detail->riskFactor->code;
-        }));
+        })->values());
 
         $riskLevel = \App\Models\RiskLevel::where('name', $screening->result_level)->first(); 
 
