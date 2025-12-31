@@ -238,7 +238,7 @@
                     <ul class="space-y-3 text-sm text-gray-300">
                         <li class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2 text-[#E3943B]"></i> info@tensitrack.com</li>
                             <li class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-2 text-[#E3943B]"></i> +62 852-7333-7881</li>
-                        <li class="flex items-start"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-[#E3943B] mt-1"></i> Jl. Terusan Ryacudu Way Hui, Kecamatan Jati Agung, Lampung Selatan</li>
+                        <li class="flex items-start"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-[#E3943B] mt-1 shrink-0"></i> Jl. Terusan Ryacudu Way Hui, Kecamatan Jati Agung, Lampung Selatan</li>
                     </ul>
                 </div>
             </div>
